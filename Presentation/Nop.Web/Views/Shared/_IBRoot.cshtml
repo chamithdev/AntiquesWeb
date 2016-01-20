@@ -1,0 +1,51 @@
+﻿@using Nop.Core
+@using Nop.Core.Infrastructure
+@using Nop.Services.Localization
+@using Nop.Web.Framework.Themes
+@{
+    Layout = "~/Views/Shared/_Root.Head.cshtml";
+}
+
+@Html.Widget("body_start_html_tag_after")
+@Html.Partial("_Notifications")
+@Html.Action("JavaScriptDisabledWarning", "Common")
+@Html.Partial("OldInternetExplorerWarning")
+<div id="section-head">
+    <div class="navigation">
+        <!-- Navigation content here -->
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+             @{
+                 //logo path
+                 var currentThemeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
+                 var logoPath = "~/Themes/" + currentThemeName + "/Content/images/logo.png";
+
+                 //store name
+                 var storeName = EngineContext.Current.Resolve<IStoreContext>().CurrentStore.GetLocalized(x => x.Name);
+            }
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="body-content">
+    <div class="container">
+        @if (IsSectionDefined("Breadcrumb"))
+        {
+            @RenderSection("Breadcrumb")
+        }
+        <!-- breadcrumb and Search here -->
+        <!-- Boutique shops details here -->
+        <!-- Image rotator here -->
+        <!-- Two column "Join our Mailing.. and "Shop now.. content here "-->
+        <!-- Latest Finds content here  -->
+        <!-- Latest Boutiques here -->
+        @RenderBody()
+
+    </div>
+</div>
+<div id="section-footer">
+    <!-- footer content here -->
+</div>

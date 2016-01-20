@@ -29,6 +29,13 @@ namespace Nop.Data.Mapping.Catalog
             this.Property(p => p.AllowedQuantities).HasMaxLength(1000);
             this.Property(p => p.BasepriceAmount).HasPrecision(18, 4);
             this.Property(p => p.BasepriceBaseAmount).HasPrecision(18, 4);
+            this.Property(p => p.CircaDate).IsOptional();
+            this.Property(p => p.Color).IsOptional().HasMaxLength(50);
+            this.Property(p => p.Condition).IsOptional().HasMaxLength(400);
+            this.Property(p => p.Country).IsOptional().HasMaxLength(50);
+            this.Property(p => p.DesignBy).IsOptional().HasMaxLength(200);
+            this.Property(p => p.Material).IsOptional().HasMaxLength(250);
+             this.Property(p => p.TermsCondtion).IsOptional();
 
             this.Ignore(p => p.ProductType);
             this.Ignore(p => p.BackorderMode);

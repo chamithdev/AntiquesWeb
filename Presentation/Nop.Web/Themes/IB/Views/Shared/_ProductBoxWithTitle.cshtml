@@ -1,0 +1,76 @@
+﻿@model ProductOverviewModel
+@using Nop.Core
+@using Nop.Core.Domain.Orders
+@using Nop.Core.Domain.Tax
+@using Nop.Core.Infrastructure
+@using Nop.Web.Extensions
+@using Nop.Web.Models.Catalog;
+
+@helper Text_Truncate(string input, int length) 
+{
+    if(input.Length<= length)
+    {
+      @input
+    }
+    else
+    {
+    @input.Substring(0,length)<text>...</text>
+    }
+
+
+}
+
+
+@helper Price_Modifier(string input, int length) 
+{
+    if(input.Length<= length)
+    {
+       @Html.Raw(@input)
+    }
+    else
+    {
+        @Html.Raw(@input.Substring(0,length))<text>...</text>
+    }
+
+
+}
+
+@{
+    //prepare "Add to cart" AJAX link
+    string addtocartlink = "";
+    var shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart;
+    var quantity = 1;
+    if (Model.ProductPrice.ForceRedirectionAfterAddingToCart)
+    {
+        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity, forceredirection = Model.ProductPrice.ForceRedirectionAfterAddingToCart });
+    }
+    else
+    {
+        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity, });
+    }    
+}
+<div class="col-sm-6 col-md-3" data-productid="@Model.Id">
+    <a href="#">
+        <div class="thumbnail height-small"> <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" /> </div>
+        <div class="caption with-border">
+            <h3>@Html.Raw(Text_Truncate(Model.SeName, 90))</h3>
+        </div>
+    </a>
+</div>
+
+@*<div class="col-sm-6 col-md-3" data-productid="@Model.Id">
+    <div class="thumbnail">
+        <div class="thum-img"> 
+                        <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title">
+           <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
+        </a>
+        </div>
+        <div class="caption">
+            <h3><a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })">@Model.Name</a></h3>
+            <p>
+                @Html.Raw(Text_Truncate(Model.ShortDescription,90))<br />
+                @Model.ProductPrice.Price
+            </p>
+        </div>
+    </div>
+</div>*@

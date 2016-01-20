@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+
+
+
+    <div id="body-content">
+        <div class="container">
+           
+            @if (IsSectionDefined("Breadcrumb"))
+            {
+                @section Breadcrumb {
+                    @RenderSection("Breadcrumb")
+                }
+            }
+            @*@Html.Widget("main_column_before")*@
+
+            @RenderBody()
+            @*@Html.Widget("main_column_after")*@
+            <!-- Boutique shops details here -->
+            <!-- Image rotator here -->
+            <!-- Two column "Join our Mailing.. and "Shop now.. content here "-->
+            <!-- Latest Finds content here  -->
+            <!-- Latest Boutiques here -->
+
+
+        </div>
+    </div>
+   
+

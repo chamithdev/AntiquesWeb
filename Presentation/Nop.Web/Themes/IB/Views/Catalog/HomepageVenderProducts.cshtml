@@ -1,0 +1,36 @@
+﻿@model IList<VendorModel>
+
+@using Nop.Web.Models.Catalog;
+
+@foreach (var item in Model)
+{
+    @*if (item.Products.Count > 0)
+    {
+        @Html.Partial("_CatalogSelectors", item.PagingFilteringContext, new ViewDataDictionary())
+    }*@
+    
+    if (item.Products.Count > 0)
+    {
+
+        <div class="section-pannel">
+            <div class="section-header">
+                <h4><span>Latest @item.Name</span></h4>
+            </div>
+            <div class="row">
+                @foreach (var prod in item.Products)
+                {
+                    @Html.Partial("_ProductBoxWithTitle", prod)
+                }
+            </div>
+
+        </div>
+    }
+
+    var pager = Html.Pager(item.PagingFilteringContext).QueryParam("pagenumber");
+    if (!pager.IsEmpty())
+    {
+        <div class="pager">
+            @pager
+        </div>
+    }
+}

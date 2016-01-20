@@ -1,0 +1,38 @@
+﻿@using Nop.Core;
+@using Nop.Core.Infrastructure
+@using Nop.Web.Framework.Themes
+@using Nop.Web.Framework.UI
+@{
+    var supportRtl = EngineContext.Current.Resolve<IWorkContext>().WorkingLanguage.Rtl;
+    var themeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
+
+    //add browser specific CSS files
+    var browser = Request.Browser;
+    if (browser.Browser == "IE" && browser.MajorVersion == 8)
+    {
+        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/ie8.css", themeName));
+    }
+    //add main CSS file
+   
+   
+    if (supportRtl)
+    {
+        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.rtl.css", themeName));
+        
+    }
+    else
+    {
+        //Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/stylesib.css", themeName));
+    }
+    //add jQuery UI css file
+    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/jquery.bxslider/jquery.bxslider.css", themeName));
+    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/bootstrap-3.2.0/css/bootstrap.min.css", themeName));
+    
+
+    if (browser.Browser == "IE" && browser.MajorVersion == 8)
+    {
+        Html.AddScriptParts("~/Scripts/selectivizr.min.js");
+        Html.AddScriptParts("~/Scripts/respond.min.js");
+    }
+}

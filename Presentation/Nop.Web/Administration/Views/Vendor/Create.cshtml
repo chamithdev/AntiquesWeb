@@ -1,9 +1,9 @@
 ﻿@model VendorModel
 @{
-    //page title
+    //page title     
     ViewBag.Title = T("Admin.Vendors.AddNew").Text;
 }
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post,new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="section-header">
@@ -16,5 +16,7 @@
             <input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />
         </div>
     </div>
-    @Html.Partial("_CreateOrUpdate", Model)
+    //@Html.Partial("_CreateOrUpdate", Model)
+    
+    @Html.Partial("_CreateUpdateIB", Model)
 }

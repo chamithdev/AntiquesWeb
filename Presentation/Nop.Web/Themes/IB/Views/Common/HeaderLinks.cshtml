@@ -1,0 +1,188 @@
+﻿@model HeaderLinksModel
+@using Nop.Web.Models.Common;
+@using Nop.Core.Infrastructure
+@using Nop.Web.Framework.Themes
+@{
+    var themeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
+}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="boutique-shop.html">Boutique Shops</a></li>
+                <li><a href="#">Latest Finds</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop Now<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Shop By Category </a></li>
+                        <li><a href="#">Flash Sale </a></li>
+                        <li><a href="#">Special Feature</a></li>
+                        <li><a href="#">Leave a Stock Request</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">News &amp; Events <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Guest Editor</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About Us<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Directory</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Join as a Seller</a></li>
+                    </ul>
+                </li>
+                <li class="small">
+                    <a href="#">
+                        <img src="@string.Format("/Themes/{0}/Content/images/shopping-cart.png", themeName)" alt="Shopping Cart" /><br />
+                        Cart
+                    </a>
+                </li>
+                <li class="dropdown small">
+                    <a href="#">
+                        <img src="@string.Format("/Themes/{0}/Content/images/main-search.png", themeName)" alt="Search" /><br />
+                        Search
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="main-search-field">
+                                @using (Html.BeginRouteForm("ProductSearch", FormMethod.Get, new { id = "small-search-box-form" }))                              {
+
+
+                                    <input type="text" class="form-control" autocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")" />                                   
+
+                                    <a href="javascript:{}" onclick="document.getElementById('small-search-box-form').submit();"> 
+                                <img src="@string.Format("/Themes/{0}/Content/images/main-search.png", themeName)" alt="" width="20" height="20" /></a>
+                                }
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="small">
+                    <a href="/login">
+                        <img src="@string.Format("/Themes/{0}/Content/images/user-login.png", themeName)" alt="Login" /><br />
+                        Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+@*@Html.Action("Index","SideMenu",new { area = "" })*@
+    
+@*<ul  class="nav navbar-nav navbar-right">
+    @Html.Widget("header_links_before")
+    @Html.Action("AdminHeaderLinks", "Common")
+    @if (Model.IsAuthenticated)
+    {
+        <li><a href="@Url.RouteUrl("CustomerInfo")" class="account">@Model.CustomerEmailUsername</a></li>
+        <li><a href="@Url.RouteUrl("Logout")" class="ico-logout">@T("Account.Logout")</a></li>
+    }
+    else
+    {
+        <li><a href="@Url.RouteUrl("Register")" class="ico-register">@T("Account.Register")</a></li>
+        <li><a href="@Url.RouteUrl("Login")" class="ico-login">@T("Account.Login")</a></li>
+    }
+    @if (Model.AllowPrivateMessages)
+    {
+        <li><a href="@Url.RouteUrl("PrivateMessages", new { tab = "" })" class="ico-inbox">@T("PrivateMessages.Inbox") <span class="unread-private-messages">@Model.UnreadPrivateMessages</span> </a>
+           </li>
+        if (!string.IsNullOrEmpty(Model.AlertMessage))
+        {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#notificationModal').modal('show');
+                });
+            </script>
+        }
+    }
+    @if (Model.ShoppingCartEnabled)
+    {
+			<li id="topcartlink" class="dropdown">
+				<a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart hidden-md hidden-lg">
+					<span class="cart-label">@T("ShoppingCart")</span>
+					<span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+                    
+
+				</a>
+        
+                @if (!String.IsNullOrWhiteSpace(@Html.Action("FlyoutShoppingCart", "ShoppingCart").ToString()))
+				{
+					<a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart dropdown-toggle visible-md visible-lg" data-toggle="dropdown" data-hover="dropdown">
+						<span class="cart-label">@T("ShoppingCart")</span>
+						<span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+						<i class="fa fa-angle-down"></i>
+
+					</a>
+
+
+                
+					<ul class="dropdown-menu">
+						<li>@Html.Action("FlyoutShoppingCart", "ShoppingCart")</li>
+                    
+					</ul>
+
+
+				}else
+								{
+									<a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
+										<span class="cart-label">@T("ShoppingCart")</span>
+										<span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+                    
+
+									</a>
+
+								}
+
+				
+			</li>
+
+    }
+    @if (Model.WishlistEnabled)
+    {
+        <li>
+            <a href="@Url.RouteUrl("Wishlist")" class="ico-wishlist">
+                <span class="cart-label">@T("Wishlist")</span>
+                <span class="wishlist-qty">@T("Wishlist.HeaderQuantity", Model.WishlistItems)</span>
+            </a>
+        </li>
+    }
+    <li>
+        @Html.Action("TaxTypeSelector", "Common")
+    </li>
+    <li>
+        @Html.Action("CurrencySelector", "Common")
+    </li>
+    <li>
+        @Html.Action("LanguageSelector", "Common")
+    </li>
+        
+    @Html.Widget("header_links_after")
+</ul>*@
+
+
+@*Notification window*@
+@*<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="notificationModalLabel">@T("Common.Notification")</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(HttpUtility.JavaScriptStringEncode(Model.AlertMessage))
+            </div>
+        </div>
+    </div>
+</div>*@

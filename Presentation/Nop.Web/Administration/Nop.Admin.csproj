@@ -140,6 +140,7 @@
     <Compile Include="Controllers\CampaignController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\JbimagesController.cs" />
+    <Compile Include="Controllers\ProductIBController.cs" />
     <Compile Include="Controllers\RoxyFilemanController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Models\Catalog\BulkEditListModel.cs" />
     <Compile Include="Models\Catalog\CategoryListModel.cs" />
     <Compile Include="Models\Catalog\ManufacturerListModel.cs" />
+    <Compile Include="Models\Catalog\ProductModel.IB.cs" />
     <Compile Include="Models\Catalog\ProductReviewListModel.cs" />
     <Compile Include="Models\Catalog\ManufacturerModel.cs" />
     <Compile Include="Models\Catalog\CopyProductModel.cs" />
@@ -329,6 +331,7 @@
     <Compile Include="Models\Messages\QueuedEmailModel.cs" />
     <Compile Include="Models\Settings\TaxSettingsModel.cs" />
     <Compile Include="Models\Cms\WidgetModel.cs" />
+    <Compile Include="Models\Vendors\VendorModel.IB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\Catalog\PredefinedProductAttributeValueModelValidator.cs" />
     <Compile Include="Validators\Common\AddressAttributeValidator.cs" />
@@ -387,6 +390,14 @@
     <Compile Include="Validators\Catalog\ProductValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap.css" />
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\dropzone.css" />
+    <Content Include="Content\ie9.css" />
     <Content Include="Content\images\ajax_loader_small.gif" />
     <Content Include="Content\styles.rtl.css" />
     <Content Include="Content\images\1pix.gif" />
@@ -423,6 +434,7 @@
     <Content Include="Content\images\warnings-tick.png" />
     <Content Include="Content\images\warnings-warning.png" />
     <Content Include="Content\styles.css" />
+    <Content Include="Content\stylesib.css" />
     <Content Include="sitemap.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1289,6 +1301,42 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Common\AclDisabledWarning.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\_CreateUpdateIB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap-theme.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\css\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_AdminLayoutIB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\Create - Copy.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\_AddEditProducts.IB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\ProductIB\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\CreateIB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\EditIB.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

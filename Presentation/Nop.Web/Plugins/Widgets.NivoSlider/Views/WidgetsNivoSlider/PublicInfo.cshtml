@@ -2,9 +2,13 @@
 @{
     Layout = "";
 
-    Html.AddScriptParts("~/Plugins/Widgets.NivoSlider/Scripts/jquery.nivo.slider.js");
+    @*Html.AddScriptParts("~/Plugins/Widgets.NivoSlider/Scripts/jquery.nivo.slider.js");
     Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/nivoslider/nivo-slider.css");
     Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/nivoslider/themes/custom/custom.css");
+    *@
+    
+    Html.AddScriptParts("~/Plugins/Widgets.NivoSlider/Scripts/jquery.bxslider.min.js");
+
 }
 @using Nop.Web.Framework.UI
 
@@ -12,19 +16,41 @@
 {
     if (!string.IsNullOrEmpty(pictureUrl))
     {
-        if (!string.IsNullOrEmpty(link))
-        {
-            <a href="@link">
+        <li class="img-bg">
+            
                 <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
-            </a>
+              
+        </li>
+        @*if (!string.IsNullOrEmpty(link))
+        {
+            <li class="img-bg"><div class="img-align-center">
+                <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
+            </li>
         }
         else
         {
             <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
-        }
+        }*@
     }
 }
-<div class="slider-wrapper theme-custom">
+<div class="section-pannel">
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="bxslider">
+
+                @RenderSliderLine(Model.Picture1Url, Model.Text1, Model.Link1)
+                @RenderSliderLine(Model.Picture2Url, Model.Text2, Model.Link2)
+                @RenderSliderLine(Model.Picture3Url, Model.Text3, Model.Link3)
+                @RenderSliderLine(Model.Picture4Url, Model.Text4, Model.Link4)
+                @RenderSliderLine(Model.Picture5Url, Model.Text5, Model.Link5)
+                @RenderSliderLine(Model.Picture6Url, Model.Text6, Model.Link6)
+                @RenderSliderLine(Model.Picture7Url, Model.Text7, Model.Link7)
+                @RenderSliderLine(Model.Picture8Url, Model.Text8, Model.Link8)
+            </ul>
+        </div>
+    </div>
+</div>
+@*<div class="slider-wrapper theme-custom">
     <div id="nivo-slider" class="nivoSlider">
         @RenderSliderLine(Model.Picture1Url, Model.Text1, Model.Link1)
         @RenderSliderLine(Model.Picture2Url, Model.Text2, Model.Link2)
@@ -32,9 +58,44 @@
         @RenderSliderLine(Model.Picture4Url, Model.Text4, Model.Link4)
         @RenderSliderLine(Model.Picture5Url, Model.Text5, Model.Link5)
     </div>
-</div>
-<script type="text/javascript">
+</div>*@
+@*<script type="text/javascript">
     $(window).load(function () {
         $('#nivo-slider').nivoSlider();
     });
+</script>*@
+<script type="text/javascript">
+
+    //$(function () {
+    //    try {
+
+    //        var slider = $('.bxslider').bxSlider({
+    //            captions: true,
+    //            pager: false,
+    //            infiniteLoop: true,
+    //            adaptiveHeight: true,
+    //            responsive: true,
+    //            auto: true,
+    //        });
+
+    //        $('.bx-next, .bx-prev').click(function (e) {
+    //            var i = $(this).index();
+    //            slider.goToSlide(i);
+    //            slider.stopAuto();
+    //            restart = setTimeout(function () {
+    //                slider.startAuto();
+    //            }, 500);
+    //            return false;
+    //        });
+    //    } catch (e) {
+    //        // handle an exception here if lettering doesn't exist or throws an exception
+    //    }
+    //});	// END Slider
+    //try {
+    //    var slider2 = $('#slider2').bxSlider();
+    //} catch (e) {
+    //    // handle an exception here if lettering doesn't exist or throws an exception
+    //}
+
+    
 </script>

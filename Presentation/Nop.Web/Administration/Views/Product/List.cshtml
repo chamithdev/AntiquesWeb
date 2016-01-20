@@ -17,6 +17,7 @@
         </div>
         <div class="options">
             <a href="@Url.Action("Create")" class="k-button">@T("Admin.Common.AddNew")</a>
+            <a href="@Url.Action("Createib")" class="k-button">Add with IB Editor</a>
             <input type="submit" name="download-catalog-pdf" class="k-button" value="@T("Admin.Catalog.Products.List.DownloadPDF")" />
             <input type="submit" name="exportxml-all" class="k-button" value="@T("Admin.Common.ExportToXml.All")" />
             <input type="button" id="exportxml-selected" class="k-button" value="@T("Admin.Common.ExportToXml.Selected")" />
@@ -210,7 +211,13 @@
                                     title: "@T("Admin.Common.Edit")",
                                     width: 100,
                                     template: '<a href="Edit/#=Id#">@T("Admin.Common.Edit")</a>'
-                                }
+                                },
+                                {
+                                    field: "Id",
+                                    title: "IB Ediitor",
+                                    width: 100,
+                                    template: '<a href="Editib/#=Id#">@T("Admin.Common.Edit")</a>'
+                    }
                             ]
                         } );
                     });

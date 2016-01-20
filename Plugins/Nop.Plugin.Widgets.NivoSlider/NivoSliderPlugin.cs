@@ -76,19 +76,43 @@ namespace Nop.Plugin.Widgets.NivoSlider
             //pictures
             var sampleImagesPath = _webHelper.MapPath("~/Plugins/Widgets.NivoSlider/Content/nivoslider/sample-images/");
 
-
+            //var sampleImagesPath = _webHelper.MapPath("~/Plugins/Widgets.NivoSlider/Content/images/");
             //settings
             var settings = new NivoSliderSettings
             {
-                Picture1Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner1.jpg"), "image/pjpeg", "banner_1").Id,
+                Picture1Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_01.jpg"), "image/pjpeg", "banner_1").Id,
                 Text1 = "",
-                Link1 = _webHelper.GetStoreLocation(false),
-                Picture2Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner2.jpg"), "image/pjpeg", "banner_2").Id,
+                Link1 = "",//_webHelper.GetStoreLocation(false),
+                Picture2Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_02.jpg"), "image/pjpeg", "banner_2").Id,
                 Text2 = "",
-                Link2 = _webHelper.GetStoreLocation(false),
+                Link2 = "",//_webHelper.GetStoreLocation(false),
                 //Picture3Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner3.jpg"), "image/pjpeg", "banner_3").Id,
                 //Text3 = "",
                 //Link3 = _webHelper.GetStoreLocation(false),
+
+                Picture3Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_03.jpg"), "image/pjpeg", "banner_3").Id,
+                Text3 = "",
+                Link3 = "",
+
+                Picture4Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_04.jpg"), "image/pjpeg", "banner_4").Id,
+                Text4 = "",
+                Link4 = "",
+
+                Picture5Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_05.jpg"), "image/pjpeg", "banner_5").Id,
+                Text5 = "",
+                Link5 = "",
+                Picture6Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_06.jpg"), "image/pjpeg", "banner_6").Id,
+                Text6 = "",
+                Link6 = "",
+
+                Picture7Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_07.jpg"), "image/pjpeg", "banner_7").Id,
+                Text7 = "",
+                Link7 = "",
+
+                Picture8Id = _pictureService.InsertPicture(File.ReadAllBytes(sampleImagesPath + "banner_08.jpg"), "image/pjpeg", "banner_8").Id,
+                Text8 = "",
+                Link8 = ""
+
             };
             _settingService.SaveSetting(settings);
 
@@ -98,6 +122,9 @@ namespace Nop.Plugin.Widgets.NivoSlider
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture3", "Picture 3");
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture4", "Picture 4");
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture5", "Picture 5");
+            this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture6", "Picture 6");
+            this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture7", "Picture 7");
+            this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture8", "Picture 8");
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture", "Picture");
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture.Hint", "Upload picture.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Widgets.NivoSlider.Text", "Comment");
@@ -122,6 +149,9 @@ namespace Nop.Plugin.Widgets.NivoSlider
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture3");
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture4");
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture5");
+            this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture6");
+            this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture7");
+            this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture8");
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture");
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Picture.Hint");
             this.DeletePluginLocaleResource("Plugins.Widgets.NivoSlider.Text");

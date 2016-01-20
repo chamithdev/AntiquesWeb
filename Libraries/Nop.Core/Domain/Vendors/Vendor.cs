@@ -74,5 +74,7 @@ namespace Nop.Core.Domain.Vendors
         /// </summary>
         public string PageSizeOptions { get; set; }
 
+
+
     }
 }

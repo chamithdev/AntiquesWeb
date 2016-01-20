@@ -126,7 +126,8 @@ namespace Nop.Web.Controllers
             CustomerSettings customerSettings, 
             CaptchaSettings captchaSettings,
             SeoSettings seoSettings,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            IVendorService venderService)
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -167,6 +168,7 @@ namespace Nop.Web.Controllers
             this._captchaSettings = captchaSettings;
             this._seoSettings = seoSettings;
             this._cacheManager = cacheManager;
+            this._venderService = venderService;
         }
 
         #endregion
@@ -218,6 +220,19 @@ namespace Nop.Web.Controllers
                 Gtin = product.Gtin,
                 StockAvailability = product.FormatStockMessage(_localizationService),
                 HasSampleDownload = product.IsDownload && product.HasSampleDownload,
+                CircaDate = product.CircaDate,
+                Color = product.Color,
+                Condition = product.Condition,
+                Country = product.Country,
+                Material = product.Material,
+                DesignBy = product.DesignBy,
+                TermsCondtion = product.TermsCondtion,
+                Rank = product.Rank,
+                Height=product.Height,
+                Width = product.Width,
+                Length = product.Length,
+                Weight = product.Weight,
+                StockQuantity = product.StockQuantity
             };
 
             //automatically generate product description?

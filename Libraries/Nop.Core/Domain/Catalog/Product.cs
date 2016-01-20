@@ -465,7 +465,22 @@ namespace Nop.Core.Domain.Catalog
         public DateTime UpdatedOnUtc { get; set; }
 
 
+        public int Rank { get; set; }
 
+
+        public string CircaDate { get; set; }
+
+        public string Material { get; set; }
+
+        public string Color { get; set; }
+
+        public string Country { get; set; }
+
+        public string DesignBy { get; set; }
+
+        public string Condition { get; set; }
+
+        public bool TermsCondtion { get; set; }
 
 
 
