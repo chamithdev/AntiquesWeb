@@ -1,0 +1,346 @@
+﻿@model ProductModel
+@using Nop.Core.Domain.Catalog;
+@using Nop.Services.Catalog;
+@using System.Text;
+<script type="text/javascript">
+    var baseUrl="/admin/";
+    $(document).ready(function () {
+        var id = $("#@Html.FieldIdFor(model => model.Id)").val();
+        if (id == 0) {
+            $('#thumbImgWrap').hide();
+        } else {
+            $('#thumbImgWrap').show();
+        }
+
+        function setQuantity() {
+            $("#@Html.FieldIdFor(model => model.StockQuantity)").val(0);
+        }
+
+        Dropzone.autoDiscover = false;
+        $("#dz").dropzone(
+            {
+                url: "/admin/product/UploadProductImages/@Model.Id",
+                success:function()
+                {
+                    window.location.reload(true);
+                },
+                error: function () {
+                    alert('error uploading data');
+                },
+
+            });
+
+        $(function () {
+
+
+            //$("#sortableImg").sortable();
+            //$("#sortableImg").disableSelection();
+
+            $("#sortable").sortable({
+                connectWith: "#sortable",
+                update: function () {
+                    var order1 = $('#sortable').sortable('toArray').toString();
+                    var picNos= order1.split(',');
+                    var prodPics = [];
+                    for (i = 0; i < picNos.length; i++)
+                    {
+                        var prodPic = new Object();
+
+                        prodPic.Id = picNos[i];
+                        prodPic.ProductId = @Model.Id;
+                        prodPic.DisplayOrder = i + 1;
+                        prodPics.push(prodPic);
+
+                    }
+                    @*$(order1).each(function (idx, i) {
+
+                        var prodPic = new Object();
+
+                        prodPic.PictureId = i;
+                        prodPic.ProductId = @Model.Id;
+                        prodPic.DisplayOrder = idx++;
+                        prodPics.push(prodPic);
+
+                    });*@
+
+                    ajaxPostJson("Product","UpdateProductPicture",prodPics,function(data)
+                    {
+                        prodPics = [];
+                    },null);
+
+                }
+            }).disableSelection();
+
+
+
+        });
+
+        ajaxPostJson = function (controller, method, jsonIn, callback,errorCallback) {
+            $.ajax({
+                url: baseUrl + controller +"/" +method,
+                type: "POST",
+                data: JSON.stringify(jsonIn),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                beforeSend: function () {
+                    $('#ajaxBusy').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('#ajaxBusy').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#ajaxBusy').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        }
+    });
+
+</script>
+@Html.HiddenFor(model => model.Id)
+
+        @*<div class="btn-pan">
+            <input type="button" value="Upload Page" class="btn btn-default" />
+            <input type="button" value="Preview Page" class="btn btn-default" />
+            <input type="button" value="Submit" class="btn btn-default" />
+            <input type="button" value="Load Another Product" class="btn btn-default" />
+            <input type="button" value="Home Page" class="btn btn-default" />
+        </div>*@
+        <div class="col-sm-6 col-md-5">
+            <div id="thumbImgWrap" class="margin-top10 clear">
+                <div class="ui-state-default">
+                    <div class="thumb-img">
+                        <div action="/product/UploadProductImages/@Model.Id" class="dropzone custom-msg-thumb" id="dz" width="137" height="91"></div>
+                    </div>
+                </div>
+                @if (Model.ProductPictureModels.Count > 0)
+                {
+                    <ul id="sortable">
+                        @foreach (Nop.Admin.Models.Catalog.ProductModel.ProductPictureModel p in Model.ProductPictureModels)
+                        {
+                            <li class="ui-state-default" id="@p.Id">
+                                <div class="thumb-img float-left"><img src="@p.PictureUrl" alt="" width="137" height="91" /></div>
+                            </li>
+                        }
+
+                        @*<li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>
+                            <li class="ui-state-default">
+                                <div class="thumb-img float-left"><img src="images/pictures/pen.jpg" alt="" width="137" height="91" /></div>
+                            </li>*@
+                    </ul>
+                }
+            </div>
+            <div class="form-text-lg">
+                <div class="form-lg">
+                    Photo file name tags Key Words
+                    @Html.EditorFor(model => model.MetaKeywords, new { @class = "js-default-val-text" })
+                </div>
+                <div class="form-lg">
+                    Meta Tags
+                    @Html.EditorFor(model => model.MetaDescription, new { @class = "js-default-val-text" })
+                    @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                        ,
+                        <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
+                </div>
+                <div class="form-lg">
+                    Rank
+                    @Html.EditorFor(model => model.Rank, new { @class = "form-control" })
+                </div>
+                <div class="form-lg">
+                    Show on Home Page
+                    @Html.EditorFor(model => model.ShowOnHomePage, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-7">
+            <div class="form-text-lg">
+                @*<div class="form-lg">
+                    <strong>Product Type</strong><br />
+                    @Html.DropDownListFor(model => model.ProductTypeId, ((ProductType)Model.ProductTypeId).ToSelectList())
+                    @Html.ValidationMessageFor(model => model.ProductTypeId)
+                </div>*@
+                <div class="form-lg">
+                    <strong>Title</strong><br />
+                    @Html.EditorFor(model => model.Name, new { @class = "js-default-val-text", defaultval = "Title" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                    @*<input type="text" class="js-default-val-text" value="" />*@
+                </div>
+                <div class="form-lg">
+                    <strong>Short Description</strong><br />
+                    @Html.EditorFor(model => model.ShortDescription, new { @class = "js-default-val-text", defaultval = "Short Description" })
+                    @*<input type="text" class="js-default-val-text" value="" />*@
+                </div>
+                <div class="form-lg">
+                    @* £ *@[@Model.PrimaryStoreCurrencyCode]
+                    @Html.EditorFor(model => model.Price, new { @class = "js-default-val-text" })
+                    @*<input type="text" class="js-default-val-text" name="" defaultval="" value="" />*@
+                    Including sales tax, excluding shipping
+                </div>
+                <div class="form-lg">
+                    <strong>Product Details</strong><br />
+                    Circa Date :
+                    @Html.EditorFor(model => model.CircaDate)
+                    @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
+                    <br />
+                    Materials :
+                    @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
+                    @Html.EditorFor(model => model.Material, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.Material)
+                    <br />
+                    Colour :
+                    @Html.EditorFor(model => model.Color, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.Color)
+                    <br />
+                    Country
+                    @Html.EditorFor(model => model.Country, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.Country)
+                    <br />
+                    Designer/ made by
+                    @Html.EditorFor(model => model.DesignBy, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.DesignBy)
+                    <br />
+                    Condition Report :
+                    @Html.EditorFor(model => model.Condition, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.Condition)
+                    <br />
+                </div>
+                <div class="form-lg">
+                    Dim
+                    @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
+                    @Html.EditorFor(model => model.Height, new { @class = "js-default-val-text  percent-10" })
+                    cm H x
+                    @Html.EditorFor(model => model.Width, new { @class = "js-default-val-text  percent-10" })
+                    cm W x
+                    @Html.EditorFor(model => model.Length, new { @class = "js-default-val-text  percent-10" })
+                    cm D  Approx weight
+                    @Html.EditorFor(model => model.Weight, new { @class = "js-default-val-text  percent-10" })
+                    kg
+                </div>
+                <div class="text-center form-lg">
+                    Only
+                    @Html.EditorFor(model => model.StockQuantity, new { @class = "js-default-val-text  percent-10" })
+                    Units Available OR CLICK IF <a href="#" onclick="setQuantity();">Sold</a>
+                </div>
+                <div class="form-lg">
+                    <strong>Description</strong><br />
+                    @Html.EditorFor(model => model.FullDescription, new { @class = "js-default-val-text" })
+                </div>
+            </div>
+            @*<div class="col-sm-6 col-md-4">
+                    <div class="form-lg">
+                        <strong>Picture Text</strong> <br />
+                        Title
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                        <br />
+                        Style or by
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                        <br />
+                        Circa Date
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                        <br />
+                        £
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                    </div>
+                </div>*@
+            @*<div class="col-sm-6 col-md-8">
+                    <div class="form-lg">
+                        <strong>Delivery options</strong> <br />
+                        VIP
+                        <input type="text" class="js-default-val-text percent-36" defaultval="" value="" />
+                        FedEx
+                        <input type="text" class="js-default-val-text percent-36" defaultval="" value="" />
+                        <br />
+                        AirSea
+                        <input type="text" class="js-default-val-text percent-36" defaultval="" value="" />
+                        Other
+                        <input type="text" class="js-default-val-text percent-36" defaultval="" value="" />
+                        <br />
+                        Collection only
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                        <br />
+                        Supplier to arrange delivery
+                        <input type="text" class="js-default-val-text percent-42" defaultval="" value="" />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4">
+                    <div class="form-lg clear">
+                        <strong>Picture text Colour </strong> <br />
+                        <a href="#">
+                            <div class="color-box bg-color1"></div>
+                        </a> <a href="#">
+                            <div class="color-box bg-color2"></div>
+                        </a> <a href="#">
+                            <div class="color-box bg-color3"></div>
+                        </a> <a href="#">
+                            <div class="color-box bg-color4"></div>
+                        </a> <a href="#">
+                            <div class="color-box bg-color5"></div>
+                        </a> <a href="#">
+                            <div class="color-box bg-color6"></div>
+                        </a>
+                    </div>
+                </div>*@
+            <div class="col-sm-6 col-md-8">
+                <div class="col-sm-6 col-md-8 padding-none">
+                    <div class="form-lg clear">
+                        <strong>Online shop option </strong><br />
+                        T &amp; C Apply <br />
+                        @Html.EditorFor(model => model.TermsCondtion)
+                        @*YES
+                            <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />
+                            NO
+                            <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
+
+                    </div>
+
+                </div>
+                @*<div class="col-sm-6 col-md-4 padding-none"> <div class="form-lg clear">PayPal Link </div></div>
+                    <div class="col-sm-6 col-md-4 padding-none">
+                        <div class="form-lg clear">
+                            Payment Link
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+   
+<!-- END: Boutiques Finds pannel -->
+ 
