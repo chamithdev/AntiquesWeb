@@ -10,6 +10,13 @@ using Nop.Services.Seo;
 using Nop.Services.Vendors;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Kendoui;
+using Nop.Services.Media;
+using Nop.Web.Framework.Security;
+using Nop.Services.Catalog;
+using Nop.Core;
+using Nop.Core.Domain.Customers;
+using Nop.Services.Common;
+using Nop.Services.Messages;
 
 namespace Nop.Admin.Controllers
 {
@@ -25,7 +32,11 @@ namespace Nop.Admin.Controllers
         private readonly ILanguageService _languageService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly VendorSettings _vendorSettings;
-
+        private readonly IPictureService _pictureService;
+        private readonly IProductService _productService;
+        private readonly IWorkContext _workContext;  
+        private readonly IGenericAttributeService _genericAttributeService;
+        private readonly IWorkflowMessageService _workflowMessageService;
         #endregion
 
         #region Constructors
@@ -37,7 +48,12 @@ namespace Nop.Admin.Controllers
             IUrlRecordService urlRecordService,
             ILanguageService languageService,
             ILocalizedEntityService localizedEntityService,
-            VendorSettings vendorSettings)
+            VendorSettings vendorSettings,
+            IPictureService pictureService,
+            IProductService productService,
+            IWorkContext workContext,
+            IGenericAttributeService genericAttributeService,
+            IWorkflowMessageService workflowMessageService)
         {
             this._customerService = customerService;
             this._localizationService = localizationService;
@@ -47,6 +63,11 @@ namespace Nop.Admin.Controllers
             this._languageService = languageService;
             this._localizedEntityService = localizedEntityService;
             this._vendorSettings = vendorSettings;
+            this._pictureService = pictureService;
+            this._productService = productService;
+            this._workContext = workContext;
+            this._workflowMessageService = workflowMessageService;
+            this._genericAttributeService = genericAttributeService;
         }
 
         #endregion
@@ -144,14 +165,14 @@ namespace Nop.Admin.Controllers
             model.Active = true;
             model.AllowCustomersToSelectPageSize = true;
             model.PageSizeOptions = _vendorSettings.DefaultVendorPageSizeOptions;
-
-            //default value
+            model.DisplayActive = _workContext.IsAdmin;
+            //default value 
             model.Active = true;
             return View(model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        [FormValueRequired("save", "save-continue")]
+        [FormValueRequired("save", "save-continue"), AdminAntiForgeryAttribute(true)]
         public ActionResult Create(VendorModel model, bool continueEditing)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
@@ -177,6 +198,7 @@ namespace Nop.Admin.Controllers
 
 
         //edit
+      
         public ActionResult Edit(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
@@ -188,6 +210,22 @@ namespace Nop.Admin.Controllers
                 return RedirectToAction("List");
 
             var model = vendor.ToModel();
+            //pictuere
+            model.MainPicture = _pictureService.GetPictureById(model.PictureId);
+            if(model.MainPicture != null)
+            {
+                var m = new VendorModel.VenddorPictureModel
+                {
+
+                    ProductId = model.MainPicture.Id,
+                    PictureUrl = _pictureService.GetPictureUrl(model.MainPicture,200),
+                    OverrideAltAttribute = model.MainPicture.AltAttribute,
+                    OverrideTitleAttribute = model.MainPicture.TitleAttribute,
+                    DisplayOrder = 1
+                };
+                model.MainPictureModel = m;
+            }
+          
             //locales
             AddLocales(_languageService, model.Locales, (locale, languageId) =>
             {
@@ -203,11 +241,12 @@ namespace Nop.Admin.Controllers
                     .GetAllCustomers(vendorId: vendor.Id)
                     .Select(c => c.Email)
                     .ToList();
-
+            model.Products = VendorProducts(vendor.Id);
+            model.DisplayActive = _workContext.IsAdmin;
             return View(model);
         }
 
-        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
         public ActionResult Edit(VendorModel model, bool continueEditing)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
@@ -220,8 +259,25 @@ namespace Nop.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
                 vendor = model.ToEntity(vendor);
+                
                 _vendorService.UpdateVendor(vendor);
+
+                if (vendor.Active && _workContext.IsAdmin)
+                {
+                    //send vendor email
+                    var customer = _customerService.GetAllCustomers(vendorId: vendor.Id);
+                    if (customer.Count>0)
+                    {
+                        _workflowMessageService.SendVendorEmailValidationMessage(customer[0], _workContext.WorkingLanguage.Id);
+                    }
+                    //_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
+                    
+                }
+               
+
+
                 //search engine name
                 model.SeName = vendor.ValidateSeName(model.SeName, vendor.Name, true);
                 _urlRecordService.SaveSlug(vendor, model.SeName, 0);
@@ -246,7 +302,8 @@ namespace Nop.Admin.Controllers
                     .GetAllCustomers(vendorId: vendor.Id)
                     .Select(c => c.Email)
                     .ToList();
-            return View(model);
+            //return View(model);
+            return RedirectToAction("Edit", new { id = vendor.Id });
         }
 
         //delete

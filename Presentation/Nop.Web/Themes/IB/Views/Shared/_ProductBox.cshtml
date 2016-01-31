@@ -8,14 +8,22 @@
 
 @helper Text_Truncate(string input, int length) 
 {
-    if(input.Length<= length)
+    if (string.IsNullOrWhiteSpace(input))
     {
-      @input
+        <text></text>
     }
     else
     {
-    @input.Substring(0,length)<text>...</text>
+        if (input.Length <= length)
+        {
+            @input
+        }
+        else
+        {
+            @input.Substring(0, length)<text>...</text>
+        }
     }
+
 
 
 }

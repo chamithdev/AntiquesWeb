@@ -22,6 +22,8 @@ namespace Nop.Data.Mapping.Vendors
 
             this.Property(p => p.Web).HasMaxLength(400);
 
+            this.Property(p => p.PictureId).IsOptional();
+
             
         }
     }

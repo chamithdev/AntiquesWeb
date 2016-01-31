@@ -4,7 +4,7 @@
     Layout = "~/Administration/Views/Shared/_AdminLayoutIB.cshtml";
     ViewBag.Title = T("Admin.Catalog.Products.AddNew").Text;
 }
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "product-form",enctype="multipart/form-data" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "product-form",@enctype="multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @*<div class="section-header">
@@ -26,8 +26,8 @@
                 @*<input type="submit" id="copyproduct" name="copyproduct" class="k-button" value="@T("Admin.Catalog.Products.Copy")" />*@
                 @*<input type="button" value="Load Another Product" class="btn btn-default" />*@
                 @Html.ActionLink("Load Another Product", "List", null, new { @class = "btn btn-default" })
-               
-                @Html.ActionLink("Home Page","Index","Home",null, new { @class = "btn btn-default" })
+                @Html.ActionLink("Home Page", "Index", "Home", null, new { @class = "btn btn-default" })
+                
             </div>
 
             @*<div class="section-header">
@@ -38,7 +38,8 @@
 
                 </div>*@
             @Html.Partial("_AddEditProducts.IB", Model)
-            }
+           
            
         </div>
     </div>
+}

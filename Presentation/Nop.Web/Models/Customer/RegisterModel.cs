@@ -150,6 +150,10 @@ namespace Nop.Web.Models.Customer
         public bool HoneypotEnabled { get; set; }
         public bool DisplayCaptcha { get; set; }
 
+        [Display(Name="I am a Vendor")]
+        public bool IsVendor { get; set; }
+        public bool DisplayIsVendor { get; set; }
+
         public IList<CustomerAttributeModel> CustomerAttributes { get; set; }
     }
 }

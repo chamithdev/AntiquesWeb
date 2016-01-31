@@ -196,6 +196,7 @@
     <Compile Include="Controllers\BackInStockSubscriptionController.cs" />
     <Compile Include="Controllers\CatalogIBController.cs" />
     <Compile Include="Controllers\CommonExtController.cs" />
+    <Compile Include="Controllers\CustomerIBController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -2143,11 +2144,14 @@
     <Content Include="Themes\IB\Views\Customer\UserAgreement.cshtml" />
     <Content Include="Themes\IB\Views\Customer\_CheckUsernameAvailability.cshtml" />
     <Content Include="Themes\IB\Views\Customer\_CustomerAttributes.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\BoutiqueShops.cshtml" />
+    <Content Include="Themes\IB\Views\Customer\_LatestBoutique.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
     <Folder Include="Views\CatalogIB\" />
     <Folder Include="Views\CommonExt\" />
+    <Folder Include="Views\CustomerIB\" />
     <Folder Include="Views\ProductIB\" />
   </ItemGroup>
   <ItemGroup>

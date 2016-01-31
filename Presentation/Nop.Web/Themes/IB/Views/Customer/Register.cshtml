@@ -126,6 +126,14 @@
                         </div>
 
                     }
+                    @if (Model.DisplayIsVendor)
+                    {
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.IsVendor, new { }, ":")
+                            @Html.EditorFor(model => model.IsVendor)
+                            
+                        </div>
+                    }
                 </div>
             </div>
             @if (Model.CompanyEnabled || Model.DisplayVatNumber)

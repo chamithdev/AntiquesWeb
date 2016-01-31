@@ -4,7 +4,7 @@
     Layout = "~/Administration/Views/Shared/_AdminLayoutIB.cshtml";
     ViewBag.Title = T("Admin.Catalog.Products.EditProductDetails").Text;
 }
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "product-form" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "product-form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="section-pannel">

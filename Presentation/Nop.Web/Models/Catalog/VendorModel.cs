@@ -22,5 +22,7 @@ namespace Nop.Web.Models.Catalog
         public CatalogPagingFilteringModel PagingFilteringContext { get; set; }
 
         public IList<ProductOverviewModel> Products { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }

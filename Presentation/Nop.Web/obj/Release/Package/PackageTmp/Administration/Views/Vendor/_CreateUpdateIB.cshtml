@@ -1,0 +1,67 @@
+﻿@model  VendorModel
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+
+
+@{
+    //custom tabs
+    var eventMessage = new AdminTabStripCreated(this.Html, "vendor-edit");
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(eventMessage);
+    foreach (var eventBlock in eventMessage.BlocksToRender)
+    {
+        @eventBlock
+    }
+}
+
+
+<div id="body-content">
+    <div class="container">       
+        <div class="section-pannel">
+            <div class="row">
+                <div class="btn-pan">
+                    <input type="button" value="Upload Page" class="btn btn-default" />
+                    <input type="button" value="Preview Page" class="btn btn-default" />
+                    <input type="button" value="Submit" class="btn btn-default" />
+                </div>
+                <div class="ad-search-wrap clear">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="img-upload">
+
+                            <!-- Change /upload-target to your upload address -->
+                            @*<form action="/upload-target" class="dropzone custom-msg-main"></form>*@
+                            <div id="dZUpload" class="dropzone">
+                                @*<div class="dz-default dz-message"></div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-7">
+                        Name
+                        @Html.EditorFor(model => model.Name, new { @class = "percent-42" })
+                        @Html.ValidationMessageFor(model => model.Name)
+                        Town
+                        @Html.EditorFor(model => model.City, new { @class = "percent-42" })
+                        Country
+                        @Html.EditorFor(model => model.Country, new { @class = "percent-42" })
+                        <br />
+                        Website
+                        @Html.EditorFor(model => model.Web, new { @class = "percent-42" })
+                        Email
+                        @Html.EditorFor(model => model.Email, new { @class = "percent-42" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                        <br />
+                        About us
+                        @Html.EditorFor(x => x.Description, new { @class = "percent-42" })
+                        @Html.ValidationMessageFor(model => model.Description)
+                    </div>
+                    <div class="col-sm-6 col-md-2">
+                        <input type="button" value="Edit Home Page" class="btn btn-default btn-info percent-100 margin-bottom10" />
+                        <input type="button" value="Load New Product" class="btn btn-default btn-info percent-100 margin-bottom10" />
+                        <input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />
+                        <input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />
+                        <input type="button" value="Log Out" class="btn btn-default btn-info  percent-100 margin-bottom10" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

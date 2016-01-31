@@ -11,17 +11,146 @@
     {
         @eventBlock
     }
+    var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+    var total = Model.Products.Count > 0 ? Model.Products[0].TotalCount : 0;
+    var pages = total / 4;
 }
+<script>
+    var baseUrl = "/admin/";
+    $(document).ready(function () {
+
+        Dropzone.autoDiscover = false;
+        $("#dz").dropzone(
+            {
+                url: "/admin/vendor/UploadVendorImages/@Model.Id",
+                success: function () {
+                    //window.location.reload(true);
+                },
+                error: function () {
+                    alert('error uploading data');
+                },
+
+            });
+
+        $(function () {
+
+            var original = $('#sortable').sortable('toArray').toString();
+            var originalArr =  original.split(',');
+            //$("#sortableImg").sortable();
+            //$("#sortableImg").disableSelection();
+
+            $("#sortable").sortable({
+                connectWith: "#sortable",
+                update: function () {
+                    var order1 = $('#sortable').sortable('toArray').toString();
+                    var picNos = order1.split(',');
+                    var prods = [];
+                    for (i = 0; i < picNos.length; i++) {
+                        var prod = new Object();
+                        var oraOrder = originalArr.indexOf(picNos[i])
+                        prod.Id = picNos[i];
+                        prod.DisplayOrder = oraOrder - i;
+                        prods.push(prod);
+
+                    }
+                    @*$(order1).each(function (idx, i) {
+
+                        var prodPic = new Object();
+
+                        prodPic.PictureId = i;
+                        prodPic.ProductId = @Model.Id;
+                        prodPic.DisplayOrder = idx++;
+                        prodPics.push(prodPic);
+
+                    });*@
+
+                    ajaxPostJson("Vendor", "UpdateProductOrder", prods, function (data) {
+                        prods = [];
+                    }, null);
+
+                }
+            }).disableSelection();
 
 
+
+        });
+
+        ajaxPostJson = function (controller, method, jsonIn, callback, errorCallback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method,
+                type: "POST",
+                data: JSON.stringify(jsonIn),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                beforeSend: function () {
+                    $('#ajaxBusy').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('#ajaxBusy').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#ajaxBusy').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        }
+
+
+        ajaxGetData = function (controller, method, param, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method,
+                type: "GET",
+                cache: false,
+                data: param,
+                beforeSend: function () {
+                    $('#ajaxBusy').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('#ajaxBusy').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#ajaxBusy').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        }
+
+
+
+
+    });
+    
+    function pagerClick(pageNo) {
+        var pageList = new Object();
+        pageList.VendorId = @Model.Id;
+        pageList.PageIndex = pageNo;
+
+            
+        ajaxGetData("Vendor", "PagedProductList", pageList, function (data) {
+            $("#sortable").html(data);
+            $("#sortable li").removeClass("active");
+            $('#'+pageNo).addClass("active");
+            //class="active" 
+        }, null);
+
+
+    };
+</script>
+@Html.HiddenFor(model => model.Id)
 <div id="body-content">
-    <div class="container">       
+    <div class="container">
         <div class="section-pannel">
             <div class="row">
                 <div class="btn-pan">
-                    <input type="button" value="Upload Page" class="btn btn-default" />
-                    <input type="button" value="Preview Page" class="btn btn-default" />
-                    <input type="button" value="Submit" class="btn btn-default" />
+                    @*<input type="button" value="Upload Page" class="btn btn-default" />
+                    <input type="button" value="Preview Page" class="btn btn-default" />*@
+                    <input type="submit" value="Submit" class="btn btn-default" />
                 </div>
                 <div class="ad-search-wrap clear">
                     <div class="col-sm-6 col-md-3">
@@ -29,8 +158,13 @@
 
                             <!-- Change /upload-target to your upload address -->
                             @*<form action="/upload-target" class="dropzone custom-msg-main"></form>*@
-                            <div id="dZUpload" class="dropzone">
+                            <div id="dz" class="dropzone" action="/vendor/UploadVendorImages/@Model.Id">
                                 @*<div class="dz-default dz-message"></div>*@
+                                @if (Model.PictureId > 0)
+                                {
+                                    <img src="@Model.MainPictureModel.PictureUrl" title="Click here" class="dz-message" />
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -52,16 +186,49 @@
                         About us
                         @Html.EditorFor(x => x.Description, new { @class = "percent-42" })
                         @Html.ValidationMessageFor(model => model.Description)
+                        <br/>
+                        @if(Model.DisplayActive)
+                        {
+                            <text>Active</text>
+                            @Html.EditorFor(x => x.Active, new { @class = "percent-42" })
+                        }
+                        
+
                     </div>
                     <div class="col-sm-6 col-md-2">
                         <input type="button" value="Edit Home Page" class="btn btn-default btn-info percent-100 margin-bottom10" />
-                        <input type="button" value="Load New Product" class="btn btn-default btn-info percent-100 margin-bottom10" />
+                        <a href="@Url.Action("Createib", "product", new { area = "admin" }, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Load New Product</a>
                         <input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />
                         <input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />
-                        <input type="button" value="Log Out" class="btn btn-default btn-info  percent-100 margin-bottom10" />
-                    </div>
+                        <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-default btn-info  percent-100 margin-bottom10">Log Out</a>
+                           
+                        </div>
                 </div>
             </div>
+            <div class="row" >
+                <ul id="sortable" class="clear">
+                    @Html.Partial("_VendorProduct", Model.Products)
+
+                </ul>
+            </div>
+
+
+
         </div>
-    </div>
+            <div class="page-wrap">
+                <ul class="pagination">
+                    <li onclick="pagerClick(0)"><a href="#">&laquo;</a></li>
+                    @for (int x = 0; x < pages; x++)
+                    {
+                        <li id="@x" onclick="pagerClick(@x)"><a href="#">@(x+1)</a></li>
+                    }
+
+                    @*<li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>*@
+                    <li onclick="pagerClick(@(pages-1))"><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
 </div>

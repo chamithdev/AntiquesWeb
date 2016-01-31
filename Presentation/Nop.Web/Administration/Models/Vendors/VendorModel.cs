@@ -19,6 +19,7 @@ namespace Nop.Admin.Models.Vendors
             }
             Locales = new List<VendorLocalizedModel>();
             AssociatedCustomerEmails = new List<string>();
+            Products = new List<VenddorProductModel>();
         }
 
         [NopResourceDisplayName("Admin.Vendors.Fields.Name")]

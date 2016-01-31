@@ -148,6 +148,7 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\ScheduleTaskController.cs" />
     <Compile Include="Controllers\ExternalAuthenticationController.cs" />
+    <Compile Include="Controllers\VendorIBController.cs" />
     <Compile Include="Controllers\WidgetController.cs" />
     <Compile Include="Controllers\OnlineCustomerController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
@@ -1331,12 +1332,22 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\ProductIB\" />
+    <Folder Include="Views\VendorIB\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Product\CreateIB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Product\EditIB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\EditIB.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\ProductList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\_VendorProduct.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -46,6 +46,10 @@ namespace Nop.Services.Messages
         /// <param name="languageId">Message language identifier</param>
         /// <returns>Queued email identifier</returns>
         int SendCustomerPasswordRecoveryMessage(Customer customer, int languageId);
+
+
+
+        int SendVendorEmailValidationMessage(Customer customer, int languageId);
         
         #endregion
 

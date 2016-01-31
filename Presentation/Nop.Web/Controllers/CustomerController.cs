@@ -36,6 +36,7 @@ using Nop.Web.Framework.Security.Honeypot;
 using Nop.Web.Models.Common;
 using Nop.Web.Models.Customer;
 using WebGrease.Css.Extensions;
+using Nop.Services.Vendors;
 
 namespace Nop.Web.Controllers
 {
@@ -75,6 +76,7 @@ namespace Nop.Web.Controllers
         private readonly IAddressAttributeParser _addressAttributeParser;
         private readonly IAddressAttributeService _addressAttributeService;
         private readonly IAddressAttributeFormatter _addressAttributeFormatter;
+        private readonly IVendorService _vendorService;
 
         private readonly MediaSettings _mediaSettings;
         private readonly IWorkflowMessageService _workflowMessageService;
@@ -125,7 +127,8 @@ namespace Nop.Web.Controllers
             LocalizationSettings localizationSettings,
             CaptchaSettings captchaSettings,
             SecuritySettings securitySettings,
-            ExternalAuthenticationSettings externalAuthenticationSettings)
+            ExternalAuthenticationSettings externalAuthenticationSettings,
+            IVendorService vendorService)
         {
             this._authenticationService = authenticationService;
             this._dateTimeHelper = dateTimeHelper;
@@ -166,6 +169,8 @@ namespace Nop.Web.Controllers
             this._captchaSettings = captchaSettings;
             this._securitySettings = securitySettings;
             this._externalAuthenticationSettings = externalAuthenticationSettings;
+            this._vendorService = vendorService;
+
         }
 
         #endregion
@@ -642,10 +647,17 @@ namespace Nop.Web.Controllers
 
                             //activity log
                             _customerActivityService.InsertActivity("PublicStore.Login", _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
+                            if (customer.VendorId != 0)
+                            {
+                                // send to vendor url
+                                return RedirectToAction("Edit", "Vendor", new { area = "admin", @id = customer.VendorId });
+
+                            }
+
 
                             if (String.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
                                 return RedirectToRoute("HomePage");
-                            
+                           
                             return Redirect(returnUrl);
                         }
                     case CustomerLoginResults.CustomerNotExist:
@@ -826,6 +838,8 @@ namespace Nop.Web.Controllers
 
             var model = new RegisterModel();
             PrepareCustomerRegisterModel(model, false);
+            model.DisplayIsVendor = true;
+
             //enable newsletter by default
             model.Newsletter = _customerSettings.NewsletterTickedByDefault;
 
@@ -1006,11 +1020,40 @@ namespace Nop.Web.Controllers
                         customer.BillingAddress = defaultAddress;
                         customer.ShippingAddress = defaultAddress;
                         _customerService.UpdateCustomer(customer);
+
+
                     }
 
+                    // if user is a vendor. Create a vendor
+                    if(model.IsVendor)
+                    {
+                        var vendor = new Nop.Core.Domain.Vendors.Vendor();
+                        vendor.Name = string.IsNullOrWhiteSpace(model.Company) ? model.FirstName : model.Company;
+                        vendor.ShowOnHomePage = true;
+                        vendor.Country = "";
+                        //vendor.Active = true;
+                        _vendorService.InsertVendor(vendor);
+                        customer.VendorId = vendor.Id;
+                        var roles = _customerService
+                            .GetAllCustomerRoles(true)                            
+                            .ToList();
+                        var vendorRole = roles.FirstOrDefault(cr => cr.SystemName == SystemCustomerRoleNames.Vendors);
+                        if (vendorRole != null)
+                            customer.CustomerRoles.Add(vendorRole);
+
+                        _customerService.UpdateCustomer(customer);
+                        _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
+                        
+                        return RedirectToRoute("HomePage");
+                    }
+
+                    
+                  
                     //notifications
                     if (_customerSettings.NotifyNewCustomerRegistration)
                         _workflowMessageService.SendCustomerRegisteredNotificationMessage(customer, _localizationSettings.DefaultAdminLanguageId);
+
+                   
                     
                     switch (_customerSettings.UserRegistrationType)
                     {

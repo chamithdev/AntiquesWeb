@@ -1,0 +1,35 @@
+﻿@model List<Nop.Web.Models.Catalog.VendorModel>
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+}
+<div class="search">
+    Search By:&nbsp;
+    <select>
+        <option>Latest</option>
+        <option>Alphabetically</option>
+        <option>Default</option>
+    </select>
+    <input type="text" class="search-box" />
+    <a href="#"><img src="~/Themes/IB/Content/images/search.png" alt="" width="16" height="16" /></a>
+</div>
+<div class="section-pannel">
+    <div class="section-header">
+        <h4><span>Boutique Shops</span></h4>
+    </div>
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-3">
+                <a href="boutique-shop-details.html">
+                    <div class="thumbnail height-small"> <img src="@item.ImageUrl" /></div>
+                    <div class="caption with-border">
+                        <h3>@item.Name</h3>
+                    </div>
+                </a>
+            </div>
+        }
+  
+       
+    </div>
+</div>

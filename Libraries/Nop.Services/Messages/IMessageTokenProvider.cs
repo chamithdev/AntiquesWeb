@@ -57,5 +57,7 @@ namespace Nop.Services.Messages
         string[] GetListOfCampaignAllowedTokens();
 
         string[] GetListOfAllowedTokens();
+
+        void AddVendorTokens(IList<Token> tokens, Customer customer);
     }
 }

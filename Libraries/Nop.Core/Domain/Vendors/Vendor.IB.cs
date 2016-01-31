@@ -20,7 +20,7 @@ namespace Nop.Core.Domain.Vendors
 
         public string Web { get; set; }
 
-        
+        public int PictureId { get; set; }
 
 
     }

@@ -58,34 +58,41 @@ $(function(){
         // handle an exception here if lettering doesn't exist or throws an exception
     }
 
+// Page onload popup function
+(function( $ ){
+   $.fn.onloadPopup = function() {
+    $('.pop-box').show();
+	$('.fader').show();
+   }; 
+})(jQuery);
+
 
 $('#popoverBtn').click(function(e){
 
-$('.pop-box').show();
-$('.fader').show();
+	$('.pop-box').show();
+	$('.fader').show();
 
-  e.preventDefault();
-  slider2.reloadSlider({
-captions: true,
+	e.preventDefault();
+		slider2.reloadSlider({
+			captions: true,
 			pager:false,
 			infiniteLoop:true,
 			adaptiveHeight:true,
 			responsive:true,
 			auto: true,
-  });
-
-	
-		
 	});
+
+});
 
 $('#popClose').click(function(){
 	$('.pop-box').hide();
-$('.fader').hide();
-	});
+	$('.fader').hide();
+});
+
 $(document).keyup(function(e) {
-     if (e.keyCode == 27) { // escape key maps to keycode `27`
-   	$('.pop-box').hide();
-$('.fader').hide();
+	if (e.keyCode == 27) { // escape key maps to keycode `27`
+		$('.pop-box').hide();
+		$('.fader').hide();
     }
 });
 
@@ -109,12 +116,16 @@ $('.fader').hide();
     }
     });
 // END: Text box default value
+
+// if the object not found 
+ try {
 // Sortable
-  //$(function() {
-  //  $( "#sortable" ).sortable();
-  ////  $( "#sortable" ).disableSelection();
-  //});
+  $(function() {
+    $("#sortable").sortable();
+  //  $( "#sortable" ).disableSelection();
+  });
   
+
 // Dropzone custom Message
 	Dropzone.autoDiscover = false;
 	//$(".custom-msg-main").dropzone({
@@ -131,25 +142,12 @@ $('.fader').hide();
 	//	dictDefaultMessage: "PIC 1<br />Load Picture<br />Click & Drag For Picture Order Or Delete option",
 	//	addRemoveLinks: true,
 	//});
-
-	$("div#dZUpload").dropzone({
-	    url: "hn_SimpeFileUploader.ashx",
-	    addRemoveLinks: true,
-	    dictDefaultMessage: "Click to Upload <br />or <br />Edit Main Boutique Shop Photo",
-	    success: function (file, response) {
-	        var imgName = response;
-	        file.previewElement.classList.add("dz-success");
-	        //console.log("Successfully uploaded :" + imgName);
-	    },
-	    error: function (file, response) {
-	        file.previewElement.classList.add("dz-error");
-	    }
-	});
-
-
+	//Dropzone.autoDiscover = false;
+	//$(".custom-msg-stock").dropzone({
+	//	dictDefaultMessage: "Why not upload a picture or similar item of what your looking for<br /> Click here",
+	//	addRemoveLinks: true,
+	//});
+	 } catch(e) {
+        // handle an exception here if lettering doesn't exist or throws an exception
+    }
 }); // end document ready
-
-//$(document).ready(function () {
-//    Dropzone.autoDiscover = false;   
-    
-//});
