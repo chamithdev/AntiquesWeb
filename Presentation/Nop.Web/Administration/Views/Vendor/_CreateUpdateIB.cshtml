@@ -13,7 +13,7 @@
     }
     var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
     var total = Model.Products.Count > 0 ? Model.Products[0].TotalCount : 0;
-    var pages = total / 4;
+    var pages = total / defaultGridPageSize;
 }
 <script>
     var baseUrl = "/admin/";
