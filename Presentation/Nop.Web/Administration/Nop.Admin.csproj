@@ -148,7 +148,9 @@
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\ScheduleTaskController.cs" />
     <Compile Include="Controllers\ExternalAuthenticationController.cs" />
-    <Compile Include="Controllers\VendorIBController.cs" />
+    <Compile Include="Controllers\VendorIBController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\WidgetController.cs" />
     <Compile Include="Controllers\OnlineCustomerController.cs" />
     <Compile Include="Controllers\PluginController.cs" />
