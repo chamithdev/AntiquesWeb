@@ -10,5 +10,19 @@ namespace Nop.Web.Controllers
         {
             return View();
         }
+        public ActionResult LatestFinds()
+        {
+            return View();
+        }
+        
+        public ActionResult ComingSoon()
+        {
+            return View();
+        }
+
+        public ActionResult TermsAndConditions()
+        {
+            return View();
+        }
     }
 }

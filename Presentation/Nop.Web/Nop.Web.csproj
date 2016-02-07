@@ -265,6 +265,7 @@
     <Compile Include="Models\Catalog\CompareProductsModel.cs" />
     <Compile Include="Models\Catalog\ProductDetailsModel.IB.cs" />
     <Compile Include="Models\Catalog\ProductOverviewModel.IB.cs" />
+    <Compile Include="Models\Catalog\SearchModel.IB.cs" />
     <Compile Include="Models\Catalog\VendorModel.cs" />
     <Compile Include="Models\Catalog\VendorNavigationModel.cs" />
     <Compile Include="Models\Catalog\ProductOverviewModel.cs" />
@@ -305,6 +306,7 @@
     <Compile Include="Models\Catalog\CustomerBackInStockSubscriptionsModel.cs" />
     <Compile Include="Models\Boards\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Customer\RegisterModel.IB.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
     <Compile Include="Models\News\AddNewsCommentModel.cs" />
@@ -2146,6 +2148,11 @@
     <Content Include="Themes\IB\Views\Customer\_CustomerAttributes.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\BoutiqueShops.cshtml" />
     <Content Include="Themes\IB\Views\Customer\_LatestBoutique.cshtml" />
+    <Content Include="Themes\IB\Views\Home\LatestFinds.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\ShopByCategory.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\_SubCatList.cshtml" />
+    <Content Include="Themes\IB\Views\Home\ComingSoon.cshtml" />
+    <Content Include="Themes\IB\Views\Home\TermsAndConditions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
@@ -2362,11 +2369,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>15536</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2451/</IISUrl>
+          <IISUrl>http://localhost:15555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

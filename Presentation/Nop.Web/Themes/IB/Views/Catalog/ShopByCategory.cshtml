@@ -1,0 +1,188 @@
+﻿@model Nop.Web.Models.Catalog.SearchModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+}
+@using (Html.BeginForm())
+{
+ <script>
+     $(document).ready(function () {
+         var baseUrl = "/";
+         var ajaxGetJson = function (controller, method, param, callback) {
+             $.ajax({
+                 url: baseUrl + controller + "/" + method ,
+                 type: "GET",
+                 cache: false,
+                 data: { 'ids': param },
+                 traditional: true,
+                 beforeSend: function () {
+                     //$('#divPreload').show();
+                     $('#divSubCats').fadeTo("fast", 0.33);
+                 },
+                 success: function (data) {
+                     callback(data);
+                     $('#divSubCats').fadeTo("fast", 1);
+                 },
+                 error: function (xhr, ajaxOptions, thrownError) {
+                     $('#divSubCats').fadeTo("fast", 1);
+                     alert(xhr.status);
+                     alert(thrownError);
+                 }
+             });
+         }
+         $("input[name='CategoryList']").click(function () {
+             var catIds = [];
+
+             $("input[name='CategoryList']").each(function () {
+                 var catId = (this.checked ? $(this).val() : "");
+                 //if($(this).attr('checked'))
+                 if (catId != "")
+                 {
+                     catIds.push(catId);
+                 }
+
+             });
+
+
+             ajaxGetJson("Catalog", "GetSubCategory", catIds, function (data) {
+                 //var name = $(this).val();
+                 //$('#divSubCategories').empty();
+                 //var ul = $('#divSubCategories');
+                 //$(data).each(function (i, o) {
+
+                 //    ul.append($('<li>').append($('<input>').attr({
+                 //        type: 'checkbox', name: 'SubCatList', value: this.Id, id: 'chklistitem' + this.Id
+                 //    })).append('</li>'));
+                 //    //+ this.Name
+                 //    //$('#divSubCategories').append('<li name="' + name  + '"><input type="checkbox" name="SubCatList" value="' + this.Id + '" ></input>' + this.Name + '</li>');
+                 //});
+                 $('#divSubCats').html(data);
+                 return false;
+             })
+
+         });
+
+     }
+     );
+
+ </script>
+<div class="section-pannel">
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="caption with-border">
+                <h3>Shop by Boutique</h3>
+            </div>
+            <div class="multi-select">
+                <ul>
+                    @foreach (var v in Model.Vendors)
+	                {
+                        <li>
+                            <input type="checkbox" name="VendorList" @(v.Selected ? "checked" : "") value="@v.Value" />
+                            @v.Text
+                        </li>
+	                }
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="caption with-border">
+                <h3>Shop by Category</h3>
+            </div>
+            <div class="multi-select">
+                <ul>
+                    @foreach (var c in Model.AvailableCategories)
+	                {
+                        <li>
+                            <input type="checkbox" name="CategoryList" @(c.Selected ? "checked" : "") value="@c.Value" />
+                            @c.Text
+                        </li>
+	                }
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="caption with-border">
+                <h3>Shop by Sub Category</h3>
+            </div>
+            <div class="multi-select" id="divSubCats">
+               @Html.Partial("_SubCatList", Model.SubCategories)
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="caption with-border">
+                <h3>Shop by Circa Date / Style</h3>
+            </div>
+            <div class="multi-select">
+                <ul>
+                    @foreach (var item in Model.CustomData)
+	                {
+                        <li>
+                            <input type="checkbox" name="CustomList" @(item.Selected ? "checked" :"") value="@item.Value" />
+                            @item.Text
+                        </li>
+	                }
+                                     
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+            <div class="form-lg margin-top10 clear">
+                <div class="col-sm-2 col-md-2">
+                    Size :
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    From -
+                </div>
+                <div class="col-sm-3 col-md-1">
+                    @Html.EditorFor(model=>model.SizeFrom,new {@class="form-control"})
+                </div>
+                <div class="col-sm-1 col-md-1">
+                    To -
+                </div>
+                <div class="col-sm-3 col-md-1">
+                    @Html.EditorFor(model=>model.SizeTo,new {@class="form-control"})
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    @Html.DropDownListFor(model => model.SelectedDimension, Model.Dimension)
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <div class="form-lg margin-top10 clear">
+                <div class="col-sm-2 col-md-2">
+                    Keywords :
+                </div>
+                <div class="col-sm-6 col-md-9">
+                    <input type="text"  name="q" value="" class="js-default-val-text" />
+                </div>
+                <div class="col-sm-4 col-md-1">
+                    <input type="Submit" value="Submit" class="btn btn-default btn-info" />
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   
+        @if (Model.Products.Count > 0)
+        {
+
+        <div class="section-pannel">
+            <div class="row">
+                @foreach (var prod in Model.Products)
+                {
+                    @Html.Partial("_ProductBox", prod)
+                }
+            </div>
+         </div>
+        }
+    @{
+    var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber").BooleanParameterName("adv").BooleanParameterName("isc").BooleanParameterName("sid").RenderEmptyParameters(true);
+    }
+    @if (!pager.IsEmpty())
+    {
+        <div class="pager">
+            @pager
+        </div>
+    }
+</div>
+}

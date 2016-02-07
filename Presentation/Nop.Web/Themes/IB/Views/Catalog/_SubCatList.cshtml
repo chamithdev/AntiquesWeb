@@ -1,0 +1,13 @@
+﻿@model List<SelectListItem>
+@{
+    Layout = null;
+}
+<ul id="divSubCategories">
+    @foreach (var sc in Model)
+    {
+        <li>
+            <input type="checkbox" name="SubCatList" @(sc.Selected ? "checked" : "") value="@sc.Value" />
+            @sc.Text
+        </li>
+    }
+</ul>

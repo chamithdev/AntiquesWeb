@@ -50,10 +50,22 @@ namespace Nop.Admin.Controllers
                 return AccessDeniedView();
 
             var model = new ProductModel();
+
+          
+
             PrepareProductModel(model, null, true, true);
             AddLocales(_languageService, model.Locales);
             PrepareAclModel(model, null, false);
             PrepareStoresMappingModel(model, null, false);
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+
             return View(model);
         }
 

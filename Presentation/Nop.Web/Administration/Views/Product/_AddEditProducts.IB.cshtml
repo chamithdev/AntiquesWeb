@@ -218,7 +218,8 @@
                 <div class="form-lg">
                     <strong>Product Details</strong><br />
                     Circa Date :
-                    @Html.EditorFor(model => model.CircaDate)
+                    @*@Html.EditorFor(model => model.CircaDate)*@
+                    @Html.DropDownListFor(model => model.CircaDate, Model.CircaDates, new { @class = "js-default-val-text  percent-42" })
                     @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
                     <br />
                     Materials :
@@ -242,6 +243,13 @@
                     @Html.EditorFor(model => model.Condition, new { @class = "js-default-val-text  percent-42" })
                     @Html.ValidationMessageFor(model => model.Condition)
                     <br />
+                    <br />
+                    Style :                  
+                    @Html.DropDownListFor(model => model.Style, Model.Styles, new { @class = "js-default-val-text  percent-42" })
+                    @Html.ValidationMessageFor(model => model.Condition)
+                    <br />
+                    
+                
                 </div>
                 <div class="form-lg">
                     Dim

@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 @font-face {
   font-family: 'bellmt';
@@ -140,17 +140,17 @@ label{
 	background:#fff; 
 	padding:0 10px;
 	}
-.caption h3{
-	font-size:18px;
-	font-family:bellmt;
-	color:#464646;
-	text-align:center;
-	margin-top:4px;
-	}
- .caption p{
-	text-align:center;
-	color:#797979;
-	}
+.caption h3 {
+    font-size: 28px;
+    font-family: bellmt;
+    color: #464646;
+    text-align: center;
+    margin-top: 4px;
+}
+.caption p {
+    text-align: center;
+    color: #797979;
+}
 .caption input[type=text]{
 	border:1px solid #ccc;
 	}
@@ -216,11 +216,12 @@ label{
 /*.thumbnail img{
     opacity:0.75;
 	}*/
-.thum-img{
-	height:220px;
-	text-align:center;
-	
-	}
+.thum-img {
+    display: block;
+    height: 220px;
+    text-align: center;
+    background-color: green;
+}
 
 /*------------------------------------------*/
 .thum-img img, .thumbnail img {
@@ -242,9 +243,19 @@ label{
 /* IE only */
 
 /*---------------------------------------------*/
-.thumbnail{
-	height:340px;
-	}
+.thumbnail {
+    display: block;
+    min-height: 340px;
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
 .thumbnail:hover{
 	border-bottom: 2px solid #ff0000;
     box-shadow: 0 0 2px #c2c2c2;
@@ -642,3 +653,15 @@ background-color:#fff;
 .clear:before, .clear:after { content:""; display:table;}
 .clear:after { clear:both;}
 .clear { clear:right;}
+
+.thum-img a {
+  background-color: #ccc;
+  height:100%;
+  display:block
+  
+}
+.thum-img a img {
+  height:100%;
+  object-fill: cover;
+  
+}

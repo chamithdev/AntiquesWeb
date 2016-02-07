@@ -6,7 +6,7 @@
         @Html.Widget("home_page_top")
         @Html.Partial("_ShopNow")
         @*@Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })*@
-        @Html.Action("HomepageLatestProducts", "Product")
+        @Html.Action("HomepageLatestProducts", "Product", new { @id = 0 })
         @*@Html.Action("HomepageVenderProducts", "Catalog")*@
         @Html.Action("LatestBoutique", "Customer")
         @*@Html.Widget("home_page_before_categories")

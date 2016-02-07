@@ -69,7 +69,8 @@ namespace Nop.Web.Controllers
         private readonly BlogSettings _blogSettings;
         private readonly ForumSettings _forumSettings;
         private readonly ICacheManager _cacheManager;
-        
+        private readonly ICustomDataService _customDataService;
+        private readonly IMeasureService _measureService;
         #endregion
 
 		#region Constructors
@@ -104,7 +105,9 @@ namespace Nop.Web.Controllers
             VendorSettings vendorSettings,
             BlogSettings blogSettings,
             ForumSettings  forumSettings,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            ICustomDataService customDataService,
+            IMeasureService measureService)
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -137,6 +140,8 @@ namespace Nop.Web.Controllers
             this._blogSettings = blogSettings;
             this._forumSettings = forumSettings;
             this._cacheManager = cacheManager;
+            this._customDataService = customDataService;
+            this._measureService = measureService;
         }
 
         #endregion

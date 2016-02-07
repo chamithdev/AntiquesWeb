@@ -83,6 +83,7 @@ namespace Nop.Admin.Controllers
         private readonly IProductAttributeFormatter _productAttributeFormatter;
         private readonly IProductAttributeParser _productAttributeParser;
         private readonly IDownloadService _downloadService;
+        private readonly ICustomDataService _customDataService;
 
         #endregion
 
@@ -127,7 +128,9 @@ namespace Nop.Admin.Controllers
             IShoppingCartService shoppingCartService,
             IProductAttributeFormatter productAttributeFormatter,
             IProductAttributeParser productAttributeParser,
-            IDownloadService downloadService)
+            IDownloadService downloadService,
+            ICustomDataService customDataService
+            )
         {
             this._productService = productService;
             this._productTemplateService = productTemplateService;
@@ -169,6 +172,7 @@ namespace Nop.Admin.Controllers
             this._productAttributeFormatter = productAttributeFormatter;
             this._productAttributeParser = productAttributeParser;
             this._downloadService = downloadService;
+            this._customDataService = customDataService;
         }
 
         #endregion 
@@ -922,6 +926,14 @@ namespace Nop.Admin.Controllers
             AddLocales(_languageService, model.Locales);
             PrepareAclModel(model, null, false);
             PrepareStoresMappingModel(model, null, false);
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }
 
@@ -983,6 +995,15 @@ namespace Nop.Admin.Controllers
             PrepareProductModel(model, null, false, true);
             PrepareAclModel(model, null, true);
             PrepareStoresMappingModel(model, null, true);
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+
             return View(model);
         }
 
@@ -1016,6 +1037,14 @@ namespace Nop.Admin.Controllers
 
             PrepareAclModel(model, product, false);
             PrepareStoresMappingModel(model, product, false);
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }
 
@@ -1117,6 +1146,14 @@ namespace Nop.Admin.Controllers
             PrepareProductModel(model, product, false, true);
             PrepareAclModel(model, product, true);
             PrepareStoresMappingModel(model, product, true);
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }
 

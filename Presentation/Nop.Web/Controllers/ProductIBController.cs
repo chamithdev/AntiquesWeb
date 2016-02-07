@@ -47,11 +47,14 @@ namespace Nop.Web.Controllers
 
 
         [ChildActionOnly]
-        public ActionResult HomepageLatestProducts(int? productThumbPictureSize)
+        public ActionResult HomepageLatestProducts(int id, int? productThumbPictureSize)
         {
             var products = _productService.GetLatestProductsDisplayedOnHomePage();
             //ACL and store mapping
-            products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).ToList();
+            if (id==1)
+                products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).ToList();
+            else
+                products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).Take(10).ToList();
             //availability dates
             products = products.Where(p => p.IsAvailable()).ToList();
 
