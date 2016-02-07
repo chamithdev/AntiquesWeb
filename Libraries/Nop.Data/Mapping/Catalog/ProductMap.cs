@@ -36,6 +36,7 @@ namespace Nop.Data.Mapping.Catalog
             this.Property(p => p.DesignBy).IsOptional().HasMaxLength(200);
             this.Property(p => p.Material).IsOptional().HasMaxLength(250);
              this.Property(p => p.TermsCondtion).IsOptional();
+            //this.Property(p => p.City).IsOptional().HasMaxLength(50);
 
             this.Ignore(p => p.ProductType);
             this.Ignore(p => p.BackorderMode);

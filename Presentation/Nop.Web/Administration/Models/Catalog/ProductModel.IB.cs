@@ -36,6 +36,6 @@ namespace Nop.Admin.Models.Catalog
 
         public int Rank { get; set; }
 
-
+        public string City { get; set; }
     }
 }

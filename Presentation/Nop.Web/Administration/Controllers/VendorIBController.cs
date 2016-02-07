@@ -287,8 +287,33 @@ namespace Nop.Admin.Controllers
             //};
 
         }
-        
 
+        [NonAction]
+        public List<VendorModel.VenddorProductModel> VendorProducts(IList<Product> productList)
+        {
+
+            var model = new List<VendorModel.VenddorProductModel>();
+            foreach (var p in productList)
+            {
+                var vpm = new VendorModel.VenddorProductModel();
+                //vpm.Id = id;
+                vpm.ProductId = p.Id;
+                vpm.ProductName = p.Name;
+                var vpic = new VendorModel.VenddorPictureModel();
+                var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
+                var imgUrl = _pictureService.GetPictureUrl(pic, 200);
+                vpic.PictureId = pic.Id;
+                vpic.PictureUrl = imgUrl;
+                vpm.ProductPicture = vpic;
+                vpm.DisplayOrder = p.DisplayOrder;
+               // vpm.TotalCount = products.TotalCount;
+                model.Add(vpm);
+            }
+
+            var items = model;
+            return items;
+
+        }
         // 
 
 
@@ -318,7 +343,21 @@ namespace Nop.Admin.Controllers
 
 
 
-        
+        #region Vendor - Product Page
+        public ActionResult UpdateDirectoryib(int vendorId)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return AccessDeniedView();
+
+            var products = _productService.GetAllProductsForVendorId(vendorId);
+
+            if (products.Count == 0)
+                return Content("");
+
+            var model = VendorProducts(products);
+            return View(model);
+        }
+        #endregion
 
 
     }

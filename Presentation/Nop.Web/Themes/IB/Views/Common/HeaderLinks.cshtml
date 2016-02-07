@@ -66,12 +66,21 @@
                         </li>
                     </ul>
                 </li>
-                <li class="small">
+                @if (Model.IsAuthenticated)
+                {
+                    <li><a href="@Url.RouteUrl("CustomerInfo")" class="account">@Model.CustomerEmailUsername</a></li>
+                    <li><a href="@Url.RouteUrl("Logout")" class="ico-logout">@T("Account.Logout")</a></li>
+                }
+                else
+                {
+                    <li class="small">
                     <a href="/login">
                         <img src="@string.Format("/Themes/{0}/Content/images/user-login.png", themeName)" alt="Login" /><br />
                         Login
                     </a>
                 </li>
+                }
+                
             </ul>
         </div>
         <!-- /.navbar-collapse -->

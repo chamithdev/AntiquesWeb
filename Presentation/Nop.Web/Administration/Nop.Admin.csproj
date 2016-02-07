@@ -1351,6 +1351,12 @@
   <ItemGroup>
     <Content Include="Views\Vendor\_VendorProduct.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Vendor\UpdateDirectoryib.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\_ProductInforForVendor.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
