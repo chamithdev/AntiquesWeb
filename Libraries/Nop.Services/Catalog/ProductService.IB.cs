@@ -102,7 +102,8 @@ namespace Nop.Services.Catalog
             bool? overridePublished = null,
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
-            decimal sizeTo = 0
+            decimal sizeTo = 0,
+            decimal varience = 0
             )
         {
             IList<int> filterableSpecificationAttributeOptionIds;
@@ -112,7 +113,7 @@ namespace Nop.Services.Catalog
                 productType, visibleIndividuallyOnly, featuredProducts,
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchSku,
                 searchProductTags, languageId, filteredSpecs,
-                orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo);
+                orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo, varience);
             }
 
         public virtual IPagedList<Product> SearchProductsCustom(
@@ -142,7 +143,8 @@ namespace Nop.Services.Catalog
             bool? overridePublished = null,
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
-            decimal sizeTo = 0)
+            decimal sizeTo = 0,
+            decimal varience = 0)
         {
             filterableSpecificationAttributeOptionIds = new List<int>();
 
@@ -238,6 +240,11 @@ namespace Nop.Services.Catalog
             pSizeTo.ParameterName = "SizeTo";
             pSizeTo.Value = (object)sizeTo;
             pSizeTo.DbType = DbType.Decimal;
+
+            var pVarience = _dataProvider.GetParameter();
+            pVarience.ParameterName = "Varience";
+            pVarience.Value = (object)varience;
+            pVarience.DbType = DbType.Decimal;
 
             var pWarehouseId = _dataProvider.GetParameter();
             pWarehouseId.ParameterName = "WarehouseId";
@@ -393,7 +400,8 @@ namespace Nop.Services.Catalog
                 pTotalRecords,
                 pSizeFrom,
                 pSizeTo,
-                pCustList
+                pCustList,
+                pVarience
                 );
             //get filterable specification attribute option identifier
             string filterableSpecificationAttributeOptionIdsStr = (pFilterableSpecificationAttributeOptionIds.Value != DBNull.Value) ? (string)pFilterableSpecificationAttributeOptionIds.Value : "";

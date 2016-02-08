@@ -50,7 +50,8 @@ namespace Nop.Services.Catalog
             bool? overridePublished = null,
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
-            decimal sizeTo = 0
+            decimal sizeTo = 0,
+            decimal varience = 0
             );
 
     }
