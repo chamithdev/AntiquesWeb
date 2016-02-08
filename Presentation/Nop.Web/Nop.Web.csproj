@@ -2155,6 +2155,8 @@
     <Content Include="Themes\IB\Views\Home\TermsAndConditions.cshtml" />
     <Content Include="Themes\IB\Views\Customer\Register.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\_ProductList.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\BoutiqueShopDetails.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\_VendorProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

@@ -44,13 +44,33 @@ namespace Nop.Services.Catalog
             return products;
         }
 
-        public virtual IList<Product> GetAllProductsForVendorId(int vendorId)
+        public virtual IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "")
         {
             var query = _productRepository.Table;
             query = query.Where(x => x.VendorId == vendorId);
-            
+
             query = query.Where(x => !x.Deleted);
-            query = query.OrderBy(x => x.DisplayOrder);
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(d => d.Name.Trim().Contains(searchTerm.Trim()));
+            }
+
+            //Order by Latest.
+            if (orderBy == "1")
+            {
+                query = query.OrderByDescending(x => x.CreatedOnUtc);
+            }
+            else if (orderBy == "2")
+            {
+                //Order by Alphabeticall.
+                query = query.OrderBy(x => x.Name);
+            }
+            else
+            {
+                //Order by Default.
+                query = query.OrderBy(x => x.DisplayOrder);
+            }
 
             var products = query.ToList();
 

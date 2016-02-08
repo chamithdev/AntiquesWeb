@@ -40,7 +40,6 @@ namespace Nop.Web.Controllers
     {
 
 
-
         [ChildActionOnly]
         public ActionResult HomepageVenderProducts(int? productThumbPictureSize, CatalogPagingFilteringModel command)
         {
@@ -446,6 +445,52 @@ namespace Nop.Web.Controllers
             model.PagingFilteringContext.LoadPagedList(products);
 
             return PartialView("_ProductList",model.Products);
+        }
+
+        public ActionResult BoutiqueShopDetails(int vendorId)
+        {
+            // var products = _productService.GetAllProductsForVendorId(vendorId);
+            //var productOverviewModel= PrepareProductOverviewModels(products).ToList();
+            //var shops = new List<VendorModel>();
+            //foreach (var vendor in vendors)
+            //{
+            //    var vendorModel = new VendorModel
+            //    {
+            //        Id = vendor.Id,
+            //        Name = vendor.GetLocalized(x => x.Name),
+            //        Description = vendor.GetLocalized(x => x.Description),
+            //        MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
+            //        MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
+            //        MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
+            //        SeName = vendor.GetSeName(),
+            //        AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+            //        ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
+            //    };
+            //    shops.Add(vendorModel);
+            //}
+            ProductOverviewModel model = new ProductOverviewModel();
+            model.Id = vendorId;
+            return View(model);
+        }
+
+        [HttpPost, AdminAntiForgeryAttribute(true)]
+        public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName)
+        {
+            var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
+
+
+            var productOverviewModel = PrepareProductOverviewModels(products).ToList();
+
+            var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
+
+            return Json(
+                new
+                {
+                    success = true,
+                    // JsonRequestBehavior.AllowGet,
+                    message = string.Format(_localizationService.GetResource("Products.ProductHasBeenAddedToTheCart.Link"), Url.RouteUrl("ShoppingCart")),
+                    productListHtml = productDetail,
+                });
         }
     }
 }

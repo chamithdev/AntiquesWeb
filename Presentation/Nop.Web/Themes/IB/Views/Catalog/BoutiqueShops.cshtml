@@ -21,7 +21,8 @@
         @foreach (var item in Model)
         {
             <div class="col-sm-6 col-md-3">
-                <a href="boutique-shop-details.html">
+               
+                <a href="@Url.Action("BoutiqueShopDetails", "Catalog", new { vendorId =@item.Id})">
                     <div class="thumbnail height-small"> <img src="@item.ImageUrl" /></div>
                     <div class="caption with-border">
                         <h3>@item.Name</h3>

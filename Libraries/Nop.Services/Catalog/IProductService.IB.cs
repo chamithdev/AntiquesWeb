@@ -21,7 +21,7 @@ namespace Nop.Services.Catalog
         /// </summary>
         /// <param name="vendorId"></param>
         /// <returns></returns>
-        IList<Product> GetAllProductsForVendorId(int vendorId);
+        IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "");
 
 
         IPagedList<Product> SearchProductsCustom
