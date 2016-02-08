@@ -10,7 +10,7 @@
         <div class="thumbnail">
 
             <div class="thum-img">
-                <a>  <img alt="" src="@pm.DefaultPictureModel.FullSizeImageUrl" title="@pm.Name" /></a>
+                <a href="@Url.RouteUrl("Product", new { SeName = pm.SeName })" title="@pm.DefaultPictureModel.Title">  <img alt="" src="@pm.DefaultPictureModel.FullSizeImageUrl" title="@pm.Name" /></a>
             </div>
 
 
