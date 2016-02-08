@@ -843,7 +843,7 @@ namespace Nop.Web.Controllers
             //enable newsletter by default
             model.Newsletter = _customerSettings.NewsletterTickedByDefault;
 
-            return View(model);
+            return View("Register_Ib", model);
         }
 
         [HttpPost]
@@ -1094,7 +1094,7 @@ namespace Nop.Web.Controllers
 
             //If we got this far, something failed, redisplay form
             PrepareCustomerRegisterModel(model, true, customerAttributesXml);
-            return View(model);
+            return View("Register_Ib", model);
         }
 
         public ActionResult RegisterResult(int resultId)
