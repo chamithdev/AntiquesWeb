@@ -19,9 +19,28 @@
             <a  id="buttonSearch"><img src="~/Themes/IB/Content/images/search.png" alt="" width="16" height="16" /></a>
         </div>
         <div class="section-pannel">
-            <div class="section-header">
+            @*<div class="section-header">
                 <h4><span>My Product Search</span></h4>
+            </div>*@
+            <div class="row details-row">
+                <div class="col-sm-12 col-md-12 col-lg-12 details-content">
+                    <!--  <div class="details-close"><a href="#"><strong>X</strong></a></div>-->
+                    <div class="col-sm-6 col-md-5 col-lg-4 thumbs"><img src="@Model.Vendor.ImageUrl" /></div>
+                    <div class="col-sm-6 col-md-6 col-lg-6 details">
+                        <div class="more-details">
+                            <h3>@Model.Vendor.Name</h3>
+                            <p> @Model.Vendor.City,&nbsp; @Model.Vendor.Coutry</p>
+                            <a href="@Model.Vendor.Web" class="btn btn-default">@Model.Vendor.Web</a>
+                               @*<input type="button" class="btn btn-default" value="Website Link" />
+                            <input type="button" class="btn btn-default" value="Contact Supplier" />*@
+                            <p class="top-padding10">
+                               @Html.Raw(Model.Vendor.Description)
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
             <div class="row" id="div_vendor_products">
                
                     

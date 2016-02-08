@@ -24,5 +24,9 @@ namespace Nop.Web.Models.Catalog
         public IList<ProductOverviewModel> Products { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string City { get; set; }
+        public string Coutry { get; set; }
+        public string Web { get; set; }
     }
 }

@@ -9,5 +9,7 @@ namespace Nop.Web.Models.Catalog
     public partial class ProductOverviewModel
     {
         public IList<Vendor> Vendors { get; set; }
+
+        public VendorModel Vendor { get; set; }
     }
 }

@@ -470,6 +470,21 @@ namespace Nop.Web.Controllers
             //}
             ProductOverviewModel model = new ProductOverviewModel();
             model.Id = vendorId;
+            var vendor = _vendorService.GetVendorById(vendorId);
+            var vendorModel = new VendorModel
+            {
+                Id = vendor.Id,
+                ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId,200),
+                Name = vendor.Name,
+                SeName = vendor.GetSeName(),
+                Description = vendor.Description,
+                Coutry = vendor.Country,
+                City = vendor.City,
+                Web = vendor.Web
+            };
+
+
+            model.Vendor = vendorModel;
             return View(model);
         }
 
