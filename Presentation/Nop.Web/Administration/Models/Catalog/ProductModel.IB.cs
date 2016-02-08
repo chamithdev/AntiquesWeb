@@ -57,5 +57,6 @@ namespace Nop.Admin.Models.Catalog
         //    var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
         //var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
 
+        public string City { get; set; }
     }
 }

@@ -25,8 +25,6 @@ namespace Nop.Services.Catalog
     public partial class ProductService
     {
 
-
-
         /// <summary>
         /// Gets all products displayed on the home page
         /// </summary>
@@ -43,6 +41,19 @@ namespace Nop.Services.Catalog
                         && p.CreatedOnUtc >= baseDate
                         select p;
             var products = query.ToList();
+            return products;
+        }
+
+        public virtual IList<Product> GetAllProductsForVendorId(int vendorId)
+        {
+            var query = _productRepository.Table;
+            query = query.Where(x => x.VendorId == vendorId);
+            
+            query = query.Where(x => !x.Deleted);
+            query = query.OrderBy(x => x.DisplayOrder);
+
+            var products = query.ToList();
+
             return products;
         }
 
@@ -82,7 +93,7 @@ namespace Nop.Services.Catalog
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchSku,
                 searchProductTags, languageId, filteredSpecs,
                 orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo);
-        }
+    }
 
         public virtual IPagedList<Product> SearchProductsCustom(
             out IList<int> filterableSpecificationAttributeOptionIds,

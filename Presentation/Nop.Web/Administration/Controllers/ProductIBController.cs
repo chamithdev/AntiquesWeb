@@ -584,6 +584,59 @@ namespace Nop.Admin.Controllers
         }
 
 
+        [HttpPost, AdminAntiForgeryAttribute(true)]
+        public ActionResult GetProductInfoForVendorIB(int productId)
+        {
+           var product = _productService.GetProductById(productId);
+          
+           var model = product.ToModel();
+           PrepareProductModel(model, product, false, false);
+           AddLocales(_languageService, model.Locales, (locale, languageId) =>
+           {
+               locale.Name = product.GetLocalized(x => x.Name, languageId, false, false);
+               locale.ShortDescription = product.GetLocalized(x => x.ShortDescription, languageId, false, false);
+               locale.FullDescription = product.GetLocalized(x => x.FullDescription, languageId, false, false);
+               locale.MetaKeywords = product.GetLocalized(x => x.MetaKeywords, languageId, false, false);
+               locale.MetaDescription = product.GetLocalized(x => x.MetaDescription, languageId, false, false);
+               locale.MetaTitle = product.GetLocalized(x => x.MetaTitle, languageId, false, false);
+               locale.SeName = product.GetSeName(languageId, false, false);
+           });
+
+           PrepareAclModel(model, product, false);
+           PrepareStoresMappingModel(model, product, false);
+
+           var productPictures = _productService.GetProductPicturesByProductId(product.Id);
+           var productPicturesModel = productPictures
+               .Select(x =>
+               {
+                   var picture = _pictureService.GetPictureById(x.PictureId);
+                   if (picture == null)
+                       throw new Exception("Picture cannot be loaded");
+                   var m = new ProductModel.ProductPictureModel
+                   {
+                       Id = x.Id,
+                       ProductId = x.ProductId,
+                       PictureId = x.PictureId,
+                       PictureUrl = _pictureService.GetPictureUrl(picture),
+                       OverrideAltAttribute = picture.AltAttribute,
+                       OverrideTitleAttribute = picture.TitleAttribute,
+                       DisplayOrder = x.DisplayOrder
+                   };
+                   return m;
+               })
+               .ToList();
+           model.ProductPictureModels = productPicturesModel;
+
+           var productDetail = this.RenderPartialViewToString("_ProductInforForVendor", model);
+                        
+            return Json(
+                new{ 
+                    success = true,
+                   // JsonRequestBehavior.AllowGet,
+                    message = string.Format(_localizationService.GetResource("Products.ProductHasBeenAddedToTheCart.Link"), Url.RouteUrl("ShoppingCart")),
+                    productDetailsHtml = productDetail,
+            });
+        }
 
         #endregion
     }

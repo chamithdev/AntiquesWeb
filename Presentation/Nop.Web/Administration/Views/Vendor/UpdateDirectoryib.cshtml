@@ -1,0 +1,109 @@
+﻿@model List<VendorModel.VenddorProductModel>
+    @{
+        //page title
+        Layout = "~/Administration/Views/Shared/_AdminLayoutIB.cshtml";
+        ViewBag.Title = T("Admin.Vendors.EditVendorDetails").Text;
+    }
+
+   <div id="body-content">
+    <div class="container">
+        <div class="section-pannel">
+            <div class="row">
+                <div class="ad-search-wrap clear" id="div_productinfo">
+                    
+                      
+                   
+                </div>
+            </div>
+            <div class="row">
+                <ul id="sortable" class="clear">
+                    @foreach (Nop.Admin.Models.Vendors.VendorModel.VenddorProductModel pm in Model)
+                            {
+                            <li class="ui-state-default" id="@pm.ProductId">
+                                <div class="thumbnail">
+                                    <div class="thum-img">
+                                        <a onclick="productdetailsVendor(@pm.ProductId)">  <img alt="" src="@pm.ProductPicture.PictureUrl" title="@pm.ProductName" /></a>
+                                    </div>
+                                    <div class="caption">
+                                        <h3>
+                                            <label type="text" defaultval="Title" value="" class="js-default-val-text">@pm.ProductName</label>
+                                        </h3>
+                                        <p>
+                                            <label type="text" defaultval="Date" value="" class="js-default-val-text">@pm.CircaDate</label>
+                                            <br />
+                                            <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
+                                        </p>
+                                        <p>
+                                            <input type="button" value="Sold Out" onclick="javascript:alert('Sold Out')" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                            }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var baseUrl = "/Admin/";
+
+    ajaxPostJson = function (controller, method, jsonIn, callback, errorCallback) {
+        $.ajax({
+            url: baseUrl + controller + "/" + method,
+            type: "POST",
+            data: JSON.stringify(jsonIn),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                $('#ajaxBusy').show();
+            },
+            success: function (json) {
+                callback(json);
+                $('#ajaxBusy').hide();
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $('#ajaxBusy').hide();
+                if (errorCallback != undefined)
+                    errorCallback(xhr);
+                alert(thrownError);
+            }
+        });
+    }
+
+    ajaxGetData = function (controller, method, param, callback, errorCallback) {
+        $.ajax({
+            url: baseUrl + controller + "/" + method,
+            type: "GET",
+            cache: false,
+            data: param,
+            beforeSend: function () {
+                $('#ajaxBusy').show();
+            },
+            success: function (json) {
+                callback(json);
+                $('#ajaxBusy').hide();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $('#ajaxBusy').hide();
+                if (errorCallback != undefined)
+                    errorCallback(xhr);
+                alert(thrownError);
+            }
+        });
+    }
+    function productdetailsVendor(prodid) {
+        var product = new Object();
+        product.productId = prodid;
+
+        ajaxPostJson("Product", "GetProductInfoForVendorIB", product,
+            function (data) {
+                $("#div_productinfo").html(data.productDetailsHtml)
+                
+            },
+            null);
+    }
+</script>

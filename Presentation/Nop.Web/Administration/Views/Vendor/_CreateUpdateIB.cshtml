@@ -198,11 +198,12 @@
                     <div class="col-sm-6 col-md-2">
                         <input type="button" value="Edit Home Page" class="btn btn-default btn-info percent-100 margin-bottom10" />
                         <a href="@Url.Action("Createib", "product", new { area = "admin" }, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Load New Product</a>
-                        <input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />
-                        <input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />
-                        <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-default btn-info  percent-100 margin-bottom10">Log Out</a>
-                           
-                        </div>
+                        @*<input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
+                        <a href="@Url.Action("UpdateDirectoryib", "vendor", new { area = "admin", vendorId =@Model.Id}, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Update Directory</a>
+                            <input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />
+                            <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-default btn-info  percent-100 margin-bottom10">Log Out</a>
+
+</div>
                 </div>
             </div>
             <div class="row" >

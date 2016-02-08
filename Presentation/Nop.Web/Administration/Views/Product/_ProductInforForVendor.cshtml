@@ -1,0 +1,38 @@
+﻿@model ProductModel
+<div class="col-sm-6 col-md-3">
+    <div id="mainImg">
+        <div class="picture">
+            @foreach (Nop.Admin.Models.Catalog.ProductModel.ProductPictureModel p in Model.ProductPictureModels)
+            {
+                <div class="thumb-img float-left"><img src="@p.PictureUrl" alt="" width="137" height="91" /></div>
+            }
+        </div>
+
+
+    </div>
+</div>
+<div class="col-sm-6 col-md-7">
+    <div class="form-text-lg">
+        <div>
+            <div class="form-lg">
+                <h3> <b>  @Model.Name</b></h3> <br />
+                <b>
+                    @Model.City
+                </b>
+                <br />
+                <b>
+                    @Model.Country
+                </b>
+                <br />
+                <a href="#" >Web Link</a>
+                <a href="#" >Contact Supplier</a>
+            </div>
+
+            <div class="form-lg">
+                @Model.ShortDescription
+
+
+            </div>
+        </div>
+    </div>
+</div>

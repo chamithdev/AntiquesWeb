@@ -482,6 +482,7 @@ namespace Nop.Core.Domain.Catalog
 
         public bool TermsCondtion { get; set; }
 
+        //public string City { get; set; }
         public string Style { get; set; }
 
 
