@@ -22,7 +22,10 @@ namespace Nop.Services.Catalog
         /// <param name="vendorId"></param>
         /// <returns></returns>
         IList<Product> GetAllProductsForVendorId(int vendorId);
-        IPagedList<Product> SearchProductsCustom(
+
+
+        IPagedList<Product> SearchProductsCustom
+            (
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             IList<int> categoryIds = null,

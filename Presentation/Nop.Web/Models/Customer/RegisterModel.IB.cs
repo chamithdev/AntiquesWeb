@@ -18,5 +18,7 @@ namespace Nop.Web.Models.Customer
         public string Skype { get; set; }
 
         public string Mobile { get; set; }
+
+        public string Address { get; set; }
     }
 }

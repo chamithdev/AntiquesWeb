@@ -93,7 +93,7 @@ namespace Nop.Services.Catalog
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchSku,
                 searchProductTags, languageId, filteredSpecs,
                 orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo);
-    }
+            }
 
         public virtual IPagedList<Product> SearchProductsCustom(
             out IList<int> filterableSpecificationAttributeOptionIds,

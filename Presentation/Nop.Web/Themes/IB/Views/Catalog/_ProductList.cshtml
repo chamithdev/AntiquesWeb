@@ -1,0 +1,13 @@
+﻿@model IList<Nop.Web.Models.Catalog.ProductOverviewModel>
+@{
+    Layout = null;
+}
+
+<div class="section-pannel" id="searchResult">
+    <div class="row">
+        @foreach (var prod in Model)
+        {
+            @Html.Partial("_ProductBox", prod)
+        }
+    </div>
+</div>

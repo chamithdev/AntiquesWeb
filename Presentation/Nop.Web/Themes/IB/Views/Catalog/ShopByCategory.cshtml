@@ -2,7 +2,12 @@
 @{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
 }
-@using (Html.BeginForm())
+@{
+    var size = Model.PagingFilteringContext.PageSize;
+    
+    var pages = Model.PagingFilteringContext.TotalPages;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new {@id="frmSearchByCat" }))
 {
  <script>
      $(document).ready(function () {
@@ -61,10 +66,50 @@
 
          });
 
+
+         ajaxGetData = function (controller, method, param, callback) {
+             $.ajax({
+                 url: baseUrl + controller + "/" + method,
+                 type: "POST",
+                 cache: false,
+                 data: param,
+                 beforeSend: function () {
+                     //$('#ajaxBusy').show();
+                 },
+                 success: function (json) {
+                     callback(json);
+                    // $('#ajaxBusy').hide();
+                 },
+                 error: function (xhr, ajaxOptions, thrownError) {
+                   //  $('#ajaxBusy').hide();
+                     if (errorCallback != undefined)
+                         errorCallback(xhr);
+                     alert(thrownError);
+                 }
+             });
+         }
+
+        
+
+
+         // paging
      }
      );
+     function pagerClick(pageNo) {
+         $('#hdPageno').val(pageNo);
+         var data = $('#frmSearchByCat').serialize();
+         ajaxGetData("Catalog", "ShopByCategoryPaged ", data, function (data) {
+             $("#searchResult").html(data);
+             $(".pagination li").removeClass("active");
+             $('#' + pageNo).addClass("active");
+             
+             //class="active" 
+         }, null);
 
+
+     }
  </script>
+    <input type="hidden" id="hdPageno" name="PageNo"/>
 <div class="section-pannel">
     <div class="row">
         <div class="col-sm-6 col-md-3">
@@ -74,12 +119,12 @@
             <div class="multi-select">
                 <ul>
                     @foreach (var v in Model.Vendors)
-	                {
+                    {
                         <li>
                             <input type="checkbox" name="VendorList" @(v.Selected ? "checked" : "") value="@v.Value" />
                             @v.Text
                         </li>
-	                }
+                    }
                 </ul>
             </div>
         </div>
@@ -90,12 +135,12 @@
             <div class="multi-select">
                 <ul>
                     @foreach (var c in Model.AvailableCategories)
-	                {
+                    {
                         <li>
                             <input type="checkbox" name="CategoryList" @(c.Selected ? "checked" : "") value="@c.Value" />
                             @c.Text
                         </li>
-	                }
+                    }
                 </ul>
             </div>
         </div>
@@ -114,12 +159,12 @@
             <div class="multi-select">
                 <ul>
                     @foreach (var item in Model.CustomData)
-	                {
+                    {
                         <li>
-                            <input type="checkbox" name="CustomList" @(item.Selected ? "checked" :"") value="@item.Value" />
+                            <input type="checkbox" name="CustomList" @(item.Selected ? "checked" : "") value="@item.Value" />
                             @item.Text
                         </li>
-	                }
+                    }
                                      
 
                 </ul>
@@ -134,13 +179,13 @@
                     From -
                 </div>
                 <div class="col-sm-3 col-md-1">
-                    @Html.EditorFor(model=>model.SizeFrom,new {@class="form-control"})
+                    @Html.EditorFor(model => model.SizeFrom, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-1 col-md-1">
                     To -
                 </div>
                 <div class="col-sm-3 col-md-1">
-                    @Html.EditorFor(model=>model.SizeTo,new {@class="form-control"})
+                    @Html.EditorFor(model => model.SizeTo, new { @class = "form-control" })
                 </div>
                 <div class="col-sm-3 col-md-3">
                     @Html.DropDownListFor(model => model.SelectedDimension, Model.Dimension)
@@ -165,17 +210,35 @@
    
         @if (Model.Products.Count > 0)
         {
-
-        <div class="section-pannel">
+            @Html.Partial("_ProductList", Model.Products);
+        @*<div class="section-pannel" id="searchResult">
             <div class="row">
                 @foreach (var prod in Model.Products)
                 {
                     @Html.Partial("_ProductBox", prod)
                 }
             </div>
-         </div>
+         </div>*@
         }
-    @{
+        @if (Model.Products.Count > 0)
+        {
+        <div class="page-wrap">
+            <ul class="pagination">
+                <li onclick="pagerClick(1)"><a href="#">&laquo;</a></li>
+                @for (int x = 1; x <= pages; x++)
+                {
+                    <li id="@x" onclick="pagerClick(@x)"><a href="#">@(x)</a></li>
+                }
+
+                @*<li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>*@
+                <li onclick="pagerClick(@(pages))"><a href="#">&raquo;</a></li>
+            </ul>
+        </div>
+        }
+    @*@{
     var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber").BooleanParameterName("adv").BooleanParameterName("isc").BooleanParameterName("sid").RenderEmptyParameters(true);
     }
     @if (!pager.IsEmpty())
@@ -183,6 +246,6 @@
         <div class="pager">
             @pager
         </div>
-    }
+    }*@
 </div>
 }
