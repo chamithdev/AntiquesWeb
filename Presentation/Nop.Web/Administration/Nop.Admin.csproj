@@ -1343,7 +1343,7 @@
     <Content Include="Views\Product\EditIB.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Vendor\EditIB.cshtml" />
+    <Content Include="Views\Vendor\MyHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Vendor\ProductList.cshtml" />

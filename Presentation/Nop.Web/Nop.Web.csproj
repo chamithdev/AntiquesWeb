@@ -197,6 +197,7 @@
     <Compile Include="Controllers\CatalogIBController.cs" />
     <Compile Include="Controllers\CommonExtController.cs" />
     <Compile Include="Controllers\CustomerIBController.cs" />
+    <Compile Include="Controllers\NewsletterIBController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\Common\ContactVendorModel.cs" />
     <Compile Include="Models\Common\FooterModel.cs" />
     <Compile Include="Models\Common\FaviconModel.cs" />
+    <Compile Include="Models\Common\HeaderLinksMode.IB.cs" />
     <Compile Include="Models\Common\PagerModel.cs" />
     <Compile Include="Models\Common\StoreThemeModel.cs" />
     <Compile Include="Models\Common\LanguageSelectorModel.cs" />
@@ -2023,6 +2025,15 @@
     <Content Include="Themes\IB\Content\images\watch.png" />
     <Content Include="Themes\IB\Content\images\wishlist-button.png" />
     <Content Include="Themes\IB\Content\images\youtube.png" />
+    <Content Include="Themes\IB\Content\slider\css\prettyPhoto.css" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\default_thumb.png" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\loader.gif" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\sprite.png" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\sprite_next.png" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\sprite_x.png" />
+    <Content Include="Themes\IB\Content\slider\images\prettyPhoto\default\sprite_y.png" />
+    <Content Include="Scripts\slider\js\jquery.prettyPhoto.js" />
     <Content Include="Themes\IB\preview.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2157,12 +2168,15 @@
     <Content Include="Themes\IB\Views\Catalog\_ProductList.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\BoutiqueShopDetails.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\_VendorProducts.cshtml" />
+    <Content Include="Themes\IB\Views\Newsletter\NewsletterBox.cshtml" />
+    <Content Include="Themes\IB\Views\Newsletter\NewsLetterPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
     <Folder Include="Views\CatalogIB\" />
     <Folder Include="Views\CommonExt\" />
     <Folder Include="Views\CustomerIB\" />
+    <Folder Include="Views\NewsletterIB\" />
     <Folder Include="Views\ProductIB\" />
   </ItemGroup>
   <ItemGroup>

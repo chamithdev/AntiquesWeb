@@ -36,7 +36,7 @@ $(function(){
 			infiniteLoop:true,
 			adaptiveHeight:true,
 			responsive:true,
-			auto: true,
+			auto: true
 		});
 
 		$('.bx-next, .bx-prev').click(function(e){
@@ -80,6 +80,7 @@ $('#popoverBtn').click(function(e){
 			adaptiveHeight:true,
 			responsive:true,
 			auto: true,
+			adaptiveHeight: true
 	});
 
 });
@@ -149,5 +150,15 @@ $(document).keyup(function(e) {
 	//});
 	 } catch(e) {
         // handle an exception here if lettering doesn't exist or throws an exception
-    }
+	 }
+
+    // slider 			
+ $(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({
+     animation_speed: 'normal',
+     slideshow: 3000,
+     autoplay_slideshow: true,
+     social_tools: false
+
+ });
+
 }); // end document ready

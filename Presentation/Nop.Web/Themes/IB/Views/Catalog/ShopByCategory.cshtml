@@ -96,13 +96,14 @@
      }
      );
      function pagerClick(pageNo) {
+         $('.fader').show();
          $('#hdPageno').val(pageNo);
          var data = $('#frmSearchByCat').serialize();
          ajaxGetData("Catalog", "ShopByCategoryPaged ", data, function (data) {
              $("#searchResult").html(data);
              $(".pagination li").removeClass("active");
              $('#' + pageNo).addClass("active");
-             
+             $('.fader').hide();
              //class="active" 
          }, null);
 

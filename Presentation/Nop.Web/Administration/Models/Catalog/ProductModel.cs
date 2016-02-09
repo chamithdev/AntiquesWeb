@@ -414,7 +414,7 @@ namespace Nop.Admin.Models.Catalog
         //copy product
         public CopyProductModel CopyProductModel { get; set; }
 
-
+        public int CategoryId { get; set; }
         
         #region Nested classes
 

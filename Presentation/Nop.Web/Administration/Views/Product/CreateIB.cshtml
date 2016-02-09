@@ -25,8 +25,8 @@
                 @*<input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />*@
                 @*<input type="submit" id="copyproduct" name="copyproduct" class="k-button" value="@T("Admin.Catalog.Products.Copy")" />*@
                 @*<input type="button" value="Load Another Product" class="btn btn-default" />*@
-                @Html.ActionLink("Load Another Product", "List", null, new { @class = "btn btn-default" })
-                @Html.ActionLink("Home Page", "Index", "Home", null, new { @class = "btn btn-default" })
+                @Html.ActionLink("Load Another Product", "UpdateDirectoryib", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Home Page", "MyHome", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
                 
             </div>
 

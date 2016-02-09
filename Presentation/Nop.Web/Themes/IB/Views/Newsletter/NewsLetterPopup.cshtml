@@ -1,0 +1,59 @@
+﻿@model NewsletterBoxModel
+@using Nop.Web.Models.Newsletter;
+@{
+    Layout = null;
+}
+
+
+<div class="welcome-msg">   
+
+    <p>Welcome</p>
+    <span>Please enter your email here <br />&amp; get your free <br /> updates</span>
+    <div class="form-welcome">
+        @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })<br />
+        <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletterbox-subscribe-button" class="btn btn-default" />
+    </div>
+</div>
+
+<div class="newsletter-result" id="newsletter-result-block" style="display:none"></div>
+<script type="text/javascript">
+        function newsletter_subscribePopup(subscribe) {
+            var email = $("#newsletter-email").val();
+            //var subscribeProgress = $("#subscribe-loading-progress");
+            //subscribeProgress.show();
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.RouteUrl("SubscribeNewsletter"))",
+                data: { "subscribe": subscribe, "email": email },
+                success: function(data) {
+                    //subscribeProgress.hide();
+                    //$("#newsletter-result-block").html(data.Result);
+                    //if (data.Success) {
+                    //    $('#newsletter-subscribe-block').hide();
+                    //    $('#newsletter-result-block').show();
+                    //} else {
+                    //    $('#newsletter-result-block').fadeIn("slow").delay(2000).fadeOut("slow");
+                    //}
+                    $('.pop-box').hide();
+                    $('.fader').hide();
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Failed to subscribe.');
+                    subscribeProgress.hide();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#newsletterbox-subscribe-button').click(function () {
+                newsletter_subscribePopup('true');
+            });
+            $("#newsletter-email").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#newsletterbox-subscribe-button").click();
+                    return false;
+                }
+            });
+        });
+</script>

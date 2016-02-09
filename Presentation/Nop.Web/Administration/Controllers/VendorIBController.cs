@@ -264,7 +264,8 @@ namespace Nop.Admin.Controllers
                 var vpic = new VendorModel.VenddorPictureModel();
                 var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
                 var imgUrl = _pictureService.GetPictureUrl(pic, 200);
-                vpic.PictureId = pic.Id;
+                if(pic != null)
+                    vpic.PictureId = pic.Id;
                 vpic.PictureUrl = imgUrl;
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
@@ -302,7 +303,8 @@ namespace Nop.Admin.Controllers
                 var vpic = new VendorModel.VenddorPictureModel();
                 var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
                 var imgUrl = _pictureService.GetPictureUrl(pic, 200);
-                vpic.PictureId = pic.Id;
+                if (pic!= null)
+                    vpic.PictureId = pic.Id;
                 vpic.PictureUrl = imgUrl;
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
@@ -351,13 +353,122 @@ namespace Nop.Admin.Controllers
 
             var products = _productService.GetAllProductsForVendorId(vendorId);
 
-            if (products.Count == 0)
-                return Content("");
-
+            //if (products.Count == 0)
+            //    return Content("");
+            ViewBag.VendorId = vendorId;
             var model = VendorProducts(products);
             return View(model);
         }
         #endregion
+
+
+        public ActionResult MyHome(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+                return AccessDeniedView();
+
+            var vendor = _vendorService.GetVendorById(id);
+            if (vendor == null || vendor.Deleted)
+                //No vendor found with the specified id
+                return RedirectToAction("List");
+
+            var model = vendor.ToModel();
+            //pictuere
+            model.MainPicture = _pictureService.GetPictureById(model.PictureId);
+            if (model.MainPicture != null)
+            {
+                var m = new VendorModel.VenddorPictureModel
+                {
+
+                    ProductId = model.MainPicture.Id,
+                    PictureUrl = _pictureService.GetPictureUrl(model.MainPicture, 200),
+                    OverrideAltAttribute = model.MainPicture.AltAttribute,
+                    OverrideTitleAttribute = model.MainPicture.TitleAttribute,
+                    DisplayOrder = 1
+                };
+                model.MainPictureModel = m;
+            }
+
+            //locales
+            AddLocales(_languageService, model.Locales, (locale, languageId) =>
+            {
+                locale.Name = vendor.GetLocalized(x => x.Name, languageId, false, false);
+                locale.Description = vendor.GetLocalized(x => x.Description, languageId, false, false);
+                locale.MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords, languageId, false, false);
+                locale.MetaDescription = vendor.GetLocalized(x => x.MetaDescription, languageId, false, false);
+                locale.MetaTitle = vendor.GetLocalized(x => x.MetaTitle, languageId, false, false);
+                locale.SeName = vendor.GetSeName(languageId, false, false);
+            });
+            //associated customer emails
+            model.AssociatedCustomerEmails = _customerService
+                    .GetAllCustomers(vendorId: vendor.Id)
+                    .Select(c => c.Email)
+                    .ToList();
+            model.Products = VendorProducts(vendor.Id);
+            model.DisplayActive = _workContext.IsAdmin;
+            return View(model);
+        }
+
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
+        public ActionResult MyHome(VendorModel model, bool continueEditing)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+                return AccessDeniedView();
+
+            var vendor = _vendorService.GetVendorById(model.Id);
+            if (vendor == null || vendor.Deleted)
+                //No vendor found with the specified id
+                return RedirectToAction("List");
+
+            if (ModelState.IsValid)
+            {
+
+                vendor = model.ToEntity(vendor);
+
+                _vendorService.UpdateVendor(vendor);
+
+                if (vendor.Active && _workContext.IsAdmin)
+                {
+                    //send vendor email
+                    var customer = _customerService.GetAllCustomers(vendorId: vendor.Id);
+                    if (customer.Count > 0)
+                    {
+                        _workflowMessageService.SendVendorEmailValidationMessage(customer[0], _workContext.WorkingLanguage.Id);
+                    }
+                    //_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
+
+                }
+
+
+
+                //search engine name
+                model.SeName = vendor.ValidateSeName(model.SeName, vendor.Name, true);
+                _urlRecordService.SaveSlug(vendor, model.SeName, 0);
+                //locales
+                UpdateLocales(vendor, model);
+
+                SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
+                if (continueEditing)
+                {
+                    //selected tab
+                    SaveSelectedTabIndex();
+
+                    return RedirectToAction("Edit", new { id = vendor.Id });
+                }
+                return RedirectToAction("List");
+            }
+
+            //If we got this far, something failed, redisplay form
+
+            //associated customer emails
+            model.AssociatedCustomerEmails = _customerService
+                    .GetAllCustomers(vendorId: vendor.Id)
+                    .Select(c => c.Email)
+                    .ToList();
+            //return View(model);
+            return RedirectToAction("Edit", new { id = vendor.Id });
+        }
+
 
 
     }

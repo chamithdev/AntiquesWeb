@@ -68,7 +68,15 @@
                 </li>
                 @if (Model.IsAuthenticated)
                 {
-                    <li><a href="@Url.RouteUrl("CustomerInfo")" class="account">@Model.CustomerEmailUsername</a></li>
+                    if (Model.VendorId != 0)
+                    {
+                        <li><a href="/admin/vendor/myhome/@Model.VendorId" class="account">@Model.CustomerEmailUsername</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="@Url.RouteUrl("CustomerInfo")" class="account">@Model.CustomerEmailUsername</a></li>
+                    }
+
                     <li><a href="@Url.RouteUrl("Logout")" class="ico-logout">@T("Account.Logout")</a></li>
                 }
                 else

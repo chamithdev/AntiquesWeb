@@ -66,6 +66,32 @@ namespace Nop.Admin.Controllers
             model.CircaDates = (from cd in circaDates
                                 select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
 
+            var categoriesModel = new List<CategoryModel>();
+                //all categories
+                var allCategories = _categoryService.GetAllCategories();
+                foreach (var c in allCategories)
+                {
+                    //generate full category name (breadcrumb)
+                    string categoryBreadcrumb = "";
+                    var breadcrumb = c.GetCategoryBreadCrumb(allCategories, _aclService, _storeMappingService);
+                    for (int i = 0; i <= breadcrumb.Count - 1; i++)
+                    {
+                        categoryBreadcrumb += breadcrumb[i].GetLocalized(x => x.Name);
+                        if (i != breadcrumb.Count - 1)
+                            categoryBreadcrumb += " >> ";
+                    }
+                    categoriesModel.Add(new CategoryModel
+                    {
+                        Id = c.Id,
+                        Breadcrumb = categoryBreadcrumb
+                    });
+                }
+
+            model.AvailableCategories = categoriesModel.Select(c=> new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
+
+            if (_workContext.CurrentVendor!=null)
+                model.VendorId = _workContext.CurrentVendor.Id;
+
             return View(model);
         }
 
@@ -93,6 +119,7 @@ namespace Nop.Admin.Controllers
                 }
 
                 //product
+                var catId = model.CategoryId;
                 var product = model.ToEntity();
                 product.CreatedOnUtc = DateTime.UtcNow;
                 product.UpdatedOnUtc = DateTime.UtcNow;
@@ -111,6 +138,15 @@ namespace Nop.Admin.Controllers
                 //warehouses
                 SaveProductWarehouseInventory(product, model);
                 //discounts
+                // category
+                if(catId > 0)
+                {
+                    var categoryMapping = new ProductCategory();
+                    categoryMapping.CategoryId = catId;
+                    categoryMapping.ProductId = product.Id;
+                    categoryMapping.DisplayOrder = 1;
+                    _categoryService.InsertProductCategory(categoryMapping);
+                }
                 var allDiscounts = _discountService.GetAllDiscounts(DiscountType.AssignedToSkus, showHidden: true);
                 foreach (var discount in allDiscounts)
                 {
@@ -153,6 +189,9 @@ namespace Nop.Admin.Controllers
                 _customerActivityService.InsertActivity("AddNewProduct", _localizationService.GetResource("ActivityLog.AddNewProduct"), product.Name);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Added"));
+                if (_workContext.CurrentVendor != null)
+                    return RedirectToAction("myhome", "vendor", new { id = product.VendorId });
+
                 return continueEditing ? RedirectToAction("Edit", new { id = product.Id }) : RedirectToAction("List");
             }
 
@@ -301,6 +340,33 @@ namespace Nop.Admin.Controllers
                 .ToList();
             model.ProductPictureModels = productPicturesModel;
 
+            var categoriesModel = new List<CategoryModel>();
+            //all categories
+            var allCategories = _categoryService.GetAllCategories();
+            foreach (var c in allCategories)
+            {
+                //generate full category name (breadcrumb)
+                string categoryBreadcrumb = "";
+                var breadcrumb = c.GetCategoryBreadCrumb(allCategories, _aclService, _storeMappingService);
+                for (int i = 0; i <= breadcrumb.Count - 1; i++)
+                {
+                    categoryBreadcrumb += breadcrumb[i].GetLocalized(x => x.Name);
+                    if (i != breadcrumb.Count - 1)
+                        categoryBreadcrumb += " >> ";
+                }
+                categoriesModel.Add(new CategoryModel
+                {
+                    Id = c.Id,
+                    Breadcrumb = categoryBreadcrumb
+                });
+            }
+
+            model.AvailableCategories = categoriesModel.Select(c => new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
+
+
+            if (_workContext.CurrentVendor != null)
+                model.VendorId = _workContext.CurrentVendor.Id;
+
             return View(model);
         }
 
@@ -322,7 +388,7 @@ namespace Nop.Admin.Controllers
             model.VisibleIndividually = true;
             model.ProductTemplateId = 1;
             model.Published = true;
-       
+            var catId = model.CategoryId;
             //a vendor should have access only to his products
             if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
                 return RedirectToAction("List");
@@ -377,6 +443,26 @@ namespace Nop.Admin.Controllers
                             product.AppliedDiscounts.Remove(discount);
                     }
                 }
+                if(catId>0)
+                {
+                    // delete existing category
+                    var extCat = _categoryService.GetProductCategoriesByProductId(product.Id,true);
+                    if(extCat.Count >0 && !extCat.Any(c=>c.CategoryId == catId))
+                    {
+                        foreach (var item in extCat)
+                        {
+                            _categoryService.DeleteProductCategory(item);
+                        }
+                        
+                    }
+                    var categoryMapping = new ProductCategory();
+                    categoryMapping.CategoryId = catId;
+                    categoryMapping.ProductId = product.Id;
+                    categoryMapping.DisplayOrder = 1;
+                    _categoryService.InsertProductCategory(categoryMapping);
+
+                    
+                }
                 _productService.UpdateProduct(product);
                 _productService.UpdateHasDiscountsApplied(product);
                 //back in stock notifications
@@ -401,8 +487,10 @@ namespace Nop.Admin.Controllers
                     //selected tab
                     SaveSelectedTabIndex();
 
-                    return RedirectToAction("Edit", new { id = product.Id });
+                    return RedirectToAction("Editib", new { id = product.Id });
                 }
+                if(_workContext.CurrentVendor != null )
+                    return RedirectToAction("myhome", "vendor", new { id = product.VendorId });
                 return RedirectToAction("List");
             }
 
@@ -626,6 +714,9 @@ namespace Nop.Admin.Controllers
                })
                .ToList();
            model.ProductPictureModels = productPicturesModel;
+
+           
+            
 
            var productDetail = this.RenderPartialViewToString("_ProductInforForVendor", model);
                         

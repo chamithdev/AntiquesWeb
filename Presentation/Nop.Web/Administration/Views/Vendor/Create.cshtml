@@ -7,7 +7,7 @@
 @using (Html.BeginForm(null, null, FormMethod.Post,new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    @*<div class="section-header">
+    <div class="section-header">
         <div class="title">
             <img src="@Url.Content("~/Administration/Content/images/ico-customers.png")" alt="" />
             @T("Admin.Vendors.AddNew") @Html.ActionLink("(" + T("Admin.Vendors.BackToList") + ")", "List")
@@ -16,8 +16,8 @@
             <input type="submit" name="save" class="k-button" value="@T("Admin.Common.Save")" />
             <input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />
         </div>
-    </div>*@
-    //@Html.Partial("_CreateOrUpdate", Model)
+    </div>
+    @Html.Partial("_CreateOrUpdate", Model)
     
-    @Html.Partial("_CreateUpdateIB", Model)
+    //@Html.Partial("_CreateUpdateIB", Model)
 }

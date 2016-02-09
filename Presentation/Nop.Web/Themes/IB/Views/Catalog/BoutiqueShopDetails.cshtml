@@ -68,15 +68,18 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             beforeSend: function () {
-                $('#ajaxBusy').show();
+                //$('#ajaxBusy').show();
+                $('.fader').show();
+
             },
             success: function (json) {
                 callback(json);
-                $('#ajaxBusy').hide();
+                //$('#ajaxBusy').hide();
+                $('.fader').hide();
 
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('#ajaxBusy').hide();
+                $('.fader').hide();
                 if (errorCallback != undefined)
                     errorCallback(xhr);
                 alert(thrownError);
@@ -91,14 +94,14 @@
             cache: false,
             data: param,
             beforeSend: function () {
-                $('#ajaxBusy').show();
+                $('.fader').show();
             },
             success: function (json) {
                 callback(json);
-                $('#ajaxBusy').hide();
+                $('.fader').hide();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('#ajaxBusy').hide();
+                $('.fader').hide();
                 if (errorCallback != undefined)
                     errorCallback(xhr);
                 alert(thrownError);

@@ -380,6 +380,8 @@ namespace Nop.Web.Controllers
                 AllowPrivateMessages = customer.IsRegistered() && _forumSettings.AllowPrivateMessages,
                 UnreadPrivateMessages = unreadMessage,
                 AlertMessage = alertMessage,
+                VendorId = customer.VendorId
+                
             };
             //performance optimization (use "HasShoppingCartItems" property)
             if (customer.HasShoppingCartItems)

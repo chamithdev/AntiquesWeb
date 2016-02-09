@@ -1,6 +1,56 @@
 ﻿@{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
 }
+
+<script>
+    function setCookie(c_name,value,expiredays)
+    {
+        var exdate=new Date();
+        exdate.setDate(exdate.getDate()+expiredays)
+        document.cookie= c_name+ '=' +escape(value)+  ((expiredays==null) ? '' : ';expires='+ exdate.toGMTString())
+    }
+
+    function getCookie(c_name)
+    {
+        if (document.cookie.length>0)
+        {
+            c_start=document.cookie.indexOf(c_name + '=')
+            if (c_start!=-1)
+            {
+                c_start=c_start + c_name.length+1
+                c_end=document.cookie.indexOf(';',c_start)
+                if (c_end==-1) c_end=document.cookie.length
+                return unescape(document.cookie.substring(c_start,c_end))
+            }
+        }
+        return ''
+    }
+    $(document).ready(function (e) {
+        var cok=getCookie('popup_cookie');
+        if (cok == null || cok == '')
+        {
+            $.fn.onloadPopup();
+            setCookie('popup_cookie', '1', 20);
+        }
+
+
+       
+});
+
+</script>
+<div class="pop-box">
+    <div class="text-right"><a href="#" id="popClose">X</a></div>
+    @*<div class="welcome-msg">
+        <p>Welcome</p>
+        <span>Please enter your email here <br />&amp; get your free <br /> updates</span>
+        <div class="form-welcome">
+            <input type="text" defaultval="" value="" /><br />
+            <input type="button" value="Submit" class="btn btn-default" />
+        </div>
+    </div>*@
+    @Html.Action("NewsletterPopup", "Newsletter")
+</div>
+
 <div class="page home-page">
     <div class="page-body">
         @Html.Widget("home_page_top")

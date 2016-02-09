@@ -161,6 +161,11 @@
             </div>
             <div class="form-text-lg">
                 <div class="form-lg">
+                    Category
+                    @Html.DropDownListFor(model => model.CategoryId, Model.AvailableCategories, new { @class = "js-default-val-text  percent-42" })
+                    
+                </div>
+                <div class="form-lg">
                     Photo file name tags Key Words
                     @Html.EditorFor(model => model.MetaKeywords, new { @class = "js-default-val-text" })
                 </div>
@@ -189,6 +194,7 @@
                     Show on Home Page
                     @Html.EditorFor(model => model.ShowOnHomePage, new { @class = "form-control" })
                 </div>
+
             </div>
         </div>
         <div class="col-sm-6 col-md-7">

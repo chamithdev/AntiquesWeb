@@ -650,7 +650,7 @@ namespace Nop.Web.Controllers
                             if (customer.VendorId != 0)
                             {
                                 // send to vendor url
-                                return RedirectToAction("Edit", "Vendor", new { area = "admin", @id = customer.VendorId });
+                                return RedirectToAction("MyHome", "Vendor", new { area = "admin", @id = customer.VendorId });
 
                             }
 

@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 @font-face {
   font-family: 'bellmt';
@@ -147,9 +147,6 @@ label{
 	text-align:center;
 	margin-top:4px;
 	}
- .caption h3 a{
-	color:#464646;
-	}
  .caption p{
 	text-align:center;
 	color:#797979;
@@ -220,19 +217,11 @@ label{
     opacity:0.75;
 	}*/
 .thum-img{
-	display: block;
-    height: 220px;
-    text-align: center;
- 	}
-.thum-img a {
-  background-color: #ccc;
-  height:100%;
-  display:block
+	height:220px;
+	text-align:center;
+	
 	}
-.thum-img a img {
-  height:100%;
-  object-fill: cover;
-	}
+
 /*------------------------------------------*/
 .thum-img img, .thumbnail img {
    -webkit-transition: all 0.5s ease;
@@ -254,16 +243,7 @@ label{
 
 /*---------------------------------------------*/
 .thumbnail{
-	display: block;
-    min-height: 355px;
-    margin-bottom: 20px;
-    line-height: 1.42857143;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    -webkit-transition: all .2s ease-in-out;
-    -o-transition: all .2s ease-in-out;
-    transition: all .2s ease-in-out;
+	height:340px;
 	}
 .thumbnail:hover{
 	border-bottom: 2px solid #ff0000;
@@ -274,7 +254,7 @@ label{
     opacity:1;
 	}*/
 .height-small{
-	min-height:221px;
+	height:221px;
 	margin-bottom:5px;
 	}
 #section-footer{ 
@@ -793,6 +773,10 @@ background-color:#fff;
 .slider-main-img-big{
 	width:100%;
 	}
+.slider-main-img-big a img{
+	height:350px;
+	display:inline-table;
+	}
 /* clear all */
 .clear:before, .clear:after { content:""; display:table;}
 .clear:after { clear:both;}
@@ -800,8 +784,11 @@ background-color:#fff;
 
 
 /* iPads (portrait and landscape) ----------- */
-@media only screen and (min-width : 769px) {
-
+@media only screen and (min-width : 769px) and (max-width : 1024px) {
+.slider-main-img-big a img{
+	height:290px;
+	display:inline-table;
+	}
 }
 
 /* Smartphones (portrait and landscape) ----------- */
@@ -818,6 +805,10 @@ background-color:#fff;
 	}
 .navigation .nav > li.small .dropdown-menu{
 	left:0;
+	}
+.slider-main-img-big a img{
+	height:150px;
+	display:inline-table;
 	}
 }
 

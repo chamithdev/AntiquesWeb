@@ -8,6 +8,8 @@
 
     //add browser specific CSS files
     var browser = Request.Browser;
+    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/slider/css/prettyPhoto.css",themeName));
+
     if (browser.Browser == "IE" && browser.MajorVersion == 8)
     {
         Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/ie8.css", themeName));
