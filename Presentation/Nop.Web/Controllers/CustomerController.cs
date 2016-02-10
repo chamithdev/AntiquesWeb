@@ -649,8 +649,14 @@ namespace Nop.Web.Controllers
                             _customerActivityService.InsertActivity("PublicStore.Login", _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
                             if (customer.VendorId != 0)
                             {
+                                var vendor = _vendorService.GetVendorById(customer.VendorId);
+                                if (vendor != null && vendor.Active)
+                                {
+                                    return RedirectToAction("MyHome", "Vendor", new { area = "admin", @id = customer.VendorId });
+                                }
+                                return RedirectToRoute("HomePage");
                                 // send to vendor url
-                                return RedirectToAction("MyHome", "Vendor", new { area = "admin", @id = customer.VendorId });
+                                
 
                             }
 

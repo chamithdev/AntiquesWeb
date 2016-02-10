@@ -190,7 +190,7 @@ namespace Nop.Admin.Controllers
 
                 SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Added"));
                 if (_workContext.CurrentVendor != null)
-                    return RedirectToAction("myhome", "vendor", new { id = product.VendorId });
+                    return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
 
                 return continueEditing ? RedirectToAction("Edit", new { id = product.Id }) : RedirectToAction("List");
             }
@@ -361,8 +361,24 @@ namespace Nop.Admin.Controllers
                 });
             }
 
-            model.AvailableCategories = categoriesModel.Select(c => new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
+            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
+            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
 
+            model.Styles = (from st in styles
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+
+            model.CircaDates = (from cd in circaDates
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+
+            var extCat = _categoryService.GetProductCategoriesByProductId(product.Id, true);
+            if (extCat != null && extCat.Count>0)
+            {
+                model.CategoryId = extCat[0].CategoryId;
+            }
+
+
+            model.AvailableCategories = categoriesModel.Select(c => new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString(),Selected=c.Id== model.CategoryId }).ToList();
+            //model.Categories = categoriesModel;
 
             if (_workContext.CurrentVendor != null)
                 model.VendorId = _workContext.CurrentVendor.Id;

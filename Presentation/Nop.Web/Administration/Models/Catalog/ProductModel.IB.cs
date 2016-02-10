@@ -10,6 +10,7 @@ using Nop.Admin.Validators.Catalog;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Localization;
 using Nop.Web.Framework.Mvc;
+using Nop.Core.Domain.Catalog;
 
 namespace Nop.Admin.Models.Catalog
 {
@@ -53,6 +54,8 @@ namespace Nop.Admin.Models.Catalog
             get { return _circaDates ?? new List<SelectListItem>(); ; }
             set { _circaDates = value; }
         }
+
+        public List<CategoryModel> Categories { get; set; }
 
         //    var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
         //var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
