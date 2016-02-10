@@ -13,6 +13,10 @@
         @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })<br />
         <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletterbox-subscribe-button" class="btn btn-default" />
     </div>
+    <div id="newsletter-result-block" style="display:none">
+        <p>Thank you!</p>
+        <span>Your subscription was successful!</span>
+    </div>
 </div>
 
 <div class="newsletter-result" id="newsletter-result-block" style="display:none"></div>
@@ -35,8 +39,14 @@
                     //} else {
                     //    $('#newsletter-result-block').fadeIn("slow").delay(2000).fadeOut("slow");
                     //}
-                    $('.pop-box').hide();
-                    $('.fader').hide();
+                    $('#newsletter-result-block').show();
+                    $('#newsletterbox-subscribe-button').hide();
+                    setTimeout(function()
+                    {
+                        $('.pop-box').hide();
+                        $('.fader').hide();
+                    },2000)
+                   
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert('Failed to subscribe.');

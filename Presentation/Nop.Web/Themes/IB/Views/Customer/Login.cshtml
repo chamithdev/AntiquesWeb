@@ -27,7 +27,11 @@
                 <span class="divider"></span>
                 @using (Html.BeginForm())
                 {
-                    
+                    var validationSummary = Html.ValidationSummary(true, T("Account.Login.Unsuccessful").Text);
+                    if (!MvcHtmlString.IsNullOrEmpty(validationSummary))
+                    {
+                        <div class="message-error">@validationSummary</div>
+                    }
                     if (Model.UsernamesEnabled)
                     {
                         <div class="inputs">
