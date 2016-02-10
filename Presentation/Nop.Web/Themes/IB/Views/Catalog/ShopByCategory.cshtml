@@ -12,12 +12,12 @@
  <script>
      $(document).ready(function () {
          var baseUrl = "/";
-         var ajaxGetJson = function (controller, method, param, callback) {
+         var ajaxGetJson = function (controller, method, param,param2, callback) {
              $.ajax({
                  url: baseUrl + controller + "/" + method ,
                  type: "GET",
                  cache: false,
-                 data: { 'ids': param },
+                 data: { 'ids': param,'selids':param2 },
                  traditional: true,
                  beforeSend: function () {
                      //$('#divPreload').show();
@@ -36,7 +36,7 @@
          }
          $("input[name='CategoryList']").click(function () {
              var catIds = [];
-
+             var selcatIds = [];
              $("input[name='CategoryList']").each(function () {
                  var catId = (this.checked ? $(this).val() : "");
                  //if($(this).attr('checked'))
@@ -47,8 +47,21 @@
 
              });
 
+             
+             
+             $("input[name='SubCatList']").each(function () {
+                 var catId = (this.checked ? $(this).val() : "");
+                 //if($(this).attr('checked'))
+                 if (catId != "")
+                 {
+                     selcatIds.push(catId);
+                 }
 
-             ajaxGetJson("Catalog", "GetSubCategory", catIds, function (data) {
+             });
+
+
+
+             ajaxGetJson("Catalog", "GetSubCategory", catIds,selcatIds, function (data) {
                  //var name = $(this).val();
                  //$('#divSubCategories').empty();
                  //var ul = $('#divSubCategories');

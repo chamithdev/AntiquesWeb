@@ -235,9 +235,15 @@ namespace Nop.Web.Controllers
                                          select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
 
 
-            model.SubCategories = (from c in categories
-                                   where (c.ParentCategoryId != 0)
-                                   select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
+            if (mainCatIds.Count() == 0)
+                model.SubCategories = new List<SelectListItem>();
+            else
+            {
+                model.SubCategories = (from c in categories
+                                       where (mainCatIds.Contains(c.ParentCategoryId.ToString()))
+                                       select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
+            }
+            
             //foreach (var item in categories.Where(c => c.ParentCategoryId != 0))
             //{
             //    model.SubCategories.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
@@ -306,13 +312,14 @@ namespace Nop.Web.Controllers
         }
 
         //[HttpPost]
-        public ActionResult GetSubCategory(List<int> ids)
+        public ActionResult GetSubCategory(List<int> ids, List<int> selids)
         {
-
+            if (selids == null)
+                selids = new List<int>();
             var allCategories = new List<Category>();
             if (ids ==null)
             {
-                allCategories = _categoryService.GetAllCategories().Where(c=>c.ParentCategoryId!=0).ToList();
+                allCategories = new List<Category>(); //_categoryService.GetAllCategories().Where(c => c.ParentCategoryId != 0).ToList();
                
             }else
             {
@@ -321,11 +328,11 @@ namespace Nop.Web.Controllers
                     allCategories.AddRange(_categoryService.GetAllCategoriesByParentCategoryId(id));
                 }
             }
-           
 
 
 
-            var data = allCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList();
+
+            var data = allCategories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name, Selected = selids.Contains(c.Id) }).ToList();
 
             return PartialView("_SubCatList", data);
             //return Json (data,JsonRequestBehavior.AllowGet);
@@ -439,14 +446,15 @@ namespace Nop.Web.Controllers
             if (pgN == 0)
                 command.PageNumber = 1;
             else command.PageNumber = pgN;
-
-            var products = _productService.SearchProductsCustom(
+            if(f.AllKeys.Count()!=0)
+            {
+                var products = _productService.SearchProductsCustom(
                      categoryIds: categoryIds,
                      vendorIds: pvendorIds,
                      customKeys: customKeys,
                      sizeFrom: sf,
                      sizeTo: sst,
-                     varience:varience,
+                     varience: varience,
                      storeId: _storeContext.CurrentStore.Id,
                      visibleIndividuallyOnly: true,
                      keywords: f["q"],
@@ -456,9 +464,11 @@ namespace Nop.Web.Controllers
                      pageSize: command.PageSize);
 
 
-            model.Products = PrepareProductOverviewModels(products).OrderBy(p => p.Name).ToList();
-            model.PagingFilteringContext.LoadPagedList(products);
+                model.Products = PrepareProductOverviewModels(products).OrderBy(p => p.Name).ToList();
+                model.PagingFilteringContext.LoadPagedList(products);
 
+            }
+            
             return model;
         }
 
