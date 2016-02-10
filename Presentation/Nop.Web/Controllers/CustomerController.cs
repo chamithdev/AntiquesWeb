@@ -843,7 +843,7 @@ namespace Nop.Web.Controllers
             //enable newsletter by default
             model.Newsletter = _customerSettings.NewsletterTickedByDefault;
 
-            return View("Register_Ib", model);
+            return View("Register", model);
         }
 
         [HttpPost]
@@ -1031,6 +1031,7 @@ namespace Nop.Web.Controllers
                         vendor.Name = string.IsNullOrWhiteSpace(model.Company) ? model.FirstName : model.Company;
                         vendor.ShowOnHomePage = true;
                         vendor.Country = "";
+                        vendor.Email = model.Email;
                         //vendor.Active = true;
                         _vendorService.InsertVendor(vendor);
                         customer.VendorId = vendor.Id;
@@ -1094,7 +1095,7 @@ namespace Nop.Web.Controllers
 
             //If we got this far, something failed, redisplay form
             PrepareCustomerRegisterModel(model, true, customerAttributesXml);
-            return View("Register_Ib", model);
+            return View("Register", model);
         }
 
         public ActionResult RegisterResult(int resultId)

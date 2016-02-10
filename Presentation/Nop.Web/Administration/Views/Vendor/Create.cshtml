@@ -1,7 +1,7 @@
 ﻿@model VendorModel
 @{
     //page title     
-    Layout = "~/Administration/Views/Shared/_AdminLayoutIB.cshtml";
+    //Layout = "~/Administration/Views/Shared/_AdminLayoutIB.cshtml";
     ViewBag.Title = T("Admin.Vendors.AddNew").Text;
 }
 @using (Html.BeginForm(null, null, FormMethod.Post,new { @enctype = "multipart/form-data" }))
@@ -17,7 +17,7 @@
             <input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />
         </div>
     </div>
-    @Html.Partial("_CreateOrUpdate", Model)
+    //@Html.Partial("_CreateOrUpdate", Model)
     
-    //@Html.Partial("_CreateUpdateIB", Model)
+    @Html.Partial("_CreateOrUpdate", Model)
 }

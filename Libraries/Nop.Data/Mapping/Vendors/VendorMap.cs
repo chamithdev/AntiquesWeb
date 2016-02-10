@@ -16,7 +16,7 @@ namespace Nop.Data.Mapping.Vendors
             this.Property(v => v.PageSizeOptions).HasMaxLength(200);
             this.Property(p => p.ShowOnHomePage).IsRequired();
 
-            this.Property(p => p.Country).IsRequired();
+            this.Property(p => p.Country).IsOptional();
 
             this.Property(p => p.City).HasMaxLength(400);
 

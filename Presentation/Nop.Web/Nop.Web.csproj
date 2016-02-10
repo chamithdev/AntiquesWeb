@@ -2152,7 +2152,7 @@
     <Content Include="Themes\IB\Views\Customer\Info.cshtml" />
     <Content Include="Themes\IB\Views\Customer\PasswordRecovery.cshtml" />
     <Content Include="Themes\IB\Views\Customer\PasswordRecoveryConfirm.cshtml" />
-    <Content Include="Themes\IB\Views\Customer\Register_Ib.cshtml" />
+    <Content Include="Themes\IB\Views\Customer\Register.cshtml" />
     <Content Include="Themes\IB\Views\Customer\RegisterResult.cshtml" />
     <Content Include="Themes\IB\Views\Customer\UserAgreement.cshtml" />
     <Content Include="Themes\IB\Views\Customer\_CheckUsernameAvailability.cshtml" />
@@ -2164,7 +2164,7 @@
     <Content Include="Themes\IB\Views\Catalog\_SubCatList.cshtml" />
     <Content Include="Themes\IB\Views\Home\ComingSoon.cshtml" />
     <Content Include="Themes\IB\Views\Home\TermsAndConditions.cshtml" />
-    <Content Include="Themes\IB\Views\Customer\Register.cshtml" />
+    <Content Include="Themes\IB\Views\Customer\Register_ib2.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\_ProductList.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\BoutiqueShopDetails.cshtml" />
     <Content Include="Themes\IB\Views\Catalog\_VendorProducts.cshtml" />

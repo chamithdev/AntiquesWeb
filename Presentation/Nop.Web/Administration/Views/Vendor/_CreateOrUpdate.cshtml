@@ -47,7 +47,7 @@
 <input type="hidden" id="selected-tab-index" name="selected-tab-index" value="@(GetSelectedTabIndex())">
 
 
-@Html.HiddenFor(m => m.PictureId)
+
 
 
 
@@ -70,7 +70,7 @@
             }
         }
     </script>
-    
+
     @(Html.LocalizedEditor<VendorModel, VendorLocalizedModel>("vendor-info-localized",
     @<table class="adminContent">
         <tr>
@@ -110,7 +110,8 @@
                     </tr>
                     <tr>
                         <td class="adminTitle">
-                            @Html.NopLabelFor(model => model.Description):
+                            @* @Html.NopLabelFor(model => model.Description):*@
+                            About us :
                         </td>
                         <td class="adminData">
                             @Html.EditorFor(x => x.Description, "RichEditor")
@@ -118,7 +119,7 @@
                         </td>
                     </tr>
                 </table>
-                                            ))
+                                                                            ))
     <table class="adminContent">
         <tr>
             <td class="adminTitle">
@@ -129,6 +130,40 @@
                 @Html.ValidationMessageFor(model => model.Email)
             </td>
         </tr>
+        <tr>
+            <td class="adminTitle">
+                Town :
+            </td> 
+            <td class="adminData">
+                @Html.EditorFor(model => model.City)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                Country :
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Country)
+                @Html.ValidationMessageFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td class="adminTitle">
+                Website :
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.Web)
+            </td>
+        </tr>
+        @*<tr>
+            <td class="adminTitle">
+              
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(x => x.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </td>
+        </tr>*@
         <tr>
             <td class="adminTitle">
                 @Html.NopLabelFor(model => model.AdminComment):
@@ -189,7 +224,7 @@
             </td>
             <td class="adminData">
                 @Html.EditorFor(model => model.ShowOnHomePage)
-                
+
             </td>
         </tr>
         @if (Model.Id > 0)
