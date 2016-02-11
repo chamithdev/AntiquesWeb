@@ -654,7 +654,8 @@ namespace Nop.Web.Controllers
                                 {
                                     return RedirectToAction("MyHome", "Vendor", new { area = "admin", @id = customer.VendorId });
                                 }
-                                return RedirectToRoute("HomePage");
+                                _authenticationService.SignOut();
+                                return RedirectToAction("AccessDenied","Customer");
                                 // send to vendor url
                                 
 

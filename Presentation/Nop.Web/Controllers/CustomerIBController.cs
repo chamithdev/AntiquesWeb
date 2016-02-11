@@ -42,5 +42,10 @@ namespace Nop.Web.Controllers
 
             return View("_LatestBoutique", shops);
         }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

@@ -2170,6 +2170,7 @@
     <Content Include="Themes\IB\Views\Catalog\_VendorProducts.cshtml" />
     <Content Include="Themes\IB\Views\Newsletter\NewsletterBox.cshtml" />
     <Content Include="Themes\IB\Views\Newsletter\NewsLetterPopup.cshtml" />
+    <Content Include="Themes\IB\Views\Customer\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
