@@ -108,12 +108,12 @@ namespace Nop.Admin.Controllers
                 UpdateLocales(vendor, model);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
-                if (continueEditing)
+                if (_workContext.CurrentVendor != null)
                 {
                     //selected tab
                     SaveSelectedTabIndex();
 
-                    return RedirectToAction("Edit", new { id = vendor.Id });
+                    return RedirectToAction("MyHome", new { id = vendor.Id });
                 }
                 return RedirectToAction("List");
             }
@@ -448,12 +448,12 @@ namespace Nop.Admin.Controllers
                 UpdateLocales(vendor, model);
 
                 SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
-                if (continueEditing)
+                if (_workContext.CurrentVendor != null)
                 {
                     //selected tab
                     SaveSelectedTabIndex();
 
-                    return RedirectToAction("Edit", new { id = vendor.Id });
+                    return RedirectToAction("MyHome", new { id = vendor.Id });
                 }
                 return RedirectToAction("List");
             }
