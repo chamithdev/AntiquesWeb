@@ -2,39 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Nop.Admin.Extensions;
 using Nop.Admin.Models.Catalog;
-using Nop.Admin.Models.Orders;
-using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Orders;
 using Nop.Services.Catalog;
-using Nop.Services.Common;
-using Nop.Services.Customers;
-using Nop.Services.Directory;
-using Nop.Services.Discounts;
-using Nop.Services.ExportImport;
-using Nop.Services.Helpers;
 using Nop.Services.Localization;
-using Nop.Services.Logging;
-using Nop.Services.Media;
-using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Seo;
-using Nop.Services.Shipping;
-using Nop.Services.Stores;
-using Nop.Services.Tax;
-using Nop.Services.Vendors;
-using Nop.Web.Framework;
-using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Security;
 namespace Nop.Admin.Controllers
@@ -112,11 +91,8 @@ namespace Nop.Admin.Controllers
                 {
                     model.VendorId = _workContext.CurrentVendor.Id;
                 }
-                //vendors cannot edit "Show on home page" property
-                if (_workContext.CurrentVendor != null && model.ShowOnHomePage)
-                {
-                    model.ShowOnHomePage = false;
-                }
+                
+                model.ShowOnHomePage = true;
 
                 //product
                 var catId = model.CategoryId;
@@ -201,6 +177,7 @@ namespace Nop.Admin.Controllers
             PrepareStoresMappingModel(model, null, true);
             return View(model);
         }
+
         [HttpPost,AdminAntiForgeryAttribute(true)]
         public ActionResult UploadProductImages(string id)
         {
@@ -285,9 +262,7 @@ namespace Nop.Admin.Controllers
                 return Json(new { Message = "Error in saving file" });
             }
         }
-
-
-
+        
         public ActionResult EditIB(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
@@ -385,9 +360,7 @@ namespace Nop.Admin.Controllers
 
             return View(model);
         }
-
-
-
+        
         [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult EditIB(ProductModel model)
         {
@@ -400,6 +373,7 @@ namespace Nop.Admin.Controllers
                 //No product found with the specified id
                 return RedirectToAction("List");
 
+            model.ShowOnHomePage = true;
             model.ProductTypeId = 5;
             model.VisibleIndividually = true;
             model.ProductTemplateId = 1;
@@ -416,11 +390,7 @@ namespace Nop.Admin.Controllers
                 {
                     model.VendorId = _workContext.CurrentVendor.Id;
                 }
-                //vendors cannot edit "Show on home page" property
-                if (_workContext.CurrentVendor != null && model.ShowOnHomePage != product.ShowOnHomePage)
-                {
-                    model.ShowOnHomePage = product.ShowOnHomePage;
-                }
+                
                 var prevStockQuantity = product.GetTotalStockQuantity();
 
                 //product
@@ -516,9 +486,7 @@ namespace Nop.Admin.Controllers
             PrepareStoresMappingModel(model, product, true);
             return View(model);
         }
-
-
-
+        
         [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult UpdateProductPicture(List<ProductModel.ProductPictureModel> models)
         {
@@ -559,12 +527,7 @@ namespace Nop.Admin.Controllers
 
             return new NullJsonResult();
         }
-
-
-
-
-
-
+        
         [NonAction]
         private Picture UploadPicture(HttpPostedFileBase postFile)
         {
@@ -639,8 +602,7 @@ namespace Nop.Admin.Controllers
             var picture = _pictureService.InsertPicture(fileBinary, contentType, null);
             return picture;
         }
-
-
+        
         [NonAction]
         private void SaveAttribute(ProductModel model,ProductAttribute attr)
         {
@@ -686,8 +648,7 @@ namespace Nop.Admin.Controllers
             //    _productAttributeService.InsertProductAttributeValue(pav);
             //}
         }
-
-
+        
         [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult GetProductInfoForVendorIB(int productId)
         {
