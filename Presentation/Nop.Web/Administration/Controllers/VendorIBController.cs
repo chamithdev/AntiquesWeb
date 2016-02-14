@@ -160,7 +160,7 @@ namespace Nop.Admin.Controllers
 
                     _vendorService.UpdateVendor(vendor);
 
-                    return RedirectToAction("Edit", new { id = vendor.Id });
+                    return RedirectToAction("MyHome", new { id = vendor.Id });
                     
 
                    
@@ -405,7 +405,7 @@ namespace Nop.Admin.Controllers
                     .Select(c => c.Email)
                     .ToList();
             model.Products = VendorProducts(vendor.Id);
-            model.DisplayActive = _workContext.IsAdmin;
+            model.DisplayActive = _workContext.CurrentCustomer.CustomerRoles.Any(r=>r.SystemName =="Administrators");
             return View(model);
         }
 
@@ -442,6 +442,7 @@ namespace Nop.Admin.Controllers
 
 
                 //search engine name
+                model.DisplayActive = _workContext.CurrentCustomer.CustomerRoles.Any(r => r.SystemName == "Administrators");
                 model.SeName = vendor.ValidateSeName(model.SeName, vendor.Name, true);
                 _urlRecordService.SaveSlug(vendor, model.SeName, 0);
                 //locales
@@ -466,6 +467,7 @@ namespace Nop.Admin.Controllers
                     .Select(c => c.Email)
                     .ToList();
             //return View(model);
+            
             return RedirectToAction("Edit", new { id = vendor.Id });
         }
 

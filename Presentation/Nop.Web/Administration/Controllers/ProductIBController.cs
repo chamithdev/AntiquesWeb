@@ -353,7 +353,7 @@ namespace Nop.Admin.Controllers
 
 
             model.AvailableCategories = categoriesModel.Select(c => new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString(),Selected=c.Id== model.CategoryId }).ToList();
-            //model.Categories = categoriesModel;
+            model.Categories = categoriesModel;
 
             if (_workContext.CurrentVendor != null)
                 model.VendorId = _workContext.CurrentVendor.Id;
