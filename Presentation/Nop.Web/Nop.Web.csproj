@@ -2171,6 +2171,8 @@
     <Content Include="Themes\IB\Views\Newsletter\NewsletterBox.cshtml" />
     <Content Include="Themes\IB\Views\Newsletter\NewsLetterPopup.cshtml" />
     <Content Include="Themes\IB\Views\Customer\AccessDenied.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\SearchBox.cshtml" />
+    <Content Include="Themes\IB\Views\Catalog\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
