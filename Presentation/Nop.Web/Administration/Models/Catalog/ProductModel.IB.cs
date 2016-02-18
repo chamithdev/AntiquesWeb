@@ -61,5 +61,13 @@ namespace Nop.Admin.Models.Catalog
         //var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
 
         public string City { get; set; }
+
+        [NopResourceDisplayName("Admin.Catalog.Products.List.Category")]
+        [AllowHtml]
+        public string Category { get; set; }
+
+        [NopResourceDisplayName("Admin.Catalog.Products.List.FileNameTagKeyWord")]
+        [AllowHtml]
+        public string FileNameTagKeyWord { get; set; }
     }
 }
