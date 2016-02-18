@@ -333,8 +333,11 @@ namespace Nop.Admin.Controllers
                 if (product == null)
                     throw new ArgumentException("No product picture found with the specified id");
 
+
+
                 product.DisplayOrder = (product.DisplayOrder - model.DisplayOrder );
-                _productService.UpdateProduct(product);
+                if (product.DisplayOrder>0)
+                    _productService.UpdateProduct(product);
 
                 
             }
@@ -472,6 +475,35 @@ namespace Nop.Admin.Controllers
         }
 
 
+        public JsonResult SoldOut(int id)
+        {
+            
+
+            var product = _productService.GetProductById(id);
+
+            product.DisplayOrder = 9999999;
+            product.StockQuantity = 0;
+            _productService.UpdateProduct(product);
+
+            //if (products.Count == 0)
+            //    return Content("");
+            return new NullJsonResult();
+        }
+
+        public JsonResult MoveToPage(int productId,int page)
+        {
+
+
+            var product = _productService.GetProductById(productId);
+            var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
+            product.DisplayOrder = defaultGridPageSize * page;
+        
+            _productService.UpdateProduct(product);
+
+            //if (products.Count == 0)
+            //    return Content("");
+            return new NullJsonResult();
+        }
 
     }
 }

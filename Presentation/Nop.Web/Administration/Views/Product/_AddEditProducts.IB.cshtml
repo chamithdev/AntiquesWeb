@@ -20,11 +20,17 @@
         $("#dz").dropzone(
             {
                 url: "/admin/product/UploadProductImages/@Model.Id",
+                uploadMultiple: true,
+                uploadprogress: function (e, progress) {
+                    $('.fader').show();
+                },
                 success:function()
                 {
+                    $('.fader').hide();
                     window.location.reload(true);
                 },
                 error: function () {
+                    $('.fader').hide();
                     alert('error uploading data');
                 },
 
@@ -83,14 +89,14 @@
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 beforeSend: function () {
-                    $('#ajaxBusy').show();
+                    $('.fader').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('#ajaxBusy').hide();
+                    $('.fader').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('#ajaxBusy').hide();
+                    $('.fader').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
