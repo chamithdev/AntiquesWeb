@@ -225,8 +225,10 @@
                     <strong>Product Details</strong><br />
                     Circa Date :
                     @*@Html.EditorFor(model => model.CircaDate)*@
-                    @Html.DropDownListFor(model => model.CircaDate, Model.CircaDates)
+                    @*@Html.DropDownListFor(model => model.CircaDate, Model.CircaDates)*@
                     @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
+                    @Html.EditorFor(model => model.CircaDate, new { @class = "js-default-val-text  percent-40" })
+                    @Html.ValidationMessageFor(model => model.CircaDate)
                     <br />
                     Materials :
                     @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
