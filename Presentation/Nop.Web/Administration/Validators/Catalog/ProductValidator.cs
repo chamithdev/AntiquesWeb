@@ -10,6 +10,10 @@ namespace Nop.Admin.Validators.Catalog
         public ProductValidator(ILocalizationService localizationService)
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage(localizationService.GetResource("Admin.Catalog.Products.Fields.Name.Required"));
+
+            RuleFor(x => x.CircaDate)
+                .Length(4)
+                .WithMessage(localizationService.GetResource("Admin.Catalog.Products.Fields.FourDigitCircaDate.Length"));
         }
     }
 }
