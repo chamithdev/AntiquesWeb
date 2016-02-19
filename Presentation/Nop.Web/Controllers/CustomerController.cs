@@ -1102,6 +1102,7 @@ namespace Nop.Web.Controllers
 
             //If we got this far, something failed, redisplay form
             PrepareCustomerRegisterModel(model, true, customerAttributesXml);
+            model.DisplayIsVendor = true;
             return View("Register", model);
         }
 
