@@ -23,8 +23,11 @@
         $("#dz").dropzone(
             {
                 url: "/admin/vendor/UploadVendorImages/@Model.Id",
+                uploadprogress: function (e, progress) {
+                    $('.fader').show();
+                },
                 success: function () {
-                    //window.location.reload(true);
+                    $('.fader').hide();
                 },
                 error: function () {
                     alert('error uploading data');
@@ -141,6 +144,70 @@
 
 
     };
+
+
+    $(document).ready(function () {
+
+
+        ajaxGetDataParam = function (controller, method, param, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method +"/"+param,
+                type: "GET",
+                cache: false,
+                data: param,
+                beforeSend: function () {
+                    $('.fader').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('.fader').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('.fader').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        };
+
+        ajaxGetDataMultiple = function (controller, method, param, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method,
+                type: "GET",
+                cache: false,
+                data: param,
+                beforeSend: function () {
+                    $('.fader').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('.fader').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('.fader').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        }
+    });
+
+
+    function Soldout(id)
+    {
+        ajaxGetDataParam("Vendor", "SoldOut", id, function () {            
+            window.location.reload(true);
+        });
+    }
+    function MoveToPage(id,page) 
+    {
+        ajaxGetDataMultiple("Vendor", "MoveToPage", { 'productId': id, 'page': page }, function () {
+            window.location.reload(true);
+        });
+    }
+  
 </script>
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.PictureId)
