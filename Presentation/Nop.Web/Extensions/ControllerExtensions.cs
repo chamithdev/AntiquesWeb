@@ -101,6 +101,10 @@ namespace Nop.Web.Extensions
                     ShortDescription = product.GetLocalized(x => x.ShortDescription),
                     FullDescription = product.GetLocalized(x => x.FullDescription),
                     SeName = product.GetSeName(),
+                    DesignBy = product.GetLocalized(x => x.DesignBy),
+                    Style=product.GetLocalized(x =>x.Style),
+                    CircaDate=product.GetLocalized(x => x.CircaDate),
+
                 };
                 //price
                 if (preparePriceModel)
