@@ -58,6 +58,10 @@
         $("#buttonSearch").click(function () {
             productdetailsVendor();
         });
+
+        $('#dropdownOrderBy').change(function () {
+            productdetailsVendor();
+        });
     });
 
     ajaxPostJson = function (controller, method, jsonIn, callback, errorCallback) {

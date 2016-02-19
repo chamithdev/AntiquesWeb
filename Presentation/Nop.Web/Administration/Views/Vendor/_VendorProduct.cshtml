@@ -9,8 +9,8 @@
 	{
 	    pagesList.Add(i);
 	}
-    pagesList.Add(1);
-    pagesList.Add(2);
+    //pagesList.Add(1);
+    //pagesList.Add(2);
     
 }
 
@@ -32,8 +32,13 @@
                             <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
                         </p>
                         <p>
-                            Move To Page :@Html.DropDownList("MoveTo",new SelectList(pagesList),new {@id="ddlMove",@onchange = "MoveToPage("+@pm.ProductId+",$(this).val())"})
-                            <br />
+                            @if(pagesList.Count>0)
+                            {
+                               <text>Move To Page :</text>@Html.DropDownList("MoveTo",new SelectList(pagesList),new {@id="ddlMove",@onchange = "MoveToPage("+@pm.ProductId+",$(this).val())"}) ;
+                                <br />
+                            }
+                            
+                            
                             <input type="button" value="Sold Out" onclick="Soldout(@pm.ProductId)" />
                         </p>
                     </div>

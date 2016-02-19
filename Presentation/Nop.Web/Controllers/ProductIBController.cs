@@ -62,6 +62,7 @@ namespace Nop.Web.Controllers
                 return Content("");
 
             var model = PrepareProductOverviewModels(products, true, true, productThumbPictureSize).ToList();
+            model = model.OrderBy(p => Guid.NewGuid()).ToList();
             return PartialView(model);
         }
 
