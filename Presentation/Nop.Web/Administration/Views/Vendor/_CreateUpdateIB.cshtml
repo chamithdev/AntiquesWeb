@@ -52,7 +52,8 @@
                         var prod = new Object();
                         var oraOrder = originalArr.indexOf(picNos[i])
                         prod.Id = picNos[i];
-                        prod.DisplayOrder = oraOrder - i;
+                        var order = $('#'+picNos[oraOrder]).data("order");
+                        prod.DisplayOrder = order; //oraOrder - i;
                         prods.push(prod);
 
                     }

@@ -335,7 +335,7 @@ namespace Nop.Admin.Controllers
 
 
 
-                product.DisplayOrder = (product.DisplayOrder - model.DisplayOrder );
+                product.DisplayOrder = model.DisplayOrder;//(product.DisplayOrder - model.DisplayOrder);
                 if (product.DisplayOrder>0)
                     _productService.UpdateProduct(product);
 

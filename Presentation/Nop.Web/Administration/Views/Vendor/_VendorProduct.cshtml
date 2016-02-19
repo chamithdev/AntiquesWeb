@@ -17,7 +17,7 @@
 
         @foreach (Nop.Admin.Models.Vendors.VendorModel.VenddorProductModel pm in Model)
         {
-            <li class="ui-state-default" id="@pm.ProductId">
+            <li class="ui-state-default" id="@pm.ProductId" data-order="@pm.DisplayOrder">
                 <div class="thumbnail">
                     <div class="thum-img">
                         <a href="@Url.Action("editib", "product", new { area = "admin",id=@pm.ProductId }, null)">  <img alt="" src="@pm.ProductPicture.PictureUrl" title="@pm.ProductName" /></a>
