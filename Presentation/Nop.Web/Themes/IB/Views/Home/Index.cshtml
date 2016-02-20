@@ -40,25 +40,21 @@
 </script>
 <div class="pop-box">
     <div class="text-right"><a href="#" id="popClose">X</a></div>
-    @*<div class="welcome-msg">
-        <p>Welcome</p>
-        <span>Please enter your email here <br />&amp; get your free <br /> updates</span>
-        <div class="form-welcome">
-            <input type="text" defaultval="" value="" /><br />
-            <input type="button" value="Submit" class="btn btn-default" />
-        </div>
-    </div>*@
     @Html.Action("NewsletterPopup", "Newsletter")
 </div>
 
+@Html.Widget("home_page_top")
+@Html.Partial("_ShopNow")
+@Html.Action("HomepageLatestProducts", "Product", new { @id = 0 })
+@Html.Action("LatestBoutique", "Customer")
+
 <div class="page home-page">
     <div class="page-body">
-        @Html.Widget("home_page_top")
-        @Html.Partial("_ShopNow")
+        
         @*@Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })*@
-        @Html.Action("HomepageLatestProducts", "Product", new { @id = 0 })
+        
         @*@Html.Action("HomepageVenderProducts", "Catalog")*@
-        @Html.Action("LatestBoutique", "Customer")
+        
         @*@Html.Widget("home_page_before_categories")
         @Html.Action("HomepageCategories", "Catalog")
         @Html.Widget("home_page_before_products")

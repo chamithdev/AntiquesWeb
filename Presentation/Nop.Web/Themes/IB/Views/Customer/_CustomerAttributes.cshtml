@@ -6,14 +6,21 @@
     string textPrompt = attribute.Name;
 
    
-    <text>@textPrompt:</text>    <br />
+    @*<text>@textPrompt:</text>    <br />*@
     switch (attribute.AttributeControlType)
     {
-           
+
         case AttributeControlType.TextBox:
             {
 
-                <input name="@(controlId)" type="text" class="js-default-val-text margin-bottom10 mandatory-input" id="@(controlId)" value="@attribute.DefaultValue" />                <br />
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">@textPrompt :</label>
+                    <div class="col-sm-5">
+                        
+                        <input name="@(controlId)" type="text" class="form-control" id="@(controlId)" value="@attribute.DefaultValue" />  
+                    </div>
+                </div>
+                
 
             }
             break;

@@ -25,11 +25,13 @@
     else
     {
         //Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/styles.css", themeName));
+        Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/settings.css", themeName));
         Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/stylesib.css", themeName));
+        
     }
     //add jQuery UI css file
     Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/jquery.bxslider/jquery.bxslider.css", themeName));
-    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/bootstrap-3.2.0/css/bootstrap.min.css", themeName));
+    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/bootstrap-3.3.6/css/bootstrap.css", themeName));
     
 
     if (browser.Browser == "IE" && browser.MajorVersion == 8)

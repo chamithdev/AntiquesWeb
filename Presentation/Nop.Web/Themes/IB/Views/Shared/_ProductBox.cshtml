@@ -58,18 +58,21 @@
     }    
 }
 <div class="col-sm-6 col-md-3" data-productid="@Model.Id">
-    <div class="thumbnail">
+    <div class="thumbnail thumbnail-large">
         <div class="thum-img">
             <a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title">
                 <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
-                </a>
+            </a>
         </div>
         <div class="caption">
             <h3><a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })">@Model.Name</a></h3>
-            <p>
-                @Html.Raw(Text_Truncate(Model.ShortDescription, 90))<br />
+
+            <div class="desc">
+                @Html.Raw(Text_Truncate(Model.ShortDescription, 90))
+            </div>
+            <div class="price">
                 @Model.ProductPrice.Price
-            </p>
+            </div>
         </div>
     </div>
 </div>

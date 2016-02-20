@@ -2,12 +2,20 @@
 @{
     Layout = null;
 }
-<ul id="divSubCategories">
+<ul id="divSubCategories" class="list-group">
     @foreach (var sc in Model)
     {
-        <li>
-            <input type="checkbox" name="SubCatList" @(sc.Selected ? "checked" : "") value="@sc.Value" />
-            @sc.Text
+        <li class="list-group-item n-p ">
+
+            <div class="checkbox p5 n-m">
+                <label>
+                    <input type="checkbox" name="SubCatList" @(sc.Selected ? "checked" : "") value="@sc.Value">
+                    @sc.Text
+                </label>
+            </div>
+
+
         </li>
     }
+
 </ul>

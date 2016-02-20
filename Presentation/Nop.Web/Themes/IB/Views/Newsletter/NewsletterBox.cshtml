@@ -3,14 +3,15 @@
 
 
 
-<div class="newsletter">
+<section class="newsletter-box">
 
     <div class="img-container with-border with-bg">
         <div class="form">
+            <span class="glyphicon glyphicon-send newsletter-icon"></span>
             <h3>Join Our Mailing List</h3>
             @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })
             <br />
-            <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletter-subscribe-button" class="btn btn-default" />
+            <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletter-subscribe-button" class="btn btn-default btn-subscribe" />
             @if (Model.AllowToUnsubscribe)
             {
                 <div class="options">
@@ -33,20 +34,20 @@
     </div>
 
     @*<div class="title">
-        <strong>@T("Newsletter.Title")</strong>
-    </div>*@
+            <strong>@T("Newsletter.Title")</strong>
+        </div>*@
     @*<div class="newsletter-subscribe" id="newsletter-subscribe-block">
-        <div class="newsletter-email">
+            <div class="newsletter-email">
 
-           
-           
-           
-        </div>
-        <div class="newsletter-validation">
-            <span id="subscribe-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
-            @Html.ValidationMessageFor(x => x.NewsletterEmail)
-        </div>
-    </div>*@
+
+
+
+            </div>
+            <div class="newsletter-validation">
+                <span id="subscribe-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
+                @Html.ValidationMessageFor(x => x.NewsletterEmail)
+            </div>
+        </div>*@
     <div class="newsletter-result" id="newsletter-result-block"></div>
     <script type="text/javascript">
         function newsletter_subscribe(subscribe) {
@@ -58,7 +59,7 @@
                 type: "POST",
                 url: "@(Url.RouteUrl("SubscribeNewsletter"))",
                 data: { "subscribe": subscribe, "email": email },
-                success: function(data) {
+                success: function (data) {
                     subscribeProgress.hide();
                     $("#newsletter-result-block").html(data.Result);
                     if (data.Success) {
@@ -68,7 +69,7 @@
                         $('#newsletter-result-block').fadeIn("slow").delay(2000).fadeOut("slow");
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
+                error: function (xhr, ajaxOptions, thrownError) {
                     alert('Failed to subscribe.');
                     subscribeProgress.hide();
                 }
@@ -80,10 +81,10 @@
                 @if (Model.AllowToUnsubscribe)
                 {
                     <text>if ($('#newsletter_subscribe').is(':checked')) {
-                        newsletter_subscribe('true');
-                    } else {
-                        newsletter_subscribe('false');
-                    }</text>
+                    newsletter_subscribe('true');
+                } else {
+                    newsletter_subscribe('false');
+                }</text>
                 }
                 else
                 {
@@ -98,4 +99,4 @@
             });
         });
     </script>
-</div>
+</section>

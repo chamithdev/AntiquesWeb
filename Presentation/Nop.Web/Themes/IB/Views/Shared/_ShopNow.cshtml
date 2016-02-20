@@ -1,20 +1,21 @@
 ﻿@*@helper HelperName(string name) {
-    // your helper can contain code and/or markup, e.g.
-    // var msg = "Hello " + name;
-    // <p>@msg</p>
-    // For more information, visit http://go.microsoft.com/fwlink/?LinkID=204658
-}*@
-<div class="section-pannel">
-    <div class="row">
-        <div class="col-sm-6 col-md-5">
-            @Html.Action("NewsletterBox", "Newsletter")
-            
-        </div>
-        <div class="col-sm-6 col-md-7">
-            <div class="img-container with-border"><img src="~/Themes/IB/Content/images/E_Home_Interior_Boutiques_Video_Tile_Vintage_Design_Furniture_03.jpg" alt="" width="567" height="319" /> </div>
-            <div class="caption less-margin">
-                <h3>Shop Now Mid-Century Design</h3>
-            </div>
+        // your helper can contain code and/or markup, e.g.
+        // var msg = "Hello " + name;
+        // <p>@msg</p>
+        // For more information, visit http://go.microsoft.com/fwlink/?LinkID=204658
+    }*@
+
+
+
+<div class="row">
+    <div class="col-sm-6 col-md-5 m-b">
+        @Html.Action("NewsletterBox", "Newsletter")
+    </div>
+    <div class="col-sm-6 col-md-7 m-b">
+        <div class="home-banner">
+            <img src="~/Themes/IB/Content/images/E_Home_Interior_Boutiques_Video_Tile_Vintage_Design_Furniture_03.jpg" class="img-responsive" alt="" width="567" height="319" />
+            <h3 >Shop Now Mid-Century Design</h3>
         </div>
     </div>
 </div>
+

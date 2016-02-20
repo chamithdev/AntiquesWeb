@@ -5,46 +5,43 @@
 @using Nop.Core.Domain.Tax
 @using Nop.Core.Infrastructure
 
+<div id="section-footer" class="section-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-sm-6 col-md-12">
-                <div class="footer-content"> <a href="#"><img src="/Themes/IB/Content/images/blogs.png" alt="" width="34" height="34" /></a>&nbsp; 
-                
-                @if (!string.IsNullOrEmpty(Model.GooglePlusLink))
-                {
-                    <a href="#"><img src="/Themes/IB/Content/images/googleplus.png" alt="" width="34" height="33" /></a>
-                }
-                @if (!string.IsNullOrEmpty(Model.YoutubeLink))
-                {
-                    <a href="#"><img src="/Themes/IB/Content/images/youtube.png" alt="" width="34" height="34" /></a>
-                }
-                @if (!string.IsNullOrEmpty(Model.TwitterLink))
-                {
-                    <a href="#"><img src="/Themes/IB/Content/images/twitter.png" alt="" width="34" height="34" /></a>
-                }
-                @if (!string.IsNullOrEmpty(Model.FacebookLink))
-                {
-                    <a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a>
-                }
-                @*@if (Model.NewsEnabled)
-                {
-                    <li class="icon rss"><a href="@Url.RouteUrl("NewsRSS", new {languageId = Model.WorkingLanguageId})"><i class="fa fa-rss fa-fw"></i></a></li>
-                }*@
-                    &nbsp;<a href="#"><img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a>&nbsp; <a href="#"><img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" /></a>&nbsp;  <a href="#"><img src="/Themes/IB/Content/images/links.png" alt="" width="34" height="34" /></a></div>
-            </div>
-            <div class="col-sm-6 col-md-12">
                 <div class="footer-content">
+                    <a href="#"><img src="/Themes/IB/Content/images/blogs.png" alt="" width="34" height="34" /></a>&nbsp;
+
+                    @if (!string.IsNullOrEmpty(Model.GooglePlusLink))
+                    {
+                        <a href="#"><img src="/Themes/IB/Content/images/googleplus.png" alt="" width="34" height="33" /></a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.YoutubeLink))
+                    {
+                        <a href="#"><img src="/Themes/IB/Content/images/youtube.png" alt="" width="34" height="34" /></a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.TwitterLink))
+                    {
+                        <a href="#"><img src="/Themes/IB/Content/images/twitter.png" alt="" width="34" height="34" /></a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.FacebookLink))
+                    {
+                        <a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a>
+                    }
+                    &nbsp;<a href="#"><img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a>&nbsp; <a href="#"><img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" /></a>&nbsp;  <a href="#"><img src="/Themes/IB/Content/images/links.png" alt="" width="34" height="34" /></a>
+
+                    <br /><br />
                     <ul>
                         <li><a href="#">Subscribe</a></li>
                         <li><a href="/Home/ComingSoon">Customer Services</a></li>
                         <li><a href="/Home/TermsAndConditions">Terms &amp; Conditions</a></li>
                     </ul>
                 </div>
+
+                
             </div>
         </div>
     </div>
 </div>
-
 

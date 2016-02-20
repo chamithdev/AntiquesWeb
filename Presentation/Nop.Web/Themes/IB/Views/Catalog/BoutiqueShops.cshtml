@@ -2,16 +2,25 @@
 @{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
 }
-<div class="search">
-    Search By:&nbsp;
-    <select>
-        <option>Latest</option>
-        <option>Alphabetically</option>
-        <option>Default</option>
-    </select>
-    <input type="text" class="search-box" />
-    <a href="#"><img src="~/Themes/IB/Content/images/search.png" alt="" width="16" height="16" /></a>
+
+<div class="input-group m-b">
+    <span class="input-group-addon">Search By</span>
+    
+    <input type="text" class="form-control input-lg" utocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default btn-lg n-b-radious dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Latest
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#">Alphabetically</a></li>
+            <li><a href="#">Default</a></li>
+        </ul>
+        <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></button>
+    </div>
 </div>
+
 <div class="section-pannel">
     <div class="section-header">
         <h4><span>Boutique Shops</span></h4>
@@ -21,16 +30,25 @@
         @foreach (var item in Model)
         {
             <div class="col-sm-6 col-md-3">
-               
-                <a href="@Url.Action("BoutiqueShopDetails", "Catalog", new { vendorId =@item.Id})">
+
+                <div class="thumbnail thumbnail-small">
+                    <div class="thum-img">
+                        <a href="@Url.Action("BoutiqueShopDetails", "Catalog", new { vendorId =@item.Id})"><img src="@item.ImageUrl" /></a>
+                    </div>
+                    <div class="caption-small">
+                        <h3><a href="@Url.Action("BoutiqueShopDetails", "Catalog", new { vendorId =@item.Id})">@item.Name</a></h3>
+                    </div>
+                </div>
+
+                @*<a href="@Url.Action("BoutiqueShopDetails", "Catalog", new { vendorId =@item.Id})">
                     <div class="thumbnail height-small"> <img src="@item.ImageUrl" /></div>
                     <div class="caption with-border">
-                        <h3>@item.Name</h3>
+                        <h3>@item.Name</h3>1111
                     </div>
-                </a>
+                </a>*@
             </div>
         }
-  
-       
+
+
     </div>
 </div>

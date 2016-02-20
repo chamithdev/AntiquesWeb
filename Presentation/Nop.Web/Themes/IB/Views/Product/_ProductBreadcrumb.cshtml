@@ -6,7 +6,7 @@
     var breadcrumbDelimiter = EngineContext.Current.Resolve<CommonSettings>().BreadcrumbDelimiter;
 }
 
-<div class="breadcrumb-section">
+@*<div class="breadcrumb-section">
     <div class="breadcrumb-pan">
         <a href="@Url.RouteUrl("HomePage")" itemprop="url">@T("Products.Breadcrumb.Top")</a>
         @foreach (var category in Model.CategoryBreadcrumb)
@@ -16,9 +16,22 @@
         }
         <img src="/Themes/IB/Content/images/arrowhead-right.png" alt="" width="16" height="16" />
         @Model.ProductName
-       
+
     </div>
-</div>
+</div>*@
+
+
+<ol class="breadcrumb">
+    <li><a href="@Url.RouteUrl("HomePage")">@T("Products.Breadcrumb.Top")</a></li>
+    @foreach (var category in Model.CategoryBreadcrumb)
+    {
+        <li><span class="m-r10"><img src="~/Themes/IB/Content/images/pointer.png" /></span>
+            <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })" itemprop="url">@category.Name</a>
+        </li>
+    }
+    <li class="active"><span class="m-r10"><img src="~/Themes/IB/Content/images/pointer.png" /></span> @Model.ProductName</li>
+</ol>
+
 @*<ol class="breadcrumb">
 
 
