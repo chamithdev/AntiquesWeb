@@ -104,11 +104,33 @@ namespace Nop.Web.Controllers
 
         }
 
-        public ActionResult BoutiqueShops()
+        public ActionResult BoutiqueShops(int?pageNo,string q="",string s="")
         {
-            var vendors = _vendorService.GetAllVendors();
+            //var q="";
+         
+            //if (f["q"] != null)
+            //    q = f["q"].ToString();
+            if (s == "")
+                s="0";
+            var vendors = _vendorService.GetAllVendors().Where(v=>v.Name.Contains(q) || q=="");
+            if (s == "0")
+                vendors = vendors.OrderBy(v => Guid.NewGuid());
+            else if(s=="1")
+                vendors = vendors.OrderBy(v => v.Name);
+
+            var pageSize = _catalogSettings.SearchPageProductsPerPage;
+
+
+            if (pageNo == null)
+                pageNo = 1;
+
+            int skip = (pageNo.Value - 1) * pageSize;
+
+            ViewBag.PageCount = (vendors.Count() % pageSize) > 1 ? (1 + (vendors.Count() / pageSize)) : Convert.ToInt32((vendors.Count() / pageSize));
+
+            var lstvendors = vendors.Skip(skip).Take(pageSize).ToList();
             var shops = new List<VendorModel>();
-            foreach (var vendor in vendors)
+            foreach (var vendor in lstvendors)
             {
                 var vendorModel = new VendorModel
                 {
@@ -124,6 +146,7 @@ namespace Nop.Web.Controllers
                 };
                 shops.Add(vendorModel);
             }
+
 
             return View(shops);
         }

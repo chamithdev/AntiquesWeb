@@ -134,6 +134,7 @@ namespace Nop.Admin.Controllers
         public ActionResult UploadVendorImages(string id)
         {
             bool isSavedSuccessfully = true;
+            int picId = 0;
             string fName = "";
             try
             {
@@ -157,10 +158,10 @@ namespace Nop.Admin.Controllers
                         throw new ArgumentException("No picture found with the specified id");
 
                     vendor.PictureId = picture.Id;
-
+                    picId = picture.Id;
                     _vendorService.UpdateVendor(vendor);
 
-                    return RedirectToAction("MyHome", new { id = vendor.Id });
+                    //return RedirectToAction("MyHome", new { id = vendor.Id });
                     
 
                    
@@ -176,7 +177,7 @@ namespace Nop.Admin.Controllers
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = fName });
+                return Json(new { Message = picId });
             }
             else
             {
@@ -430,17 +431,17 @@ namespace Nop.Admin.Controllers
 
                 _vendorService.UpdateVendor(vendor);
 
-                if (vendor.Active && _workContext.IsAdmin)
-                {
-                    //send vendor email
-                    var customer = _customerService.GetAllCustomers(vendorId: vendor.Id);
-                    if (customer.Count > 0)
-                    {
-                        _workflowMessageService.SendVendorEmailValidationMessage(customer[0], _workContext.WorkingLanguage.Id);
-                    }
-                    //_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
+                //if (vendor.Active && _workContext.IsAdmin)
+                //{
+                //    //send vendor email
+                //    var customer = _customerService.GetAllCustomers(vendorId: vendor.Id);
+                //    if (customer.Count > 0)
+                //    {
+                //        _workflowMessageService.SendVendorEmailValidationMessage(customer[0], _workContext.WorkingLanguage.Id);
+                //    }
+                //    //_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
 
-                }
+                //}
 
 
 

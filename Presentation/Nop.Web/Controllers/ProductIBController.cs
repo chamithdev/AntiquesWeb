@@ -50,19 +50,47 @@ namespace Nop.Web.Controllers
         public ActionResult HomepageLatestProducts(int id, int? productThumbPictureSize)
         {
             var products = _productService.GetLatestProductsDisplayedOnHomePage();
-            //ACL and store mapping
+           
+            products = products.OrderBy(p => Guid.NewGuid()).ToList();
             if (id==1)
                 products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).ToList();
             else
-                products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).Take(10).ToList();
-            //availability dates
+                products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).Take(20).ToList();
+           
             products = products.Where(p => p.IsAvailable()).ToList();
 
             if (products.Count == 0)
                 return Content("");
 
             var model = PrepareProductOverviewModels(products, true, true, productThumbPictureSize).ToList();
+            //model = model.OrderBy(p => Guid.NewGuid()).ToList();
+            return PartialView(model);
+        }
+
+        //[ChildActionOnly]
+        public ActionResult LatestFinds(int? pageNo)
+        {
+            var pageSize = _catalogSettings.SearchPageProductsPerPage;
+
+
+            if (pageNo == null)
+                pageNo = 1;
+
+            int skip = (pageNo.Value -1) * pageSize;
+            var products = _productService.GetLatestProductsDisplayedOnHomePage();
+            ViewBag.PageCount = (products.Count % pageSize) > 1 ? (1 + (products.Count / pageSize)) : Convert.ToInt32((products.Count / pageSize));
+
+            products = products.Skip(skip).Take(pageSize).ToList();
+           
+            //availability dates
+            products = products.Where(p => p.IsAvailable()).ToList();
+
+            if (products.Count() == 0)
+                return Content("");
+
+            var model = PrepareProductOverviewModels(products, true, true, 200).ToList();
             model = model.OrderBy(p => Guid.NewGuid()).ToList();
+           
             return PartialView(model);
         }
 

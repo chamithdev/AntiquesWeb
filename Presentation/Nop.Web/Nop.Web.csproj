@@ -2196,6 +2196,7 @@
     <Content Include="Themes\IB\Content\css\bootstrap-3.3.6\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Themes\IB\Content\css\bootstrap-3.3.6\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Themes\IB\Views\Product\_ProductDetailsPictures.cshtml" />
+    <Content Include="Themes\IB\Views\Product\LatestFinds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

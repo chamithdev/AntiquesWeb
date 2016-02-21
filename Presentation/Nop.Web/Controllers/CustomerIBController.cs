@@ -15,8 +15,9 @@ namespace Nop.Web.Controllers
         [ChildActionOnly]
         public ActionResult LatestBoutique()
         {
-            var vendors = _vendorService.GetAllVendors();
-            var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now);
+            //var vendors = _vendorService.GetAllVendors();
+            var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Take(12);
+            customers = customers.OrderBy(c => Guid.NewGuid());
             var shops = new List<VendorModel>();
             foreach (var c in customers)
             {
@@ -24,18 +25,22 @@ namespace Nop.Web.Controllers
                 {
 
                     var vendor = _vendorService.GetVendorById(c.VendorId);
-                    var vendorModel = new VendorModel
+                    if(vendor.Active && !vendor.Deleted)
                     {
-                        Id = vendor.Id,
-                        Name = vendor.GetLocalized(x => x.Name),
-                        Description = vendor.GetLocalized(x => x.Description),
-                        MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
-                        MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
-                        MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
-                        SeName = vendor.GetSeName(),                       
-                        ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
-                    };
-                    shops.Add(vendorModel);
+                        var vendorModel = new VendorModel
+                        {
+                            Id = vendor.Id,
+                            Name = vendor.GetLocalized(x => x.Name),
+                            Description = vendor.GetLocalized(x => x.Description),
+                            MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
+                            MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
+                            MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
+                            SeName = vendor.GetSeName(),
+                            ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
+                        };
+                        shops.Add(vendorModel);
+                    }
+                   
                 }
                 
             }

@@ -1,0 +1,70 @@
+﻿@model IList<ProductOverviewModel>
+
+@using Nop.Web.Models.Catalog;
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+    var pageCount = Convert.ToInt32(ViewBag.PageCount);
+    var currentPage = 1;
+    if (Request["pageNo"] !=null)
+    {
+        currentPage = Convert.ToInt32(Request["pageNo"]);
+    }
+    
+}
+<div class="page home-page">
+    <div class="page-body">
+
+
+@if (Model.Count > 0)
+{
+    <div class="section-pannel m-b">
+        <div class="section-header">
+            <h4><span>Latest Finds</span></h4>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                @Html.Partial("_ProductBox", item)
+            }
+        </div>
+    </div>
+}
+
+@if (pageCount > 1)
+{
+    <div class="page-wrap">
+        <ul class="pagination">
+            <li ><a href="/Product/LatestFinds/?pageNo=1">&laquo;</a></li>
+            @for (int x = 1; x <= pageCount; x++)
+            {
+                <li id="@x" @(currentPage == x ? "class=active":"") ><a href="/Product/LatestFinds/?pageNo=@x">@(x)</a></li>
+            }
+
+            @*<li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>*@
+            <li><a href="/Product/LatestFinds/?pageNo=@pageCount">&raquo;</a></li>
+        </ul>
+    </div>
+}
+
+        @*@Html.Widget("home_page_top")*@
+        @*@Html.Partial("_ShopNow")*@
+        @*@Html.Action("TopicBlock", "Topic", new { systemName = "HomePageText" })*@
+       @* @Html.Action("HomepageLatestProducts", "Product", new {@id=1 })*@
+        @*@Html.Action("HomepageVenderProducts", "Catalog")*@
+       
+        @*@Html.Widget("home_page_before_categories")
+            @Html.Action("HomepageCategories", "Catalog")
+            @Html.Widget("home_page_before_products")
+
+            @Html.Widget("home_page_before_best_sellers")
+            @Html.Action("HomepageBestSellers", "Product")
+            @Html.Widget("home_page_before_news")
+            @Html.Action("HomePageNews", "News")
+            @Html.Widget("home_page_before_poll")
+            @Html.Action("HomePagePolls", "Poll")
+            @Html.Widget("home_page_bottom")*@
+    </div>
+</div>

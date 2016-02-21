@@ -1,26 +1,53 @@
 ﻿@model List<Nop.Web.Models.Catalog.VendorModel>
 @{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    var pageCount = Convert.ToInt32(ViewBag.PageCount);
+    var currentPage = 1;
+    if (Request["pageNo"] != null)
+    {
+        currentPage = Convert.ToInt32(Request["pageNo"]);
+    }
+
+    var q = "";
+    if (Request["q"] != null)
+    {
+        q = Convert.ToString(Request["q"]);
+    }
+    var s = "0";
+    if (Request["s"] != null)
+    {
+        s = Convert.ToString(Request["s"]);
+    }
+    
 }
+
 
 <div class="input-group m-b">
     <span class="input-group-addon">Search By</span>
     
-    <input type="text" class="form-control input-lg" utocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")">
+    <input type="text" class="form-control input-lg" utocomplete="off" id="q" name="q" value="@q" placeholder="@T("Search.SearchBox.Tooltip")">
     <div class="input-group-btn">
         <button type="button" class="btn btn-default btn-lg n-b-radious dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Latest
+            @if(s=="0") 
+            {
+                <Text>Default</Text>
+            }else if (s == "1")
+            {
+                <Text>Alphabetically</Text>
+            }
+           
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#">Alphabetically</a></li>
-            <li><a href="#">Default</a></li>
+            <li><a href="#" id="0">Default</a></li>
+            <li><a href="#" id="1">Alphabetically</a></li>
         </ul>
-        <button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></button>
+        <a href="" id="aSearch" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></a>
     </div>
 </div>
-
+<input type="hidden" name="s" id="s" value="@s" />
 <div class="section-pannel">
     <div class="section-header">
         <h4><span>Boutique Shops</span></h4>
@@ -51,4 +78,49 @@
 
 
     </div>
-</div>
+    <div class="row">
+        @if (pageCount > 1)
+        {
+            <div class="page-wrap">
+                <ul class="pagination">
+                    <li><a href="/Catalog/BoutiqueShops/?pageNo=1">&laquo;</a></li>
+                    @for (int x = 1; x <= pageCount; x++)
+                    {
+                        <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShops/?pageNo=@x">@(x)</a></li>
+                    }
+
+                    @*<li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>*@
+                    <li><a href="/Catalog/BoutiqueShops/?pageNo=@pageCount">&raquo;</a></li>
+                </ul>
+            </div>
+        }
+        </div>
+    </div>
+<script>
+    $(function () {
+
+        $(".dropdown-menu li a").click(function () {
+
+            $(".btn:first-child").text($(this).text());
+            $(".btn:first-child").val($(this).id);
+
+            $('#s').val($(this).attr('id'));
+            window.location.href='/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            return true;
+        });
+
+    });
+
+    $('#aSearch').click(function () {
+        $(this).attr('href', '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+        return true;
+        //we let the event bubble for the modal plugin, so ne returning false here
+    });
+
+    $(document).ready(function () {
+
+    });
+</script>

@@ -13,7 +13,7 @@
     }
     var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
     var total = Model.Products.Count > 0 ? Model.Products[0].TotalCount : 0;
-    var pages = total / defaultGridPageSize;
+    var pages = (total % defaultGridPageSize) > 0 ? (1 + total / defaultGridPageSize) :total / defaultGridPageSize;
 }
 <script>
     var baseUrl = "/admin/";
@@ -26,8 +26,10 @@
                 uploadprogress: function (e, progress) {
                     $('.fader').show();
                 },
-                success: function () {
+                success: function (data,obj) {
+                    $('#hdnPictureId').val(obj.Message);
                     $('.fader').hide();
+
                 },
                 error: function () {
                     alert('error uploading data');
@@ -211,7 +213,7 @@
   
 </script>
 @Html.HiddenFor(model => model.Id)
-@Html.HiddenFor(model => model.PictureId)
+@Html.HiddenFor(model => model.PictureId, new {@id="hdnPictureId" })
 <div id="body-content">
     <div class="container">
         <div class="section-pannel">
