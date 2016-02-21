@@ -16,7 +16,7 @@ namespace Nop.Web.Controllers
         public ActionResult LatestBoutique()
         {
             //var vendors = _vendorService.GetAllVendors();
-            var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Take(12);
+            var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Where(c=>c.VendorId>0).Take(12);
             customers = customers.OrderBy(c => Guid.NewGuid());
             var shops = new List<VendorModel>();
             foreach (var c in customers)
