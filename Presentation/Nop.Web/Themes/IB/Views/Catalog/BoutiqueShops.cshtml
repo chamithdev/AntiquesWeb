@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-default btn-lg n-b-radious dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             @if(s=="0") 
             {
-                <Text>Default</Text>
+                <Text>Latest</Text>
             }else if (s == "1")
             {
                 <Text>Alphabetically</Text>
@@ -41,7 +41,7 @@
             <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#" id="0">Default</a></li>
+            <li><a href="#" id="0">Latest</a></li>
             <li><a href="#" id="1">Alphabetically</a></li>
         </ul>
         <a href="" id="aSearch" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></a>
@@ -83,17 +83,17 @@
         {
             <div class="page-wrap">
                 <ul class="pagination">
-                    <li><a href="/Catalog/BoutiqueShops/?pageNo=1">&laquo;</a></li>
+                    <li><a href="/Catalog/BoutiqueShops/?pageNo=1&q=@q&s=@s">&laquo;</a></li>
                     @for (int x = 1; x <= pageCount; x++)
                     {
-                        <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShops/?pageNo=@x">@(x)</a></li>
+                        <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShops/?pageNo=@x&q=@q&s=@s">@(x)</a></li>
                     }
 
                     @*<li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li>*@
-                    <li><a href="/Catalog/BoutiqueShops/?pageNo=@pageCount">&raquo;</a></li>
+                    <li><a href="/Catalog/BoutiqueShops/?pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
                 </ul>
             </div>
         }

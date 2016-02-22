@@ -16,32 +16,27 @@ namespace Nop.Web.Controllers
         public ActionResult LatestBoutique()
         {
             //var vendors = _vendorService.GetAllVendors();
-            var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Where(c=>c.VendorId>0).Take(12);
-            customers = customers.OrderBy(c => Guid.NewGuid());
-            var shops = new List<VendorModel>();
-            foreach (var c in customers)
-            {
-                if(c.VendorId>0)
-                {
+            var vendors = _vendorService.GetAllVendorsByDateRange(datefromUtc: DateTime.Now.AddMonths(-2), dateToUtc: DateTime.Now);
 
-                    var vendor = _vendorService.GetVendorById(c.VendorId);
-                    if(vendor.Active && !vendor.Deleted)
-                    {
-                        var vendorModel = new VendorModel
-                        {
-                            Id = vendor.Id,
-                            Name = vendor.GetLocalized(x => x.Name),
-                            Description = vendor.GetLocalized(x => x.Description),
-                            MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
-                            MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
-                            MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
-                            SeName = vendor.GetSeName(),
-                            ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
-                        };
-                        shops.Add(vendorModel);
-                    }
-                   
-                }
+            //var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Where(c => c.VendorId > 0).Take(12);
+            //customers = customers.OrderBy(c => Guid.NewGuid());
+            var selectedvendors = vendors.OrderBy(v => Guid.NewGuid()).ToList().Take(12);
+
+            var shops = new List<VendorModel>();
+            foreach (var vendor in selectedvendors)
+            {
+                var vendorModel = new VendorModel
+                {
+                    Id = vendor.Id,
+                    Name = vendor.GetLocalized(x => x.Name),
+                    Description = vendor.GetLocalized(x => x.Description),
+                    MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
+                    MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
+                    MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
+                    SeName = vendor.GetSeName(),
+                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
+                };
+                shops.Add(vendorModel);
                 
             }
 

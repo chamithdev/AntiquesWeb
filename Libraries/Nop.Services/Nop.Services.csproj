@@ -217,6 +217,7 @@
     <Compile Include="Shipping\EventPublisherExtensions.cs" />
     <Compile Include="Topics\ITopicTemplateService.cs" />
     <Compile Include="Topics\TopicTemplateService.cs" />
+    <Compile Include="Vendors\IVendorService.IB.cs" />
     <Compile Include="Vendors\VendorService.cs" />
     <Compile Include="Vendors\IVendorService.cs" />
     <Compile Include="Customers\ICustomerRegistrationService.cs" />
@@ -393,6 +394,7 @@
     <Compile Include="Tax\TaxService.cs" />
     <Compile Include="Topics\ITopicService.cs" />
     <Compile Include="Topics\TopicService.cs" />
+    <Compile Include="Vendors\VendorService.IB.cs" />
     <Compile Include="Web References\EuropaCheckVatService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

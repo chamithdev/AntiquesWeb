@@ -4,6 +4,7 @@ using Nop.Core;
 using Nop.Core.Data;
 using Nop.Core.Domain.Vendors;
 using Nop.Services.Events;
+using Nop.Core.Domain.Customers;
 
 namespace Nop.Services.Vendors
 {
@@ -15,6 +16,7 @@ namespace Nop.Services.Vendors
         #region Fields
 
         private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IRepository<Customer> _customerRepository;
         private readonly IEventPublisher _eventPublisher;
 
         #endregion
@@ -27,10 +29,11 @@ namespace Nop.Services.Vendors
         /// <param name="vendorRepository">Vendor repository</param>
         /// <param name="eventPublisher">Event published</param>
         public VendorService(IRepository<Vendor> vendorRepository,
-            IEventPublisher eventPublisher)
+            IEventPublisher eventPublisher, IRepository<Customer> customerRepository)
         {
             this._vendorRepository = vendorRepository;
             this._eventPublisher = eventPublisher;
+            this._customerRepository = customerRepository;
         }
 
         #endregion

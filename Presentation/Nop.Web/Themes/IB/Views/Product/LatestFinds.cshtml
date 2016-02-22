@@ -9,12 +9,52 @@
     {
         currentPage = Convert.ToInt32(Request["pageNo"]);
     }
+
+
+    var q = "";
+    if (Request["q"] != null)
+    {
+        q = Convert.ToString(Request["q"]);
+    }
+    var s = "0";
+    if (Request["s"] != null)
+    {
+        s = Convert.ToString(Request["s"]);
+    }
     
 }
+
 <div class="page home-page">
     <div class="page-body">
 
 
+
+        <div class="input-group m-b">
+            <span class="input-group-addon">Search By</span>
+
+            <input type="text" class="form-control input-lg" utocomplete="off" id="q" name="q" value="@q" placeholder="@T("Search.SearchBox.Tooltip")">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default btn-lg n-b-radious dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if (s == "0")
+                    {
+                        <Text>Latest</Text>
+                    }
+                    else if (s == "1")
+                    {
+                        <Text>Alphabetically</Text>
+                    }
+
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#" id="0">Latest</a></li>
+                    <li><a href="#" id="1">Alphabetically</a></li>
+                </ul>
+                <a href="" id="aSearch" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></a>
+            </div>
+        </div>
+        <input type="hidden" name="s" id="s" value="@s" />
 @if (Model.Count > 0)
 {
     <div class="section-pannel m-b">
@@ -34,17 +74,17 @@
 {
     <div class="page-wrap">
         <ul class="pagination">
-            <li ><a href="/Product/LatestFinds/?pageNo=1">&laquo;</a></li>
+            <li ><a href="/Product/LatestFinds/?pageNo=1&q=@q&s=@s">&laquo;</a></li>
             @for (int x = 1; x <= pageCount; x++)
             {
-                <li id="@x" @(currentPage == x ? "class=active":"") ><a href="/Product/LatestFinds/?pageNo=@x">@(x)</a></li>
+                <li id="@x" @(currentPage == x ? "class=active":"") ><a href="/Product/LatestFinds/?pageNo=@x&q=@q&s=@s">@(x)</a></li>
             }
 
             @*<li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
                 <li><a href="#">5</a></li>*@
-            <li><a href="/Product/LatestFinds/?pageNo=@pageCount">&raquo;</a></li>
+            <li><a href="/Product/LatestFinds/?pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
         </ul>
     </div>
 }
@@ -68,3 +108,28 @@
             @Html.Widget("home_page_bottom")*@
     </div>
 </div>
+<script>
+    $(function () {
+
+        $(".dropdown-menu li a").click(function () {
+
+            $(".btn:first-child").text($(this).text());
+            $(".btn:first-child").val($(this).id);
+
+            $('#s').val($(this).attr('id'));
+            window.location.href = '/Product/LatestFinds/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            return true;
+        });
+
+    });
+
+    $('#aSearch').click(function () {
+        $(this).attr('href', '/Product/LatestFinds/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+        return true;
+        //we let the event bubble for the modal plugin, so ne returning false here
+    });
+
+    $(document).ready(function () {
+
+    });
+</script>
