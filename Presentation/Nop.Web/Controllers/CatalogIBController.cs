@@ -112,11 +112,14 @@ namespace Nop.Web.Controllers
             //    q = f["q"].ToString();
             if (s == "")
                 s="0";
-            var vendors = _vendorService.GetAllVendors().Where(v=>v.Name.Contains(q) || q=="");
+            if (string.IsNullOrWhiteSpace(q)) 
+                q = "";
+
+            List<Vendor> vendors = _vendorService.GetAllVendors(name: q).ToList();
             if (s == "0")
-                vendors = vendors.OrderBy(v => Guid.NewGuid());
+                vendors = _vendorService.GetAllVendorsOrderByDate(name: q).ToList();
             else if(s=="1")
-                vendors = vendors.OrderBy(v => v.Name);
+                vendors = vendors.OrderBy(v => v.Name).ToList();
 
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
 

@@ -68,17 +68,31 @@ namespace Nop.Web.Controllers
         }
 
         //[ChildActionOnly]
-        public ActionResult LatestFinds(int? pageNo)
+        public ActionResult LatestFinds(int? pageNo, string q = "", string s = "")
         {
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
 
+            if (s == "")
+                s = "0";
+            if (string.IsNullOrWhiteSpace(q))
+                q = "";
 
             if (pageNo == null)
                 pageNo = 1;
 
             int skip = (pageNo.Value -1) * pageSize;
             var products = _productService.GetLatestProductsDisplayedOnHomePage();
+
+            products = products.Where(p => p.Name.Contains(q) || q == "").ToList();
+            if (s == "0")
+                products = products.OrderByDescending(p => p.CreatedOnUtc).ToList();
+            else if (s == "1")
+                products = products.OrderBy(p => p.Name).ToList();
+
+
             ViewBag.PageCount = (products.Count % pageSize) > 1 ? (1 + (products.Count / pageSize)) : Convert.ToInt32((products.Count / pageSize));
+
+            
 
             products = products.Skip(skip).Take(pageSize).ToList();
            
