@@ -133,10 +133,11 @@ hr.logo-line {
     background-color: #F9F9F9;
     min-height: 320px;
     border: 1px solid #E4E4E4;
-    background-image: url('../images/newsletter-bg.png');
+    /* background-image: url('../images/newsletter-bg.png'); */
     background-position: top;
     background-repeat: repeat-x;
 }
+
 
     .newsletter-box .newsletter-icon {
         font-size: 100px;
@@ -276,6 +277,10 @@ hr.logo-line {
     display: block;
     text-decoration: none;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
 }
 
 .thumbnail .caption .desc {
@@ -399,12 +404,16 @@ slider-main-img ul{
 	display: block;
 	padding-top: 100%;*/
 }
-.gallery .picture img,
+/*.gallery .picture img,
 .gallery .picture-thumbs img,
 .variant-picture img {
  width: 100%;
   height: auto;
 
+}*/
+.gallery .picture img, .gallery .picture-thumbs img, .variant-picture img {
+    /* width: 100%; */
+    /* height: auto; */
 }
 .gallery .picture-thumbs {
 	overflow: hidden;

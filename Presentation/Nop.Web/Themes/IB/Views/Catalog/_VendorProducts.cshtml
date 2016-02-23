@@ -6,7 +6,7 @@
 
 @foreach (Nop.Web.Models.Catalog.ProductOverviewModel pm in Model)
 {
-    <div class="col-sm-6 col-md-3" id="@pm.Id">
+    @*<div class="col-sm-6 col-md-3" id="@pm.Id">
         <div class="thumbnail">
 
             <div class="thum-img">
@@ -25,6 +25,6 @@
                 </p>
             </div>
         </div>
-    </div>
-
+    </div>*@
+    @Html.Partial("_ProductBox", pm)
 }
