@@ -34,7 +34,7 @@ namespace Nop.Services.Catalog
         {
             var baseDate = DateTime.Now.AddDays(-31);
             var query = from p in _productRepository.Table
-                        orderby p.CreatedOnUtc descending
+                        //orderby p.CreatedOnUtc descending
                         where p.Published &&
                         !p.Deleted &&
                         p.ShowOnHomePage

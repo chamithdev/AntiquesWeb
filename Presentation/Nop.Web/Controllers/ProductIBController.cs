@@ -63,7 +63,7 @@ namespace Nop.Web.Controllers
                 return Content("");
 
             var model = PrepareProductOverviewModels(products, true, true, productThumbPictureSize).ToList();
-            //model = model.OrderBy(p => Guid.NewGuid()).ToList();
+            model = model.OrderBy(p => Guid.NewGuid()).ToList();
             return PartialView(model);
         }
 
@@ -103,7 +103,10 @@ namespace Nop.Web.Controllers
                 return Content("");
 
             var model = PrepareProductOverviewModels(products, true, true, 200).ToList();
-            model = model.OrderBy(p => Guid.NewGuid()).ToList();
+            if (s == "0")
+                model = model.OrderBy(p => p.CreateDateUtc).ToList();
+            else if (s == "1")
+                model = model.OrderBy(p => p.Name).ToList();
            
             return PartialView(model);
         }
