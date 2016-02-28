@@ -218,7 +218,7 @@ namespace Nop.Admin.Controllers
                 {
 
                     ProductId = model.MainPicture.Id,
-                    PictureUrl = _pictureService.GetPictureUrl(model.MainPicture,200),
+                    PictureUrl = _pictureService.GetPictureUrl(model.MainPicture),
                     OverrideAltAttribute = model.MainPicture.AltAttribute,
                     OverrideTitleAttribute = model.MainPicture.TitleAttribute,
                     DisplayOrder = 1

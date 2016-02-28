@@ -18,53 +18,14 @@ using Nop.Services.Tax;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
 using Nop.Web.Models.Media;
+using Nop.Services.Common;
 
 namespace Nop.Web.Extensions
 {
     //here we have some methods shared between controllers
     public static partial class ControllerExtensions
     {
-        public static IList<ProductSpecificationModel> PrepareProductSpecificationModel(this Controller controller,
-            IWorkContext workContext,
-            ISpecificationAttributeService specificationAttributeService,
-            ICacheManager cacheManager,
-            Product product)
-        {
-            if (product == null)
-                throw new ArgumentNullException("product");
-
-            string cacheKey = string.Format(ModelCacheEventConsumer.PRODUCT_SPECS_MODEL_KEY, product.Id, workContext.WorkingLanguage.Id);
-            return cacheManager.Get(cacheKey, () =>
-                specificationAttributeService.GetProductSpecificationAttributes(product.Id, 0, null, true)
-                .Select(psa =>
-                {
-                    var m = new ProductSpecificationModel
-                    {
-                        SpecificationAttributeId = psa.SpecificationAttributeOption.SpecificationAttributeId,
-                        SpecificationAttributeName = psa.SpecificationAttributeOption.SpecificationAttribute.GetLocalized(x => x.Name),
-                    };
-
-                    switch (psa.AttributeType)
-                    {
-                        case SpecificationAttributeType.Option:
-                            m.ValueRaw = HttpUtility.HtmlEncode(psa.SpecificationAttributeOption.GetLocalized(x => x.Name));
-                            break;
-                        case SpecificationAttributeType.CustomText:
-                            m.ValueRaw = HttpUtility.HtmlEncode(psa.CustomValue);
-                            break;
-                        case SpecificationAttributeType.CustomHtmlText:
-                            m.ValueRaw = psa.CustomValue;
-                            break;
-                        case SpecificationAttributeType.Hyperlink:
-                            m.ValueRaw = string.Format("<a href='{0}' target='_blank'>{0}</a>", psa.CustomValue);
-                            break;
-                        default:
-                            break;
-                    }
-                    return m;
-                }).ToList()
-            );
-        }
+        
 
         public static IEnumerable<ProductOverviewModel> PrepareProductOverviewModels(this Controller controller,
             IWorkContext workContext,
@@ -79,6 +40,7 @@ namespace Nop.Web.Extensions
             ITaxService taxService,
             ICurrencyService currencyService,
             IPictureService pictureService,
+            ICustomDataService customDataService,
             IWebHelper webHelper,
             ICacheManager cacheManager,
             CatalogSettings catalogSettings,
@@ -102,7 +64,13 @@ namespace Nop.Web.Extensions
                     FullDescription = product.GetLocalized(x => x.FullDescription),
                     SeName = product.GetSeName(),
                     CreateDateUtc = product.CreatedOnUtc,
+                    CircaDate = product.CircaDate,
+                    DesignBy = product.DesignBy,
+                   
                 };
+                // style
+                var style = customDataService.GetCustomDataByValue(product.Style);
+                model.Style = style != null ? style.Value : "";
                 //price
                 if (preparePriceModel)
                 {

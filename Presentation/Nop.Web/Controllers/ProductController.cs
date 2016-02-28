@@ -37,6 +37,7 @@ using Nop.Web.Framework.Security.Captcha;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
 using Nop.Web.Models.Media;
+using Nop.Services.Common;
 
 namespace Nop.Web.Controllers
 {
@@ -83,7 +84,7 @@ namespace Nop.Web.Controllers
         private readonly CaptchaSettings _captchaSettings;
         private readonly SeoSettings _seoSettings;
         private readonly ICacheManager _cacheManager;
-        
+        private readonly ICustomDataService _customDataService;
         #endregion
 
 		#region Constructors
@@ -127,7 +128,9 @@ namespace Nop.Web.Controllers
             CaptchaSettings captchaSettings,
             SeoSettings seoSettings,
             ICacheManager cacheManager,
-            IVendorService venderService)
+            IVendorService venderService,
+            ICustomDataService customDataService
+            )
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -169,6 +172,7 @@ namespace Nop.Web.Controllers
             this._seoSettings = seoSettings;
             this._cacheManager = cacheManager;
             this._venderService = venderService;
+            this._customDataService = customDataService;
         }
 
         #endregion

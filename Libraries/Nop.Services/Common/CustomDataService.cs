@@ -43,6 +43,16 @@ namespace Nop.Services.Common
                 return customData;
             });
         }
+
+        public CustomData GetCustomDataByValue(string key)
+        {
+
+            var query = _customDataRepository.Table.FirstOrDefault(c=>c.Key == key);
+            return query;
+        }
 #endregion
+
+
+        
     }
 }

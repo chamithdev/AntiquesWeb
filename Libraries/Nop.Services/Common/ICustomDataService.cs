@@ -7,5 +7,6 @@ namespace Nop.Services.Common
     public interface ICustomDataService
     {
         IList<CustomData> GetCustomDataByKeyGroup(string keyGroup);
+        CustomData GetCustomDataByValue(string key);
     }
 }

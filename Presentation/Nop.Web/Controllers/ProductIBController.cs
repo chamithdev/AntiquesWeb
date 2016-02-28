@@ -62,7 +62,7 @@ namespace Nop.Web.Controllers
             if (products.Count == 0)
                 return Content("");
 
-            var model = PrepareProductOverviewModels(products, true, true, productThumbPictureSize).ToList();
+            var model = PrepareProductOverviewModelsIB(products, true, true, productThumbPictureSize).ToList();
             model = model.OrderBy(p => Guid.NewGuid()).ToList();
             return PartialView(model);
         }
@@ -71,6 +71,7 @@ namespace Nop.Web.Controllers
         public ActionResult LatestFinds(int? pageNo, string q = "", string s = "")
         {
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
+
 
             if (s == "")
                 s = "0";
@@ -102,13 +103,30 @@ namespace Nop.Web.Controllers
             if (products.Count() == 0)
                 return Content("");
 
-            var model = PrepareProductOverviewModels(products, true, true, 200).ToList();
+            var model = PrepareProductOverviewModelsIB(products, true, true).ToList();
             if (s == "0")
                 model = model.OrderBy(p => p.CreateDateUtc).ToList();
             else if (s == "1")
                 model = model.OrderBy(p => p.Name).ToList();
            
             return PartialView(model);
+        }
+
+        [NonAction]
+        protected virtual IEnumerable<ProductOverviewModel> PrepareProductOverviewModelsIB(IEnumerable<Product> products,
+            bool preparePriceModel = true, bool preparePictureModel = true,
+            int? productThumbPictureSize = null, bool prepareSpecificationAttributes = false,
+            bool forceRedirectionAfterAddingToCart = false)
+        {
+            return this.PrepareProductOverviewModels(_workContext,
+                _storeContext, _categoryService, _productService, _specificationAttributeService,
+                _priceCalculationService, _priceFormatter, _permissionService,
+                _localizationService, _taxService, _currencyService,
+                _pictureService,_customDataService, _webHelper, _cacheManager,
+                _catalogSettings, _mediaSettings, products,
+                preparePriceModel, preparePictureModel,
+                productThumbPictureSize, prepareSpecificationAttributes,
+                forceRedirectionAfterAddingToCart);
         }
 
        

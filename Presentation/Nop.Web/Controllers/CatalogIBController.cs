@@ -91,9 +91,8 @@ namespace Nop.Web.Controllers
                     orderBy: (ProductSortingEnum)command.OrderBy,
                     pageIndex: command.PageNumber - 1,
                     pageSize: command.PageSize);
-                vendorModel.Products = PrepareProductOverviewModels(products).ToList();
-
-
+                vendorModel.Products = PrepareProductOverviewModelsIB(products).ToList();
+               
 
                 model.Add(vendorModel);
             }
@@ -102,6 +101,24 @@ namespace Nop.Web.Controllers
 
 
 
+        }
+
+
+        [NonAction]
+        protected virtual IEnumerable<ProductOverviewModel> PrepareProductOverviewModelsIB(IEnumerable<Product> products,
+            bool preparePriceModel = true, bool preparePictureModel = true,
+            int? productThumbPictureSize = null, bool prepareSpecificationAttributes = false,
+            bool forceRedirectionAfterAddingToCart = false)
+        {
+            return this.PrepareProductOverviewModels(_workContext,
+                _storeContext, _categoryService, _productService, _specificationAttributeService,
+                _priceCalculationService, _priceFormatter, _permissionService,
+                _localizationService, _taxService, _currencyService,
+                _pictureService,_customDataService, _webHelper, _cacheManager,
+                _catalogSettings, _mediaSettings, products,
+                preparePriceModel, preparePictureModel,
+                productThumbPictureSize, prepareSpecificationAttributes,
+                forceRedirectionAfterAddingToCart);
         }
 
         public ActionResult BoutiqueShops(int?pageNo,string q="",string s="")
@@ -145,7 +162,7 @@ namespace Nop.Web.Controllers
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
                     AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
-                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId,200)
+                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId)
                 };
                 shops.Add(vendorModel);
             }
@@ -490,7 +507,7 @@ namespace Nop.Web.Controllers
                      pageSize: command.PageSize);
 
 
-                model.Products = PrepareProductOverviewModels(products).OrderBy(p => p.Name).ToList();
+                model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
                 model.PagingFilteringContext.LoadPagedList(products);
 
             }
@@ -525,7 +542,7 @@ namespace Nop.Web.Controllers
             var vendorModel = new VendorModel
             {
                 Id = vendor.Id,
-                ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId,200),
+                ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId),
                 Name = vendor.Name,
                 SeName = vendor.GetSeName(),
                 Description = vendor.Description,
@@ -545,7 +562,7 @@ namespace Nop.Web.Controllers
             var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
 
 
-            var productOverviewModel = PrepareProductOverviewModels(products).ToList();
+            var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
 
             var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
 

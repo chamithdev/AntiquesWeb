@@ -166,7 +166,12 @@ namespace Nop.Admin.Controllers
 
                 SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Added"));
                 if (_workContext.CurrentVendor != null)
-                    return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
+                {
+
+                    //return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
+                    return RedirectToAction("EditIB", new { id = product.Id });
+                }
+                    
 
                 return continueEditing ? RedirectToAction("Edit", new { id = product.Id }) : RedirectToAction("List");
             }
@@ -706,6 +711,34 @@ namespace Nop.Admin.Controllers
             });
         }
 
+
+        
+        public ActionResult DeleteIB(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return AccessDeniedView();
+
+            var product = _productService.GetProductById(id);
+            if (product == null)
+                //No product found with the specified id
+                if (_workContext.CurrentVendor != null)
+                    return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
+
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
+
+            _productService.DeleteProduct(product);
+
+            //activity log
+            _customerActivityService.InsertActivity("DeleteProduct", _localizationService.GetResource("ActivityLog.DeleteProduct"), product.Name);
+
+            SuccessNotification(_localizationService.GetResource("Admin.Catalog.Products.Deleted"));
+            if (_workContext.CurrentVendor != null)
+                return RedirectToAction("myhome", "vendor", new { id = _workContext.CurrentVendor.Id });
+
+            return RedirectToAction("List");
+        }
         #endregion
     }
 }

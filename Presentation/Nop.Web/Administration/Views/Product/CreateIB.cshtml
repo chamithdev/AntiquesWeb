@@ -19,16 +19,7 @@
     </div>*@
     <div class="section-pannel">
         <div class="row margin-top30">
-            <div class="btn-pan">        
-
-                <input type="submit" name="save" class="btn btn-default" value="@T("Admin.Common.Save")" />
-                @*<input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />*@
-                @*<input type="submit" id="copyproduct" name="copyproduct" class="k-button" value="@T("Admin.Catalog.Products.Copy")" />*@
-                @*<input type="button" value="Load Another Product" class="btn btn-default" />*@
-                @Html.ActionLink("Load Another Product", "UpdateDirectoryib", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
-                @Html.ActionLink("Home Page", "MyHome", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
-                
-            </div>
+          
 
             @*<div class="section-header">
                     <div class="title">
@@ -38,7 +29,16 @@
 
                 </div>*@
             @Html.Partial("_AddEditProducts.IB", Model)
-           
+            <div class="btn-pan">
+
+                <input type="submit" name="save" class="btn btn-default" value="@T("Admin.Common.Save")" />
+                @*<input type="submit" name="save-continue" class="k-button" value="@T("Admin.Common.SaveContinue")" />*@
+                @*<input type="submit" id="copyproduct" name="copyproduct" class="k-button" value="@T("Admin.Catalog.Products.Copy")" />*@
+                @*<input type="button" value="Load Another Product" class="btn btn-default" />*@
+                @Html.ActionLink("Load Another Product", "UpdateDirectoryib", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
+                @Html.ActionLink("Home Page", "MyHome", "Vendor", new { @id = Model.VendorId }, new { @class = "btn btn-default" })
+
+            </div>
            
         </div>
     </div>

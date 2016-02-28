@@ -11,5 +11,12 @@ namespace Nop.Web.Models.Catalog
         public IList<Vendor> Vendors { get; set; }
 
         public VendorModel Vendor { get; set; }
+
+        public string CircaDate { get; set; }     
+
+        public string DesignBy { get; set; }
+
+        public string Style { get; set; }
+
     }
 }

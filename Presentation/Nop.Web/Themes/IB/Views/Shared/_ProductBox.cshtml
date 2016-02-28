@@ -68,7 +68,13 @@
             <h3><a href="@Url.RouteUrl("Product", new { SeName = Model.SeName })">@Model.Name</a></h3>
 
             <div class="desc">
-                @Html.Raw(Text_Truncate(Model.ShortDescription, 90))
+                @Html.Raw(Text_Truncate(Model.CircaDate, 90))
+            </div>
+            <div class="desc">
+                @Html.Raw(Text_Truncate(Model.DesignBy, 90))
+            </div>
+            <div class="desc">
+                @Html.Raw(Text_Truncate(Model.Style, 90))
             </div>
             <div class="price">
                 @Model.ProductPrice.Price
