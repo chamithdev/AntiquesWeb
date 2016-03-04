@@ -536,9 +536,14 @@ namespace Nop.Web.Controllers
             //    };
             //    shops.Add(vendorModel);
             //}
+
+            
             ProductOverviewModel model = new ProductOverviewModel();
+            var pageSize = _catalogSettings.SearchPageProductsPerPage;
             model.Id = vendorId;
             var vendor = _vendorService.GetVendorById(vendorId);
+            var products = _productService.GetAllProductsForVendorId(vendorId);
+            ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
             var vendorModel = new VendorModel
             {
                 Id = vendor.Id,
@@ -557,13 +562,25 @@ namespace Nop.Web.Controllers
         }
 
         [HttpPost, AdminAntiForgeryAttribute(true)]
-        public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName)
+        public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName, int? pageNo)
         {
-            var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
 
+            var pageSize = _catalogSettings.SearchPageProductsPerPage;
+            if (pageNo == null)
+                pageNo = 1;
+
+            int skip = (pageNo.Value - 1) * pageSize;
+
+            
+
+            var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
+            ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
+
+            products = products.Skip(skip).Take(pageSize).ToList();
 
             var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
-
+           
+            //products
             var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
 
             return Json(

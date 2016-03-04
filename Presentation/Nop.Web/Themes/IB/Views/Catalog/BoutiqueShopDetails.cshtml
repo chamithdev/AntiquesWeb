@@ -1,23 +1,60 @@
 ﻿@model Nop.Web.Models.Catalog.ProductOverviewModel
 @{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
-   
+    var pageCount = Convert.ToInt32(ViewBag.PageCount);
+    var currentPage = 1;
+    if (Request["pageNo"] != null)
+    {
+        currentPage = Convert.ToInt32(Request["pageNo"]);
+    }
+
+    var q = "";
+    if (Request["q"] != null)
+    {
+        q = Convert.ToString(Request["q"]);
+    }
+    var s = "0";
+    if (Request["s"] != null)
+    {
+        s = Convert.ToString(Request["s"]);
+    }
 }
 
 @Html.HiddenFor(m => m.Id, new {id="HiddenField_vendorId" })
 
+<div class="input-group m-b">
+    <span class="input-group-addon">Search By</span>
+
+    <input type="text" class="form-control input-lg" utocomplete="off" id="q" name="q" value="@q" placeholder="@T("Search.SearchBox.Tooltip")">
+    <div class="input-group-btn">
+        <button type="button" class="btn btn-default btn-lg n-b-radious dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @if (s == "0")
+            {
+                <Text>Default</Text>
+            }
+            else if (s == "1")
+            {
+                <Text>Alphabetically</Text>
+            }
+            else if (s == "2")
+            {
+                <Text>Alphabetically</Text>
+            }
+
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#" id="0">Default</a></li>
+            <li><a href="#" id="1">Latest</a></li>
+            <li><a href="#" id="2">Alphabetically</a></li>
+        </ul>
+        <a href="" id="aSearch" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-search"></span></a>
+    </div>
+</div>
+
 <div id="body-content">
     <div class="container">
-        <div class="search">
-            Search By:&nbsp;
-            <select id="dropdownOrderBy">
-                <option value="1">Latest</option>
-                <option value="2">Alphabetically</option>
-                <option value="3" selected="selected">Default</option>
-            </select>
-            <input type="text" class="search-box" id="textboxSearch"  />
-            <a  id="buttonSearch"><img src="~/Themes/IB/Content/images/search.png" alt="" width="16" height="16" /></a>
-        </div>
         <div class="section-pannel">
             @*<div class="section-header">
                 <h4><span>My Product Search</span></h4>
@@ -46,6 +83,27 @@
                     
             </div>
 
+            <div class="row">
+                @if (pageCount > 1)
+                {
+                    <div class="page-wrap">
+                        <ul class="pagination">
+                            <li onclick="productdetailsVendor(0)"><a href="#">&laquo;</a></li>
+                            @for (int x = 1; x <= pageCount; x++)
+                            {
+                                <li onclick="productdetailsVendor(@(x)" id="@x" ><a href="#">@(x)</a></li>
+                            }
+
+                            @*<li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>*@
+                            <li onclick="productdetailsVendor(@(pageCount)"><a href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+
         </div>
     </div>
 </div>
@@ -54,14 +112,22 @@
     var baseUrl = "/";
     
     $(document).ready(function () {
-        productdetailsVendor();
+        productdetailsVendor(1);
 
-        $("#buttonSearch").click(function () {
-            productdetailsVendor();
-        });
+        //$("#buttonSearch").click(function () {
+        //    productdetailsVendor();
+        //});
 
-        $('#dropdownOrderBy').change(function () {
-            productdetailsVendor();
+        //$('#dropdownOrderBy').change(function () {
+        //    productdetailsVendor();
+        //});
+
+        $('#aSearch').click(function () {
+            //$(this).attr('href', '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+            //return true;
+            //we let the event bubble for the modal plugin, so ne returning false here
+            productdetailsVendor(1);
+            return false;
         });
     });
 
@@ -113,12 +179,12 @@
             }
         });
     }
-    function productdetailsVendor() {
+    function productdetailsVendor(pageNo) {
         var vendor = new Object();
         vendor.vendorId = $("#HiddenField_vendorId").val();
-        vendor.orderById = $("#dropdownOrderBy").val();
-        vendor.searchName = $("#textboxSearch").val();
-
+        vendor.orderById = $('#s').val();//$("#dropdownOrderBy").val();
+        vendor.searchName = $('#q').val();//$("#textboxSearch").val();
+        vendor.pageNo = pageNo;
         ajaxPostJson("Catalog", "GetProductListVendorId", vendor,
             function (data) {
                 $("#div_vendor_products").html(data.productListHtml)
@@ -126,4 +192,21 @@
             },
             null);
     }
+
+    $(function () {
+
+        $(".dropdown-menu li a").click(function () {
+
+            $(".btn:first-child").text($(this).text());
+            $(".btn:first-child").val($(this).id);
+
+            $('#s').val($(this).attr('id'));
+            //window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            productdetailsVendor(1);
+            return true;
+        });
+
+    });
+
+   
 </script>
