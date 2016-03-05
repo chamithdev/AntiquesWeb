@@ -40,7 +40,7 @@
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-right">
+        <ul id="btshops" class="dropdown-menu dropdown-menu-right">
             <li><a href="#" id="0">Latest</a></li>
             <li><a href="#" id="1">Alphabetically</a></li>
         </ul>
@@ -102,7 +102,7 @@
 <script>
     $(function () {
 
-        $(".dropdown-menu li a").click(function () {
+        $("#btshops li a").click(function () {
 
             $(".btn:first-child").text($(this).text());
             $(".btn:first-child").val($(this).id);

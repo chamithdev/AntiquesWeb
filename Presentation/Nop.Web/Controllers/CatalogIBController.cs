@@ -515,7 +515,7 @@ namespace Nop.Web.Controllers
             return model;
         }
 
-        public ActionResult BoutiqueShopDetails(int vendorId)
+        public ActionResult BoutiqueShopDetails(int vendorId, string s, string q, int? pageNo)
         {
             // var products = _productService.GetAllProductsForVendorId(vendorId);
             //var productOverviewModel= PrepareProductOverviewModels(products).ToList();
@@ -537,13 +537,29 @@ namespace Nop.Web.Controllers
             //    shops.Add(vendorModel);
             //}
 
-            
+            //    q = f["q"].ToString();
+            if (s == "")
+                s = "0";
+            if (string.IsNullOrWhiteSpace(q))
+                q = "";
+
             ProductOverviewModel model = new ProductOverviewModel();
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
+            if (pageNo == null)
+                pageNo = 1;
+
+            int skip = (pageNo.Value - 1) * pageSize;
+
             model.Id = vendorId;
             var vendor = _vendorService.GetVendorById(vendorId);
-            var products = _productService.GetAllProductsForVendorId(vendorId);
+            var products = _productService.GetAllProductsForVendorId(vendorId, s, q);
             ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
+
+            products = products.Skip(skip).Take(pageSize).ToList();
+
+            var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
+           
+            
             var vendorModel = new VendorModel
             {
                 Id = vendor.Id,
@@ -553,11 +569,13 @@ namespace Nop.Web.Controllers
                 Description = vendor.Description,
                 Coutry = vendor.Country,
                 City = vendor.City,
-                Web = vendor.Web
+                Web = vendor.Web,
+                Products = productOverviewModel
             };
 
 
             model.Vendor = vendorModel;
+            
             return View(model);
         }
 

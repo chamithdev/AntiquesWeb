@@ -18,6 +18,7 @@
     {
         s = Convert.ToString(Request["s"]);
     }
+    var vendorId = Request["vendorId"] != null ? Convert.ToString(Request["vendorId"]) : "0";
 }
 
 @Html.HiddenFor(m => m.Id, new {id="HiddenField_vendorId" })
@@ -44,7 +45,7 @@
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-right">
+        <ul id="ulBtDll" class="dropdown-menu dropdown-menu-right">
             <li><a href="#" id="0">Default</a></li>
             <li><a href="#" id="1">Latest</a></li>
             <li><a href="#" id="2">Alphabetically</a></li>
@@ -79,7 +80,7 @@
             </div>
             
             <div class="row" id="div_vendor_products">
-               
+               @Html.Partial("_VendorProducts", @Model.Vendor.Products)
                     
             </div>
 
@@ -88,17 +89,17 @@
                 {
                     <div class="page-wrap">
                         <ul class="pagination">
-                            <li onclick="productdetailsVendor(0)"><a href="#">&laquo;</a></li>
+                            <li ><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=@q&s=@s">&laquo;</a></li>
                             @for (int x = 1; x <= pageCount; x++)
                             {
-                                <li onclick="productdetailsVendor(@(x)" id="@x" ><a href="#">@(x)</a></li>
+                                <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@x&q=@q&s=@s">@(x)</a></li>
                             }
 
                             @*<li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li>*@
-                            <li onclick="productdetailsVendor(@(pageCount)"><a href="#">&raquo;</a></li>
+                            <li ><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
                         </ul>
                     </div>
                 }
@@ -107,12 +108,12 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" name="s" id="s" value="@s" />
 <script type="text/javascript">
     var baseUrl = "/";
-    
+
     $(document).ready(function () {
-        productdetailsVendor(1);
+        // productdetailsVendor(1);
 
         //$("#buttonSearch").click(function () {
         //    productdetailsVendor();
@@ -123,11 +124,11 @@
         //});
 
         $('#aSearch').click(function () {
-            //$(this).attr('href', '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
-            //return true;
+            $(this).attr('href', '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+            return true;
             //we let the event bubble for the modal plugin, so ne returning false here
-            productdetailsVendor(1);
-            return false;
+            //productdetailsVendor(1);
+            //return false;
         });
     });
 
@@ -179,34 +180,34 @@
             }
         });
     }
-    function productdetailsVendor(pageNo) {
-        var vendor = new Object();
-        vendor.vendorId = $("#HiddenField_vendorId").val();
-        vendor.orderById = $('#s').val();//$("#dropdownOrderBy").val();
-        vendor.searchName = $('#q').val();//$("#textboxSearch").val();
-        vendor.pageNo = pageNo;
-        ajaxPostJson("Catalog", "GetProductListVendorId", vendor,
-            function (data) {
-                $("#div_vendor_products").html(data.productListHtml)
+    //function productdetailsVendor(pageNo) {
+    //    var vendor = new Object();
+    //    vendor.vendorId = $("#HiddenField_vendorId").val();
+    //    vendor.orderById = $('#s').val();//$("#dropdownOrderBy").val();
+    //    vendor.searchName = $('#q').val();//$("#textboxSearch").val();
+    //    vendor.pageNo = pageNo;
+    //    ajaxPostJson("Catalog", "GetProductListVendorId", vendor,
+    //        function (data) {
+    //            $("#div_vendor_products").html(data.productListHtml)
 
-            },
-            null);
-    }
+    //        },
+    //        null);
+    //}
 
     $(function () {
 
-        $(".dropdown-menu li a").click(function () {
+        $("#ulBtDll li a").click(function () {
 
             $(".btn:first-child").text($(this).text());
             $(".btn:first-child").val($(this).id);
 
             $('#s').val($(this).attr('id'));
-            //window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
-            productdetailsVendor(1);
+            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            //productdetailsVendor(1);
             return true;
         });
 
     });
 
-   
+
 </script>
