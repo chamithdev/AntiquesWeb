@@ -53,5 +53,44 @@ namespace Nop.Services.Messages
                 languageId, tokens,
                 toEmail, toName);
         }
+
+        public virtual int SendProductInquery(Product product,Vendor vendor,string from,string phone, string email,string msg, int languageId)
+        {
+            if (product == null)
+                throw new ArgumentNullException("product");
+
+            var store = _storeContext.CurrentStore;
+            languageId = EnsureLanguageIsActive(languageId, store.Id);
+
+            var messageTemplate = GetActiveMessageTemplate("Product.Inqure", store.Id);
+            if (messageTemplate == null)
+                return 0;
+
+            //email account
+            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+
+            //tokens
+            var tokens = new List<Token>();
+            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+
+
+            tokens.Add(new Token("Product.ProductUrl", store.Url + "/Product/" + product.Name));
+            tokens.Add(new Token("Product.ProductName", product.Name));
+            tokens.Add(new Token("From", from));
+            tokens.Add(new Token("Phone", phone));
+            tokens.Add(new Token("Email", email));
+            tokens.Add(new Token("Msg", msg));
+          
+
+
+            //event notification
+            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+
+            var toEmail = vendor.Email;
+            var toName = vendor.Name;
+            return SendNotification(messageTemplate, emailAccount,
+                languageId, tokens,
+                toEmail, toName);
+        }
     }
 }

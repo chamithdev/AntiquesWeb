@@ -50,6 +50,11 @@
 
     var themeName = EngineContext.Current.Resolve<Nop.Web.Framework.Themes.IThemeContext>().WorkingThemeName;
 
+    var url = Request.Url.ToString();
+    var pictureImage = Model.DefaultPictureModel.FullSizeImageUrl;
+    
+    
+
 }
 <!--product breadcrumb-->
 @Html.Partial("_ProductBreadcrumb", Model.Breadcrumb)
@@ -119,7 +124,17 @@
     <div class="section-pannel" data-productid="@Model.Id">
         <div class="row">
             <div class="col-md-7">
-                <div class="floating-icon"><a href="#" title="Click to Enlarge"><img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a><a href="#"><img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" /></a><a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a></div>
+                <div class="floating-icon">
+                <a href="#" title="Click to Enlarge">
+                    <img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a>                   
+                    <a href="https://www.pinterest.com/pin/create/button/?url=@url&media=@pictureImage&description=@Model.SeName"
+                       data-pin-do="buttonPin"
+                       data-pin-custom="true">
+                        <img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" />
+                    </a>
+                <a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a>
+                
+                </div>
 
                 @Html.Partial("_ProductDetailsPictures", Model)
 
@@ -142,16 +157,16 @@
                         Condition Report : @Model.Condition. <br />
                     </div>
                     <div class="block">Dim @Model.Height cm H x @Model.Width cm W x @Model.Length cm D  Approx weight @Model.Weight kg </div>
-                    
+
 
                     <div class="row m-t m-b">
                         <div class="col-xs-12">
                             <span class="availability">Only @Model.StockQuantity Available</span>
-                            <input type="button" value="Add Product to Cart" class="btn btn-default btn-addtocart pull-right" />
+                            @*<input type="button" value="Add Product to Cart" class="btn btn-default btn-addtocart pull-right" />*@
                         </div>
                     </div>
 
-                    
+
                     <div class="block">
                         <strong>Description</strong><br />
                         @Html.Raw(Model.FullDescription)
@@ -162,7 +177,7 @@
                             <button type="button" class="btn btn-default btn-commoninfo">More From This Store</button>
                         </div>
                         <div class="col-md-7">
-                            <button type="button" class="btn btn-default btn-commoninfo">More Questions, Please Enquire</button>
+                            <button type="button" class="btn btn-default btn-commoninfo" onclick="displayInquiry()">More Questions, Please Enquire</button>
                         </div>
                     </div>
 
@@ -302,3 +317,153 @@
         @Html.Action("ProductsAlsoPurchased", "Product", new { productId = Model.Id })
         @Html.Action("RelatedProducts", "Product", new { productId = Model.Id })
     </div>*@
+<div class="modal fade" id="inquieryModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Make an Enquiry</h4>
+            </div>
+            <form class="form-horizontal" method="post" action="" id="frmInquiery">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="Id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required="required" name="Name" id="txtname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required="required" name="Phone" id="txtPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" required="required" name="Email" id="txtemail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Message</label>
+                        <div class="col-sm-10">
+                            <textarea name="Message" required="required" class="form-control" id="txtMsg" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center" id="pmsg"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="SendMessage()">Send Message</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var baseUrl = "/";
+    function displayInquiry(id) {
+        $('#inquieryModel').modal({ show: true });
+    }
+
+    function Validate()
+    {
+
+
+        if($('#txtname').val() =='')
+        {
+            alert('Please fill in name');
+            return false;
+        }
+
+        if ($('#txtPhone').val() == '') {
+            alert('Please fill in phone');
+            return false;
+        }
+
+        if ($('#txtemail').val() == '') {
+            alert('Please fill in email');
+            return false;
+        }
+
+        if (!validateEmail()) {
+            alert('Please fill in valid email');
+            return false;
+        }
+
+        if ($('#txtMsg').val() == '') {
+            alert('Please fill in message');
+            return false;
+        }
+
+        function validateEmail() {
+            var filter = /^[a-zA-Z0-9_.-]+@@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{0,4}$/;
+            if (filter.test($('#txtemail').val())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        return true;
+
+
+    }
+    ajaxPostJson = function (controller, method, jsonIn, callback, errorCallback) {
+        $.ajax({
+            url: baseUrl + controller + "/" + method,
+            type: "POST",
+            data: JSON.stringify(jsonIn),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function () {
+                //$('#ajaxBusy').show();
+                $('.fader').show();
+
+            },
+            success: function (json) {
+                callback(json);
+                //$('#ajaxBusy').hide();
+                $('.fader').hide();
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                $('.fader').hide();
+                if (errorCallback != undefined)
+                    errorCallback(xhr);
+                alert(thrownError);
+            }
+        });
+    }
+    function SendMessage()
+    {
+        if(Validate())
+        {
+            var model = new Object();
+            model.Id = @Model.Id;
+            model.Name = $('#txtname').val();
+            model.Phone = $('#txtPhone').val();
+            model.Email = $('#txtemail').val();
+            model.Message = $('#txtMsg').val();
+
+            ajaxPostJson("Product","ProductInquire",model,function(data){
+
+                if(data.Success)
+                {
+                    $("#pmsg").text('Thank you. Youe message has been sent.');
+                    setTimeout(function(){
+                        $('#inquieryModel').modal('hide');
+                    },3000);
+
+                }
+            })
+
+        }
+    }
+
+
+</script>

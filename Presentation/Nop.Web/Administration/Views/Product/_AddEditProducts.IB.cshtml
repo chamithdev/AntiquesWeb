@@ -21,6 +21,7 @@
             {
                 url: "/admin/product/UploadProductImages/@Model.Id",
                 uploadMultiple: true,
+                maxFilesize: 40,
                 uploadprogress: function (e, progress) {
                     $('.fader').show();
                 },

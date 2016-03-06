@@ -50,6 +50,8 @@ namespace Nop.Services.Messages
 
 
         int SendVendorEmailValidationMessage(Customer customer, int languageId);
+
+        int SendProductInquery(Product product, Vendor vendor, string from, string phone, string email, string msg, int languageId);
         
         #endregion
 

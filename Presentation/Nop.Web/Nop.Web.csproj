@@ -266,6 +266,7 @@
     <Compile Include="Models\Catalog\CategorySimpleModel.cs" />
     <Compile Include="Models\Catalog\CompareProductsModel.cs" />
     <Compile Include="Models\Catalog\ProductDetailsModel.IB.cs" />
+    <Compile Include="Models\Catalog\ProductInquieryModel.cs" />
     <Compile Include="Models\Catalog\ProductOverviewModel.IB.cs" />
     <Compile Include="Models\Catalog\SearchModel.IB.cs" />
     <Compile Include="Models\Catalog\VendorModel.cs" />
