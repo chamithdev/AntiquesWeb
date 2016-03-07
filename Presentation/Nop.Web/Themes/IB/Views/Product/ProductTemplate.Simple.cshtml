@@ -52,70 +52,12 @@
 
     var url = Request.Url.ToString();
     var pictureImage = Model.DefaultPictureModel.FullSizeImageUrl;
-    
-    
 
 }
 <!--product breadcrumb-->
 @Html.Partial("_ProductBreadcrumb", Model.Breadcrumb)
 
-@*@using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
-    {
-        <div class="section-pannel" data-productid="@Model.Id">
-            <div class="row margin-top30">
-                <div class="floating-icon"><a href="#" title="Click to Enlarge"><img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a><a href="#"><img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" /></a><a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a></div>
-                <div class="col-sm-6 col-md-7 col-lg-7">
-                    <div id="mainImg" class="slider-main-img">
 
-                        <h1>Rooban</h1>
-                        <ul class="gallery clearfix">
-                            <li><div class="slider-main-img-big"><a href="@Model.DefaultPictureModel.FullSizeImageUrl" rel="prettyPhoto[gallery2]"><img src="@Model.DefaultPictureModel.FullSizeImageUrl" /></a></div></li>
-
-
-                            @foreach (Nop.Web.Models.Media.PictureModel pic in Model.PictureModels)
-                            {
-                                <li><a href="@pic.FullSizeImageUrl" rel="prettyPhoto[gallery2]"> <div class="thumb-img float-left"><img src="@pic.ImageUrl" alt="" /></div></a></li>
-
-
-                            }
-
-
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-5 col-lg-5">
-                    <div class="form-text-lg">
-                        <div>
-                            <h3>
-                                @Model.Name<br />
-                                Circa @Model.CircaDate
-                            </h3>
-                        </div>
-                        <div>
-                            <strong>Product Details</strong><br />
-                            Circa Date : @Model.CircaDate<br />
-                            Materials : @Model.Material<br />
-                            Colour : @Model.Color<br />
-                            Country of Origin : @Model.Country<br />
-                            Designer/ made by : @Model.DesignBy<br />
-                            Condition Report : @Model.Condition. <br />
-                        </div>
-                        <div>Dim @Model.Height cm H x @Model.Width cm W x @Model.Length cm D  Approx weight @Model.Weight kg </div>
-                        <div class="text-center">Only @Model.StockQuantity Available</div>
-
-                        <input type="button" value="Add Product to Cart" class="btn btn-default btn-custom btn-info" />
-                        <div>
-                            <strong>Description</strong><br />
-                            @Html.Raw(Model.FullDescription)
-                        </div>
-                        <input type="button" value="More From This Store" class="btn btn-default btn-custom btn-info" />
-                        <input type="button" value="More Questions, Please Enquire" class="btn btn-default btn-custom btn-info" />
-                    </div>
-                </div>
-            </div>
-        </div>
-
-      }*@
 
 @* ROOBAN BEGIN *@
 
@@ -125,15 +67,15 @@
         <div class="row">
             <div class="col-md-7">
                 <div class="floating-icon">
-                <a href="#" title="Click to Enlarge">
-                    <img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" /></a>                   
+                    <a href="#" title="Click to Enlarge">
+                        <img src="/Themes/IB/Content/images/instagram.png" alt="" width="34" height="34" />
+                    </a>
                     <a href="https://www.pinterest.com/pin/create/button/?url=@url&media=@pictureImage&description=@Model.SeName"
                        data-pin-do="buttonPin"
                        data-pin-custom="true">
                         <img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34" />
                     </a>
-                <a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a>
-                
+                    <a href="#"><img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" /></a>
                 </div>
 
                 @Html.Partial("_ProductDetailsPictures", Model)
@@ -157,7 +99,7 @@
                         Condition Report : @Model.Condition. <br />
                     </div>
                     <div class="block">Dim @Model.Height cm H x @Model.Width cm W x @Model.Length cm D  Approx weight @Model.Weight kg </div>
-
+                    
 
                     <div class="row m-t m-b">
                         <div class="col-xs-12">
@@ -166,7 +108,7 @@
                         </div>
                     </div>
 
-
+                    
                     <div class="block">
                         <strong>Description</strong><br />
                         @Html.Raw(Model.FullDescription)
@@ -188,135 +130,6 @@
 }
 @* ROOBAN END *@
 
-
-
-@*<div class="page product-details-page panel panel-default form-panel">
-
-        <div class="panel-heading">
-
-        </div>
-        <div class="panel-body">
-            @Html.Widget("productdetails_top")
-            @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
-            {
-                <div itemscope itemtype="http://schema.org/Product" data-productid="@Model.Id">
-                    <div class=" product-essential">
-                        @Html.Widget("productdetails_before_pictures", Model.Id)
-                        <!--product pictures-->
-                        <div class="col-md-6">
-                            @Html.Partial("_ProductDetailsPictures", Model)
-                            @Html.Widget("productdetails_after_pictures", Model.Id)
-                        </div>
-
-                        <div class="col-md-6 overview ">
-
-                            @if (!String.IsNullOrEmpty(Model.ShortDescription))
-                            {
-                                <div class="short-description">
-                                    @Model.ShortDescription
-                                </div>
-                            }
-                            @Html.Widget("productdetails_overview_top")
-                            <!--product SKU, manufacturer part number, stock info-->
-                            @Html.Partial("_SKU_Man_Stock", Model)
-                            <!--Back in stock subscription-->
-                            @Html.Partial("_BackInStockSubscription", Model)
-                            <!--product manufacturers-->
-                            @Html.Partial("_ProductManufacturers", Model.ProductManufacturers)
-                            <!--product reviews-->
-                            @Html.Partial("_ProductReviewOverview", Model.ProductReviewOverview)
-                            <!--sample download-->
-                            @Html.Partial("_DownloadSample", Model)
-                            <!--attributes-->
-                            @{
-                                var dataDictAttributes = new ViewDataDictionary();
-                                dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", Model.Id);
-                                @Html.Partial("_ProductAttributes", Model.ProductAttributes, dataDictAttributes)
-                            }
-                            <!--gift card-->
-                            @{
-                                var dataDictGiftCard = new ViewDataDictionary();
-                                dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", Model.Id);
-                                @Html.Partial("_GiftCardInfo", Model.GiftCard, dataDictGiftCard)
-                            }
-                            <!--price & add to cart-->
-                            @{
-                                var dataDictPrice = new ViewDataDictionary();
-                                dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
-                                @Html.Partial("_ProductPrice", Model.ProductPrice, dataDictPrice)
-
-                                var dataDictAddToCart = new ViewDataDictionary();
-                                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);
-                                @Html.Partial("_AddToCart", Model.AddToCart, dataDictAddToCart)
-                            }
-                            <div class= "form-group row">
-                                @Html.Partial("_ProductEmailAFriendButton", Model)
-                                @Html.Partial("_CompareProductsButton", Model)
-
-                            </div>
-                            @Html.Partial("_ShareButton", Model)
-                            @Html.Widget("productdetails_overview_bottom")
-                        </div>
-
-
-                        <div class="clearfix"></div>
-                        <ul class="nav nav-tabs">
-                            @if (!String.IsNullOrEmpty(Model.FullDescription))
-                            {
-
-                                <li class="active"><a href="#description" data-toggle="tab">Description</a></li>
-                            }
-                            @if (!String.IsNullOrEmpty(@Html.Partial("_ProductSpecifications", Model.ProductSpecifications).ToString()))
-                            {
-
-                                <li><a href="#specification" data-toggle="tab">Specifications</a></li>
-                            }
-                            @if (!String.IsNullOrEmpty(@Html.Partial("_ProductTags", Model.ProductTags).ToString()))
-                            {
-                                <li><a href="#tags" data-toggle="tab">Products Tags</a></li>
-                            }
-                        </ul>
-
-
-                        <div class="tab-content">
-                            @if (!String.IsNullOrEmpty(Model.FullDescription))
-                            {
-                                <div class="full-description tab-pane active" id="description" itemprop="description">
-                                    @Html.Raw(Model.FullDescription)
-                                </div>
-                            }
-                            @if (!String.IsNullOrEmpty(@Html.Partial("_ProductSpecifications", Model.ProductSpecifications).ToString()))
-                            {
-                                <div class="full-description tab-pane" id="specification">
-                                    @Html.Partial("_ProductSpecifications", Model.ProductSpecifications)
-                                </div>
-                            }
-                            @if (!String.IsNullOrEmpty(@Html.Partial("_ProductTags", Model.ProductTags).ToString()))
-                            {
-                                <div class="full-description tab-pane" id="tags">
-                                    @Html.Partial("_ProductTags", Model.ProductTags)
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-
-
-
-                    @Html.Widget("productdetails_before_collateral")
-                    @Html.Partial("_ProductTierPrices", Model.TierPrices)
-                </div>
-
-            }
-            @Html.Widget("productdetails_bottom")
-        </div>
-    </div>*@
-
-@*<div class="product-collateral">
-
-        @Html.Action("ProductsAlsoPurchased", "Product", new { productId = Model.Id })
-        @Html.Action("RelatedProducts", "Product", new { productId = Model.Id })
-    </div>*@
 <div class="modal fade" id="inquieryModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

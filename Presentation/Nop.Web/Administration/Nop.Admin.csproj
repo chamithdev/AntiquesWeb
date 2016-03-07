@@ -399,6 +399,7 @@
     <Content Include="Content\bootstrap-3.2.0\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap-3.2.0\css\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap-reset.css" />
     <Content Include="Content\dropzone.css" />
     <Content Include="Content\ie9.css" />
     <Content Include="Content\images\ajax_loader_small.gif" />
@@ -437,6 +438,7 @@
     <Content Include="Content\images\warnings-tick.png" />
     <Content Include="Content\images\warnings-warning.png" />
     <Content Include="Content\styles.css" />
+    <Content Include="Content\stylesib-bk.css" />
     <Content Include="Content\stylesib.css" />
     <Content Include="sitemap.config">
       <SubType>Designer</SubType>

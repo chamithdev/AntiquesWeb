@@ -106,6 +106,21 @@
         }
     });
 
+
+    function DeletePicture(id)
+    {
+        var obj = "{ id: " + id +"}";
+        ajaxPostJson("Product","ProductPictureDelete",obj,function(data)
+        {
+            window.location.reload(true);
+        },null);
+
+    }
+
+   
+
+   
+
 </script>
 @Html.HiddenFor(model => model.Id)
 
@@ -171,7 +186,7 @@
                     @Html.NopLabelFor(model => model.Category):
 
                     
-                    @Html.DropDownListFor(model => model.CategoryId, Model.AvailableCategories)
+                    @Html.DropDownListFor(model => model.CategoryId, Model.AvailableCategories, new { @class = "form-control" })
                     
                 </div>
                 <div class="form-lg">
@@ -267,13 +282,14 @@
                     <br />
                     <br />
                     Style :                  
-                    @Html.DropDownListFor(model => model.Style, Model.Styles)
+                    @Html.DropDownListFor(model => model.Style, Model.Styles, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Condition)
                     <br />
                     
                 
                 </div>
                 <div class="form-lg">
+                    
                     Dim
                     @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
                     @Html.EditorFor(model => model.Height, new { @class = "js-default-val-text  percent-10" })

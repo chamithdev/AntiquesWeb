@@ -239,7 +239,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-7">
+                    <div class="col-sm-6 col-md-6">
                         Name
                         @Html.EditorFor(model => model.Name, new { @class = "percent-42" })
                         @Html.ValidationMessageFor(model => model.Name)
@@ -269,23 +269,37 @@
                         
 
                     </div>
-                    <div class="col-sm-6 col-md-2">
+                    <div class="col-sm-6 col-md-3">
                         @*<input type="button" value="Edit Home Page" class="btn btn-default btn-info percent-100 margin-bottom10" />*@
-                        <a href="@Url.Action("Createib", "product", new { area = "admin" }, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Load New Product</a>
+                        <a href="@Url.Action("Createib", "product", new { area = "admin" }, null)" class="btn btn-submit percent-100 margin-bottom10">Load New Product</a>
                         @*<input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
                         @*<a href="@Url.Action("UpdateDirectoryib", "vendor", new { area = "admin", vendorId =@Model.Id}, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Update Directory</a>*@
                             @*<input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
-                            <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-default btn-info  percent-100 margin-bottom10">Log Out</a>
+                        <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-submit percent-100  margin-bottom10">Log Out</a>
 
 </div>
                 </div>
             </div>
-            <div class="row" >
+
+
+            <div class="section-pannel">
+                <div class="section-header">
+                    <h4><span>Our Products </span></h4>
+                </div>
+                <div class="row">
+                    <ul id="sortable" class="clear">
+                        @Html.Partial("_VendorProduct", Model.Products)
+
+                    </ul>
+                </div>
+            </div>
+
+            @*<div class="row" >
                 <ul id="sortable" class="clear">
                     @Html.Partial("_VendorProduct", Model.Products)
 
                 </ul>
-            </div>
+            </div>*@
 
 
 

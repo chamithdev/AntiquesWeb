@@ -21,6 +21,7 @@
     Html.AppendCssFileParts(string.Format("~/Content/kendo/{0}/kendo.common.min.css", kendoVersion));
     Html.AppendCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.3.custom.min.css");
     Html.AppendCssFileParts("~/Administration/Content/bootstrap-3.2.0/css/bootstrap.min.css");
+    Html.AppendCssFileParts("~/Administration/Content/bootstrap-reset.css");
 
 
     Html.AppendScriptParts(string.Format("~/Scripts/kendo/{0}/kendo.web.min.js", kendoVersion));
@@ -72,7 +73,57 @@
     </div>
     <div class="fader"></div>
     <div id="section-head">
+        @*<nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
 
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <div class="row">
+                        <div class="col-sm-9 n-p">
+                            <ul class="nav navbar-nav">
+                                <li><a href="/Catalog/BoutiqueShops">Boutique Shops</a></li>
+                                <li><a href="/Product/LatestFinds">Latest Finds</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop Now<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/Catalog/ShopByCategory">Shop By Category </a></li>
+                                        <li><a href="/Home/ComingSoon">Flash Sale </a></li>
+                                        <li><a href="/Home/ComingSoon">Special Feature</a></li>
+                                        <li><a href="/Home/ComingSoon">Leave a Stock Request</a></li>
+                                    </ul>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                        <div class="col-sm-3 n-p">
+                            <ul class="nav navbar-nav navbar-right">
+                               
+                                <li class="small">
+                                   
+                                    <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)">
+                                        <span class="glyphicon glyphicon-off"></span>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </nav>*@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -87,7 +138,7 @@
         </div>
     </div>
 
-    <div id="section-footer">
+    <div id="section-footer" class="section-footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -101,6 +152,7 @@
                                 <li><a href="#">Customer Services</a></li>
                                 <li><a href="#">Terms &amp; Conditions</a></li>
                             </ul>
+                           
                         </div>
                     </div>
                 </div>

@@ -18,11 +18,9 @@
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #333;
-  background-color: #EAEAEA;
+  color: #FFF;
+  background-color: #777777;
   border-left: 1px solid #ccc;
-
-
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -53,8 +51,8 @@
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-  color: #555;
-  background-color: #EAEAEA;
+  color: #FFF;
+  background-color: #777777;
   border-left: 1px solid #ccc;
 }
 @media (min-width: 768px) {
@@ -72,9 +70,9 @@
         }
 
             .navbar-nav > li > a {
-                padding-top: 15px;
-                padding-bottom: 15px;
-                font-size: 19px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                font-size: 21px;
                 background-repeat: no-repeat;
                 background-position: right top;
                 white-space: nowrap;
@@ -91,7 +89,7 @@
 
                 .navbar-nav > li.small > a {
                     font-size: 14px;
-                    padding: 8px;
+                    padding: 13px;
                     background-color: #EEEEEE;
                     color: #8A8A8A;
                     border-left: 1px solid #D9D9D9;
@@ -124,7 +122,7 @@
   padding:0;
  
   border: 1px solid #E7E7E7;
-   border-top:1px solid red;
+   border-top:2px solid red;
        min-width: 250px;
     position: absolute;
     left: -38px;
@@ -148,8 +146,13 @@
         padding: 8px;
     font-size: 16px;
     border-bottom: 1px solid #E7E7E7;
-    color: #909090;
+    color: #4E4E4E;
     }
+
+        .navbar-nav > li > .dropdown-menu > li > a:hover {
+            background-color:#777777;
+            color:#fff;
+        }
 
 
 
@@ -249,4 +252,26 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 .panel .panel-body .list-group .list-group-item :hover{
     background-color:#F7F7F7;
+}
+
+
+/*PAGINATION */
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #202020;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #202020;
+    border-color: #202020;
 }

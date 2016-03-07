@@ -18,6 +18,7 @@
     {
         s = Convert.ToString(Request["s"]);
     }
+
     var vendorId = Request["vendorId"] != null ? Convert.ToString(Request["vendorId"]) : "0";
 }
 
@@ -55,60 +56,69 @@
 </div>
 
 <div id="body-content">
-    <div class="container">
-        <div class="section-pannel">
-            @*<div class="section-header">
-                <h4><span>My Product Search</span></h4>
-            </div>*@
-            <div class="row details-row">
-                <div class="col-sm-12 col-md-12 col-lg-12 details-content">
-                    <!--  <div class="details-close"><a href="#"><strong>X</strong></a></div>-->
-                    <div class="col-sm-6 col-md-5 col-lg-4 thumbs"><img src="@Model.Vendor.ImageUrl" /></div>
-                    <div class="col-sm-6 col-md-6 col-lg-6 details">
-                        <div class="more-details">
-                            <h3>@Model.Vendor.Name</h3>
-                            <p> @Model.Vendor.City,&nbsp; @Model.Vendor.Coutry</p>
-                            <a href="@Model.Vendor.Web" class="btn btn-default">@Model.Vendor.Web</a>
-                               @*<input type="button" class="btn btn-default" value="Website Link" />
-                            <input type="button" class="btn btn-default" value="Contact Supplier" />*@
-                            <p class="top-padding10">
-                               @Html.Raw(Model.Vendor.Description)
-                            </p>
-                        </div>
-                    </div>
+    
+</div>
+
+<div class="container">
+    
+</div>
+<div class="section-pannel">
+    @*<div class="section-header">
+            <h4><span>My Product Search</span></h4>
+        </div>*@
+    <div class="row">
+        
+            <!--  <div class="details-close"><a href="#"><strong>X</strong></a></div>-->
+            <div class="col-sm-6"><img style="width:100%" src="@Model.Vendor.ImageUrl" /></div>
+            <div class="col-sm-6 details">
+                <div class="more-details">
+                    <h2>@Model.Vendor.Name</h2>
+                    <p> @Model.Vendor.City,&nbsp; @Model.Vendor.Coutry</p>
+                    <a href="@Model.Vendor.Web" >@Model.Vendor.Web</a>
+                    @*<input type="button" class="btn btn-default" value="Website Link" />
+                        <input type="button" class="btn btn-default" value="Contact Supplier" />*@
+                    <p class="top-padding10">
+                        @Html.Raw(Model.Vendor.Description)
+                    </p>
                 </div>
             </div>
-            
-            <div class="row" id="div_vendor_products">
-               @Html.Partial("_VendorProducts", @Model.Vendor.Products)
-                    
-            </div>
-
-            <div class="row">
-                @if (pageCount > 1)
-                {
-                    <div class="page-wrap">
-                        <ul class="pagination">
-                            <li ><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=@q&s=@s">&laquo;</a></li>
-                            @for (int x = 1; x <= pageCount; x++)
-                            {
-                                <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@x&q=@q&s=@s">@(x)</a></li>
-                            }
-
-                            @*<li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>*@
-                            <li ><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
-                        </ul>
-                    </div>
-                }
-            </div>
-
-        </div>
+        
     </div>
+    <br />
+    <div class="row" id="div_vendor_products">
+        @Html.Partial("_VendorProducts", @Model.Vendor.Products)
+
+    </div>
+
+    <div class="row">
+        @if (pageCount > 1)
+        {
+            <div class="page-wrap text-center">
+                <ul class="pagination">
+                    <li><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=@q&s=@s">&laquo;</a></li>
+                    @for (int x = 1; x <= pageCount; x++)
+                    {
+                        <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@x&q=@q&s=@s">@(x)</a></li>
+                    }
+
+                    @*<li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>*@
+                    <li><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
+                </ul>
+
+            </div>
+        }
+    </div>
+
+    <input type="hidden" name="s" id="s" value="@s" />
+
 </div>
-<input type="hidden" name="s" id="s" value="@s" />
+
+
+
+
 <script type="text/javascript">
     var baseUrl = "/";
 

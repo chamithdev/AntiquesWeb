@@ -187,18 +187,21 @@
 /* IMAGE CAPTIONS */
 
 .bx-wrapper .bx-caption {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	background: #666\9;
-	background: rgba(80, 80, 80, 0.75);
-	width: 100%;
+	    position: absolute;
+    bottom: 10px;
+    padding: 10px;
+    left: 0;
+    background: #666\9;
+    background: #5A5A5A;
+    width: 100%;
 }
 
 .bx-wrapper .bx-caption span {
 	color: #fff;
-	font-family: Arial;
+	/* font-family: Arial; */
 	display: block;
 	font-size: .85em;
-	padding: 10px;
+
+	color: #FFFFFF;
+	font-size: 20px;
 }

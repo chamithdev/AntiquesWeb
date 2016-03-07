@@ -81,7 +81,7 @@
     <div class="row">
         @if (pageCount > 1)
         {
-            <div class="page-wrap">
+            <div class="page-wrap text-center">
                 <ul class="pagination">
                     <li><a href="/Catalog/BoutiqueShops/?pageNo=1&q=@q&s=@s">&laquo;</a></li>
                     @for (int x = 1; x <= pageCount; x++)
@@ -108,7 +108,7 @@
             $(".btn:first-child").val($(this).id);
 
             $('#s').val($(this).attr('id'));
-            window.location.href='/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
             return true;
         });
 
