@@ -739,6 +739,39 @@ namespace Nop.Admin.Controllers
 
             return RedirectToAction("List");
         }
+
+
+        [AdminAntiForgeryAttribute(true)]
+        public JsonResult ProductPictureDeleteIB(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                return Json(new { Success = false }, JsonRequestBehavior.AllowGet);
+
+            var productPicture = _productService.GetProductPictureById(id);
+            if (productPicture == null)
+                throw new ArgumentException("No product picture found with the specified id");
+
+            var productId = productPicture.ProductId;
+
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null)
+            {
+                var product = _productService.GetProductById(productId);
+                if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                {
+                    return Json(new { Success = false, Msg = "This is not your product" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            var pictureId = productPicture.PictureId;
+            _productService.DeleteProductPicture(productPicture);
+
+            var picture = _pictureService.GetPictureById(pictureId);
+            if (picture == null)
+                throw new ArgumentException("No picture found with the specified id");
+            _pictureService.DeletePicture(picture);
+
+            return Json(new {Success=true },JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

@@ -490,6 +490,8 @@ background-color:#fff;
 .thumb-img{ 
 	float:left;
 	padding:10px 10px 0 0;
+    position:relative;
+    background-color:#fff;
 	}
 .floating-icon{
 	position:absolute;
@@ -1004,4 +1006,26 @@ body {
     color: #8D8D8D;
     text-align: center;
     /* margin-bottom: 10px; */
+}
+
+
+
+
+.thumbnail-close {
+position: absolute;
+    right: 4px;
+    top: 5px;
+    /* float: left; */
+    background-color: #3B3B3B;
+    padding: 0px 6px;
+    border-radius: 48px;
+    color: #B3B3B3;
+    font-family: arial;
+    font-weight: bold;
+    font-size: 14px;
+    cursor:default;
+}
+
+.ui-state-default {
+    border:0;
 }

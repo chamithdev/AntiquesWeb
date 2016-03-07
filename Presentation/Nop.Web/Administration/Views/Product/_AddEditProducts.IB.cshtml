@@ -103,21 +103,48 @@
                     alert(thrownError);
                 }
             });
-        }
+        };
+
+        ajaxGetData = function (controller, method, param, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method+ "/" +param,
+                type: "GET",
+                cache: false,
+               // data: param,
+                beforeSend: function () {
+                    $('.fader').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    $('.fader').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('.fader').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
+        };
     });
 
-
+    
     function DeletePicture(id)
     {
-        var obj = "{ id: " + id +"}";
-        ajaxPostJson("Product","ProductPictureDelete",obj,function(data)
+        if(confirm('Are you sure?'))
         {
-            window.location.reload(true);
-        },null);
+            //var obj = "{ id: " + id +"}";
+            ajaxGetData("Product","ProductPictureDeleteIB",id,function(data)
+            {
+                window.location.reload(true);
+            },null);
+        }else
+            return false;
+        
 
     }
 
-   
+
 
    
 
@@ -134,17 +161,19 @@
         <div class="col-sm-6 col-md-5">
             <div id="thumbImgWrap" class="margin-top10 clear">
                 <div class="ui-state-default">
-                    <div class="thumb-img" style="width:200px; height:200px;">
-                        <div action="/product/UploadProductImages/@Model.Id" class="dropzone custom-msg-thumb" id="dz" width="137" height="91"></div>
+                    <div class="thumb-img" style="width:100%; height:auto; margin-bottom:10px;">
+                        <div action="/product/UploadProductImages/@Model.Id" class="dropzone custom-msg-thumb" id="dz" width="100%" height="91"></div>
                     </div>
-                </div>
+                </div><br />
                 @if (Model.ProductPictureModels.Count > 0)
                 {
                     <ul id="sortable">
                         @foreach (Nop.Admin.Models.Catalog.ProductModel.ProductPictureModel p in Model.ProductPictureModels)
                         {
                             <li class="ui-state-default" id="@p.Id">
-                                <div class="thumb-img float-left"><img src="@p.PictureUrl" alt="" width="137" height="91" /></div>
+                                <div class="thumb-img float-left">
+                                    <div class="thumbnail-close" onclick="return DeletePicture(@p.Id);">X</div>
+                                <img src="@p.PictureUrl" alt="" width="137" height="91"  /></div>
                             </li>
                         }
 
