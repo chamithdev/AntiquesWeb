@@ -325,15 +325,19 @@ namespace Nop.Admin.Models.Catalog
         public IList<SelectListItem> AvailableBasepriceBaseUnits { get; set; } 
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Weight")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal Weight { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Length")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal Length { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Width")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal Width { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.Height")]
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal Height { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.Fields.AvailableStartDateTime")]
@@ -714,6 +718,7 @@ namespace Nop.Admin.Models.Catalog
             public bool WarehouseUsed { get; set; }
 
             [NopResourceDisplayName("Admin.Catalog.Products.ProductWarehouseInventory.Fields.StockQuantity")]
+            [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
             public int StockQuantity { get; set; }
 
             [NopResourceDisplayName("Admin.Catalog.Products.ProductWarehouseInventory.Fields.ReservedQuantity")]

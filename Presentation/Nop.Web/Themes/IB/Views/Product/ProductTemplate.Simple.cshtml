@@ -99,7 +99,7 @@
                         Condition Report : @Model.Condition. <br />
                     </div>
                     <div class="block">Dim @Model.Height cm H x @Model.Width cm W x @Model.Length cm D  Approx weight @Model.Weight kg </div>
-                    
+
 
                     <div class="row m-t m-b">
                         <div class="col-xs-12">
@@ -108,12 +108,24 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="block">
                         <strong>Description</strong><br />
                         @Html.Raw(Model.FullDescription)
                     </div>
+                    <div class="row m-t m-b">
+                        <div class="col-xs-12">
+                            @{
+                                    var dataDictPrice = new ViewDataDictionary();
+                                     dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
+                                    @Html.Partial("_ProductPrice", Model.ProductPrice, dataDictPrice)
 
+                             
+
+   
+                            }
+                        </div>
+                    </div>
                     <div class="row m-t m-b">
                         <div class="col-md-5">
                             <button type="button" class="btn btn-default btn-commoninfo">More From This Store</button>
@@ -124,8 +136,8 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
+                    </div>
+                </div>
     </div>
 }
 @* ROOBAN END *@
