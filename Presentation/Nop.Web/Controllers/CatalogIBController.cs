@@ -308,6 +308,7 @@ namespace Nop.Web.Controllers
                                      select new SelectListItem { Text = cd.Value, Value = cd.Key, Selected = customKeys.Contains(cd.Key) })).ToList();
 
             model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
+            model.q = f["q"];
             //model.SelectedDimension = mdId;
             //model.SizeFrom = dsizeFrm;
             //model.SizeTo = dsizeTo;
