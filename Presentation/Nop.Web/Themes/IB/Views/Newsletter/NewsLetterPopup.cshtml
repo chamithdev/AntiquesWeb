@@ -6,12 +6,22 @@
 
 
 <div class="welcome-msg">   
-
-    <p>Welcome</p>
-    <span>Please enter your email here <br />&amp; get your free <br /> updates</span>
+    @*<div class="text-right"><a href="#" >X</a></div>*@
+    <h2>Welcome</h2>
+    <span>Please enter your email here &amp; get your free updates</span>
     <div class="form-welcome">
         @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email_popup", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })<br />
-        <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletterbox-subscribe-button" class="btn btn-default" />
+
+        <div class="row">
+            <div class="col-sm-4 n-p-r">
+                <input type="button" value="Not now" class="btn btn-default btn-commoninfo" id="popClose" />
+            </div>
+            <div class="col-sm-8">
+                <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletterbox-subscribe-button" class="btn btn-default btn-submit w100-fluid" />
+            </div>
+        </div>
+        
+        
     </div>
     <div id="newsletter-result-block_popup" style="display:none">
         <p>Thank you!</p>

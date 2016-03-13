@@ -25,7 +25,7 @@ html {
 body {
     font-family: bellmt;
     margin-top: 65px;
-    margin-bottom: 200px;
+    margin-bottom: 150px;
 }
 
 /*================== COMMON STYLES ======================*/
@@ -82,20 +82,20 @@ hr.logo-line {
 
 /*================== FOOTER STYLES ======================*/
 .section-footer {
-    position: absolute;
+        position: absolute;
     bottom: 0;
-    background-color: #5D5D5D;
-    border-top: 5px solid #4A4A4A;
+    background-color: #e5e5e5;
+    border-top: 5px solid #DCDCDC;
     left: 0;
     right: 0;
-    height: 200px;
+    height: 150px;
     box-sizing: border-box;
-    padding: 50px;
+    padding: 20px;
 }
 
 .footer-content {
     text-align: center;
-    color:#ADADAD;
+    color:#5D5D5D;
 }
 
     .footer-content ul {
@@ -116,7 +116,7 @@ hr.logo-line {
             }
 
             .footer-content ul li a {
-                color: #ADADAD;
+                color: #5D5D5D;
             }
 
 
@@ -170,15 +170,15 @@ hr.logo-line {
 
     .home-banner h3 {
         position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin-bottom: 0;
-        padding: 10px 20px;
-        /* padding-left: 20px; */
-        background-color: rgb(90, 90, 90);
-        color: #FFFFFF;
-        font-size: 20px;
+    bottom: -35px;
+    /* right: 0; */
+    left: 183px;
+    margin-bottom: 0;
+    padding: 10px 20px;
+    /* padding-left: 20px; */
+    /* background-color: rgb(90, 90, 90); */
+    color: #5E5E5E;
+    font-size: 18px;
     }
 
 
@@ -262,9 +262,10 @@ hr.logo-line {
 
 .thumbnail .caption-small {
     padding: 0;
-    background-color: #ECECEC;
+    background-color: #FFF;
     margin: 4px 0px 0;
     border-radius: 0 0 4px 4px;
+        border: 1px solid #DDD;
 }
 
     .thumbnail .caption-small h3 {
@@ -501,8 +502,8 @@ slider-main-img ul {
 
 /*================ NEWLETTER POPUP ================ */
 .pop-box {
-    background-color: #fff;
-    margin: 30px auto;
+    background-color: #8A8A8A;
+    margin: auto auto;
     max-width: 335px;
     bottom: 0;
     display: none;
@@ -514,9 +515,24 @@ slider-main-img ul {
     top: 0;
     z-index: 1050;
     max-height: 450px;
+    border: 10px solid #fff;
+    text-align: center;
+    color: #fff;
+}
+
+.pop-box .welcome-msg {
+    margin-top:100px;
 }
 
 
+    .pop-box .form-welcome {
+        margin-top:20px;
+    }
+
+.pop-box input[type='text'] {
+    border: 1px solid #000;
+    border-radius: 0;
+}
 
 #toTop {
     position: fixed;
@@ -529,3 +545,40 @@ slider-main-img ul {
     border: 1px solid #adadad;
     color: #adadad;
 }
+
+
+/* Slider */
+.bx-viewport{
+	height:661px !important;
+	}
+.pop-box .bx-viewport{
+	height:auto !important;
+	}
+.bx-wrapper .bx-caption{
+	bottom:-48px;
+	background-color:#fff;
+	border:1px solid #ccc;
+	}
+.bx-wrapper .bx-caption span{
+	color:#575757;
+	text-align:center;
+	font-family:bellmt;
+	font-size:16px;
+	}
+.bx-wrapper .bx-viewport{
+	box-shadow:none;
+	}
+.bxslider li{
+	left:0;
+	}
+.bx-wrapper .bx-controls-direction a{
+	width:41px;
+	}
+.pop-box > .bx-wrapper .bx-viewport{
+	left:0;
+	}
+.img-align-center{
+	text-align:center;
+	text-align:-moz-center;
+	text-align:-webkit-center;
+	}
