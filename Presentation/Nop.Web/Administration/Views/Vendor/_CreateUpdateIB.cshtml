@@ -17,6 +17,7 @@
 }
 <script>
     var baseUrl = "/admin/";
+    var original ="";
     $(document).ready(function () {
 
         Dropzone.autoDiscover = false;
@@ -39,8 +40,8 @@
 
         $(function () {
 
-            var original = $('#sortable').sortable('toArray').toString();
-            var originalArr =  original.split(',');
+            original = $('#sortable').sortable('toArray').toString();
+            
             //$("#sortableImg").sortable();
             //$("#sortableImg").disableSelection();
 
@@ -48,6 +49,7 @@
                 connectWith: "#sortable",
                 update: function () {
                     var order1 = $('#sortable').sortable('toArray').toString();
+                    var originalArr =  original.split(',');
                     var picNos = order1.split(',');
                     var prods = [];
                     for (i = 0; i < picNos.length; i++) {
@@ -142,6 +144,7 @@
             $("#sortable").html(data);
             $("#sortable li").removeClass("active");
             $('#'+pageNo).addClass("active");
+            original = $('#sortable').sortable('toArray').toString();
             //class="active" 
         }, null);
 
@@ -275,7 +278,11 @@
                         @*<input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
                         @*<a href="@Url.Action("UpdateDirectoryib", "vendor", new { area = "admin", vendorId =@Model.Id}, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Update Directory</a>*@
                             @*<input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
+
+                        <a href="@Url.Action("ChangePassword", "Customer", new { area = "" }, null)" class="btn btn-submit percent-100  margin-bottom10">Change Password</a>
                         <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-submit percent-100  margin-bottom10">Log Out</a>
+
+
 
 </div>
                 </div>

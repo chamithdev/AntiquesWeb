@@ -2200,6 +2200,7 @@
     <Content Include="Themes\IB\Views\Product\_ProductDetailsPictures.cshtml" />
     <Content Include="Themes\IB\Views\Product\LatestFinds.cshtml" />
     <Content Include="Themes\IB\Views\Product\_ProductPrice.cshtml" />
+    <Content Include="Themes\IB\Views\Home\ContactUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

@@ -125,6 +125,19 @@ namespace Nop.Web.Controllers
             return Json(new {Success=true }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult VendorInquire(ProductInquieryModel model)
+        {
+           
+            var vendor = _venderService.GetVendorById(model.VendorId);
+            if (vendor != null)
+            {
+                _workflowMessageService.SendVendorInquery(vendor, model.Name, model.Phone, model.Email, model.Message, _workContext.WorkingLanguage.Id);
+            }
+
+            return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
+        }
+
         [NonAction]
         protected virtual IEnumerable<ProductOverviewModel> PrepareProductOverviewModelsIB(IEnumerable<Product> products,
             bool preparePriceModel = true, bool preparePictureModel = true,

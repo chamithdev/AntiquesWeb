@@ -252,7 +252,8 @@ namespace Nop.Admin.Controllers
               vendorId: id,             
               showHidden: true,
               pageIndex: pageIndex,
-              pageSize: defaultGridPageSize
+              pageSize: defaultGridPageSize,
+              orderBy:ProductSortingEnum.Position
              
           );
             var model = new List<VendorModel.VenddorProductModel> ();
@@ -495,11 +496,17 @@ namespace Nop.Admin.Controllers
         {
 
 
-            var product = _productService.GetProductById(productId);
+            //var product = _productService.GetProductById(productId);
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            product.DisplayOrder = defaultGridPageSize * page;
+            
+            
+            var moveToOrder = defaultGridPageSize * page;
+
+            //product.DisplayOrder = moveToOrder > maxOrderNo ? (maxOrderNo +1) : moveToOrder;
+
+            _productService.RearrangeDisplayOrder(productId, moveToOrder);
         
-            _productService.UpdateProduct(product);
+            //_productService.UpdateProduct(product);
 
             //if (products.Count == 0)
             //    return Content("");

@@ -77,6 +77,35 @@ namespace Nop.Services.Catalog
             return products;
         }
 
+        public int GetMaxDisplayOrder(int vendorId)
+        {
+            var query = _productRepository.Table;
+            var max = from p in query
+                      where (p.VendorId == vendorId || vendorId == 0)
+                      group p by p.VendorId into d
+                      select d.Max(s => s.DisplayOrder);
+
+            return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
+        }
+
+
+        public void RearrangeDisplayOrder(int productId, int displayOrder)
+        {
+            var pProductId = _dataProvider.GetParameter();
+            pProductId.ParameterName = "productId";
+            pProductId.Value = productId;
+            pProductId.DbType = DbType.Int32;
+
+            var pDisplayOrder = _dataProvider.GetParameter();
+            pDisplayOrder.ParameterName = "newDisplayOrder";
+            pDisplayOrder.Value = displayOrder;
+            pDisplayOrder.DbType = DbType.Int32;
+
+            object[] param ={pProductId, pDisplayOrder};
+
+            _dbContext.ExecuteSqlCommand("EXEC RearrangeDisplayOrder @productId,@newDisplayOrder", false, null, pProductId, pDisplayOrder);
+
+        }
         public virtual IPagedList<Product> SearchProductsCustom(
             int pageIndex = 0,
             int pageSize = int.MaxValue,

@@ -18,5 +18,6 @@ namespace Nop.Web.Models.Catalog
 
         public string Style { get; set; }
 
+        public int StockQuantity { get; set; }
     }
 }

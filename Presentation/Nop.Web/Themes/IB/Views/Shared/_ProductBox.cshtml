@@ -77,7 +77,15 @@
                 @Html.Raw(Text_Truncate(Model.Style, 90))
             </div>
             <div class="price">
-                @Model.ProductPrice.Price
+              @if(Model.StockQuantity>0)
+              {
+                  @Model.ProductPrice.Price
+              }
+              else
+              {
+                <strong class="text-danger">SOLD OUT!</strong>
+              }
+                
             </div>
         </div>
     </div>

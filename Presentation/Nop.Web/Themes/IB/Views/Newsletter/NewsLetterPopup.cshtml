@@ -10,19 +10,18 @@
     <p>Welcome</p>
     <span>Please enter your email here <br />&amp; get your free <br /> updates</span>
     <div class="form-welcome">
-        @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })<br />
+        @Html.TextBoxFor(x => x.NewsletterEmail, new { id = "newsletter-email_popup", @class = "form-control input-lg", placeholder = T("Newsletter.Email.Placeholder") })<br />
         <input type="button" value="@T(Model.AllowToUnsubscribe ? "Newsletter.Options.Send" : "Newsletter.Options.Subscribe")" id="newsletterbox-subscribe-button" class="btn btn-default" />
     </div>
-    <div id="newsletter-result-block" style="display:none">
+    <div id="newsletter-result-block_popup" style="display:none">
         <p>Thank you!</p>
         <span>Your subscription was successful!</span>
     </div>
 </div>
 
-<div class="newsletter-result" id="newsletter-result-block" style="display:none"></div>
 <script type="text/javascript">
         function newsletter_subscribePopup(subscribe) {
-            var email = $("#newsletter-email").val();
+            var email = $("#newsletter-email_popup").val();
             //var subscribeProgress = $("#subscribe-loading-progress");
             //subscribeProgress.show();
             $.ajax({
@@ -39,7 +38,7 @@
                     //} else {
                     //    $('#newsletter-result-block').fadeIn("slow").delay(2000).fadeOut("slow");
                     //}
-                    $('#newsletter-result-block').show();
+                    $('#newsletter-result-block_popup').show();
                     $('#newsletterbox-subscribe-button').hide();
                     setTimeout(function()
                     {

@@ -66,6 +66,7 @@ namespace Nop.Web.Extensions
                     CreateDateUtc = product.CreatedOnUtc,
                     CircaDate = product.CircaDate,
                     DesignBy = product.DesignBy,
+                    StockQuantity = product.StockQuantity,
                    
                 };
                 // style

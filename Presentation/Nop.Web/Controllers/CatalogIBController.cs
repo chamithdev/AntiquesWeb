@@ -244,34 +244,16 @@ namespace Nop.Web.Controllers
             var customKeys = string.IsNullOrWhiteSpace(f["CustomList"]) ? new List<string>() { } : f["CustomList"].Split(new char[] { ',' }).ToList();
             categoryIds.AddRange(mainCatIds.Select(c => int.Parse(c)).ToList());
             categoryIds.AddRange(subCats.Select(c => int.Parse(c)).ToList());
-            //var mdId = 0;
             
-            //int.TryParse(f["SelectedDimension"],out mdId);
-            //var dm = _measureService.GetMeasureDimensionById(mdId);
-            //decimal dsizeFrm = 0;
-            //decimal dsizeTo = 0;
-            //decimal.TryParse(f["SizeFrom"], out dsizeFrm);
-            //decimal.TryParse(f["SizeTo"], out dsizeTo);
 
-            //PrepareViewModes(model.PagingFilteringContext, command);
-
-            //PreparePageSizeOptions(model.PagingFilteringContext, command,
-            //   _catalogSettings.SearchPageAllowCustomersToSelectPageSize,
-            //   _catalogSettings.SearchPagePageSizeOptions,
-            //   _catalogSettings.SearchPageProductsPerPage);
+            var categoriesModel = new List<SearchModel.CategoryModel>();
+            //all categories
+            var categories = _categoryService.GetAllCategories();
+            // top cats
 
 
-            var categories = _cacheManager.Get(cacheKey, () =>
-            {
-                var categoriesModel = new List<SearchModel.CategoryModel>();
-                //all categories
-                var allCategories = _categoryService.GetAllCategories();
-                // top cats
+            //return allCategories;
 
-
-                return allCategories;
-
-            });
 
             model.AvailableCategories = (from c in categories
                                          where (c.ParentCategoryId == 0)
@@ -287,10 +269,7 @@ namespace Nop.Web.Controllers
                                        select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
             }
             
-            //foreach (var item in categories.Where(c => c.ParentCategoryId != 0))
-            //{
-            //    model.SubCategories.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
-            //}
+         
 
             var vendors = _vendorService.GetAllVendors();
 
@@ -309,48 +288,7 @@ namespace Nop.Web.Controllers
 
             model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
             model.q = f["q"];
-            //model.SelectedDimension = mdId;
-            //model.SizeFrom = dsizeFrm;
-            //model.SizeTo = dsizeTo;
-
-            //decimal sf = 0;
-            //decimal sst = 0;
-            //decimal varience = 0;
-            //var cmdm = _measureService.GetMeasureDimensionBySystemKeyword("centimeters");
-            //if(dm!=null)
-            //{
-            //    sf = _measureService.ConvertFromPrimaryMeasureDimension(dsizeFrm, dm);
-            //    sst = _measureService.ConvertFromPrimaryMeasureDimension(dsizeTo, dm);
-            //    varience = _measureService.ConvertDimension(10, cmdm, dm);
-                
-            //}
-                
-          
-           
-                
-            //var ipageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            //if (command.PageSize == 0)
-            //    command.PageSize = ipageSize;
-            //if (command.PageNumber == 0)
-            //    command.PageNumber = 1;
-            //var products = _productService.SearchProductsCustom(
-            //         categoryIds: categoryIds,
-            //         vendorIds: pvendorIds,
-            //         customKeys: customKeys,
-            //         sizeFrom: sf,
-            //         sizeTo: sst,
-            //          varience: varience,
-            //         storeId: _storeContext.CurrentStore.Id,
-            //         visibleIndividuallyOnly: true,
-            //         keywords: f["q"],
-            //         languageId: _workContext.WorkingLanguage.Id,
-            //         orderBy: (ProductSortingEnum)command.OrderBy,
-            //         pageIndex: command.PageNumber - 1,
-            //         pageSize: command.PageSize);
-
-
-            //model.Products = PrepareProductOverviewModels(products).OrderBy(p=>p.Name).ToList();
-            //model.PagingFilteringContext.LoadPagedList(products);
+            
 
             return View(model);
         }
@@ -407,7 +345,16 @@ namespace Nop.Web.Controllers
             var pvendorIds = string.IsNullOrWhiteSpace(f["VendorList"]) ? new List<int>() : f["VendorList"].Split(new char[] { ',' }).Select(c => int.Parse(c)).ToList();
             var customKeys = string.IsNullOrWhiteSpace(f["CustomList"]) ? new List<string>() { } : f["CustomList"].Split(new char[] { ',' }).ToList();
             categoryIds.AddRange(mainCatIds.Select(c => int.Parse(c)).ToList());
-            categoryIds.AddRange(subCats.Select(c => int.Parse(c)).ToList());
+            if (subCats.Length>0)
+                categoryIds.AddRange(subCats.Select(c => int.Parse(c)).ToList());
+            else
+            {
+                foreach(string mid in mainCatIds)
+                {
+                    var subcatids = _categoryService.GetAllCategoriesByParentCategoryId(Convert.ToInt32(mid)).Select(c => c.Id).ToArray();
+                    categoryIds.AddRange(subcatids);
+                }
+            }
             var mdId = 0;
 
             int.TryParse(f["SelectedDimension"], out mdId);
@@ -425,47 +372,6 @@ namespace Nop.Web.Controllers
                _catalogSettings.SearchPageProductsPerPage);
 
 
-            //var categories = _cacheManager.Get(cacheKey, () =>
-            //{
-            //    var categoriesModel = new List<SearchModel.CategoryModel>();
-            //    //all categories
-            //    var allCategories = _categoryService.GetAllCategories();
-            //    // top cats
-
-
-            //    return allCategories;
-
-            //});
-
-            //model.AvailableCategories = (from c in categories
-            //                             where (c.ParentCategoryId == 0)
-            //                             select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
-
-
-            //model.SubCategories = (from c in categories
-            //                       where (c.ParentCategoryId != 0)
-            //                       select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
-            ////foreach (var item in categories.Where(c => c.ParentCategoryId != 0))
-            ////{
-            ////    model.SubCategories.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
-            ////}
-
-            //var vendors = _vendorService.GetAllVendors();
-
-            //model.Vendors = (from v in vendors
-            //                 select new SelectListItem { Text = v.Name, Value = v.Id.ToString(), Selected = pvendorIds.Contains(v.Id) }).ToList();
-
-
-            ////CustomDataKeyGroupNames
-            //var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            //var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
-            //model.CustomData = ((from st in styles
-            //                     select new SelectListItem { Text = st.Value, Value = st.Key, Selected = customKeys.Contains(st.Key) })
-            //                    .Union
-            //                        (from cd in circaDates
-            //                         select new SelectListItem { Text = cd.Value, Value = cd.Key, Selected = customKeys.Contains(cd.Key) })).ToList();
-
-            //model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
             model.SelectedDimension = mdId;
             model.SizeFrom = dsizeFrm;
             model.SizeTo = dsizeTo;
@@ -518,27 +424,7 @@ namespace Nop.Web.Controllers
 
         public ActionResult BoutiqueShopDetails(int vendorId, string s, string q, int? pageNo)
         {
-            // var products = _productService.GetAllProductsForVendorId(vendorId);
-            //var productOverviewModel= PrepareProductOverviewModels(products).ToList();
-            //var shops = new List<VendorModel>();
-            //foreach (var vendor in vendors)
-            //{
-            //    var vendorModel = new VendorModel
-            //    {
-            //        Id = vendor.Id,
-            //        Name = vendor.GetLocalized(x => x.Name),
-            //        Description = vendor.GetLocalized(x => x.Description),
-            //        MetaKeywords = vendor.GetLocalized(x => x.MetaKeywords),
-            //        MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
-            //        MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
-            //        SeName = vendor.GetSeName(),
-            //        AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
-            //        ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
-            //    };
-            //    shops.Add(vendorModel);
-            //}
-
-            //    q = f["q"].ToString();
+           
             if (s == "")
                 s = "0";
             if (string.IsNullOrWhiteSpace(q))

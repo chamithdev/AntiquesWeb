@@ -84,12 +84,15 @@ namespace Nop.Admin.Controllers
             model.ProductTemplateId = 1;
             model.Published = true;
             model.VisibleIndividually = true;
+            int maxDisplayOrder = 99999;
             if (ModelState.IsValid)
             {
                 //a vendor should have access only to his products
                 if (_workContext.CurrentVendor != null)
                 {
                     model.VendorId = _workContext.CurrentVendor.Id;
+
+                    maxDisplayOrder = _productService.GetMaxDisplayOrder(model.VendorId);
                 }
                 
                 model.ShowOnHomePage = true;
@@ -99,6 +102,7 @@ namespace Nop.Admin.Controllers
                 var product = model.ToEntity();
                 product.CreatedOnUtc = DateTime.UtcNow;
                 product.UpdatedOnUtc = DateTime.UtcNow;
+                product.DisplayOrder = product.DisplayOrder == 0 ? (maxDisplayOrder + 1) : product.DisplayOrder;
                 _productService.InsertProduct(product);
                 //search engine name
                 model.SeName = product.ValidateSeName(model.SeName, product.Name, true);

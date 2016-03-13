@@ -52,7 +52,7 @@
 
     var url = Request.Url.ToString();
     var pictureImage = Model.DefaultPictureModel.FullSizeImageUrl;
-
+    
 }
 <!--product breadcrumb-->
 @Html.Partial("_ProductBreadcrumb", Model.Breadcrumb)
@@ -98,7 +98,7 @@
                         Designer/ made by : @Model.DesignBy<br />
                         Condition Report : @Model.Condition. <br />
                     </div>
-                    <div class="block">Dim @Model.Height cm H x @Model.Width cm W x @Model.Length cm D  Approx weight @Model.Weight kg </div>
+                    <div class="block">Dim @Model.Height.ToString("#") cm H x @Model.Width.ToString("#") cm W x @Model.Length.ToString("#") cm D  Approx weight @Model.Weight.ToString("#") kg </div>
 
 
                     <div class="row m-t m-b">
@@ -115,27 +115,40 @@
                     </div>
                     <div class="row m-t m-b">
                         <div class="col-xs-12">
-                            @{
+                            @if(Model.StockQuantity>0)
+                            {
                                     var dataDictPrice = new ViewDataDictionary();
                                      dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
                                     @Html.Partial("_ProductPrice", Model.ProductPrice, dataDictPrice)
-
-                             
-
-   
+                                
+                            }
+                            else
+                            {
+                                <strong class="text-danger">SOLD OUT!</strong>
                             }
                         </div>
                     </div>
-                    <div class="row m-t m-b">
-                        <div class="col-md-5">
-                            <button type="button" class="btn btn-default btn-commoninfo">More From This Store</button>
+                    @if (!string.IsNullOrWhiteSpace(Model.VendorModel.Name))
+                    {
+                        <div class="row m-t m-b">
+                            <div class="col-xs-12">
+                                <h5> From <strong> @Html.Raw(Model.VendorModel.Name)</strong></h5>
+                            </div>
                         </div>
-                        <div class="col-md-7">
-                            <button type="button" class="btn btn-default btn-commoninfo" onclick="displayInquiry()">More Questions, Please Enquire</button>
-                        </div>
-                    </div>
+                    }                   
+                            <div class="row m-t m-b">
+                                @if (Model.VendorModel.Id>0)
+                                {
+                                    <div class="col-md-5">
+                                        <a href="/catalog/BoutiqueShopDetails?vendorId=@Model.VendorModel.Id" class="btn btn-default btn-commoninfo">More From This Store</a>
+                                    </div>
+                                 }
+                                <div class="col-md-7">
+                                    <button type="button" class="btn btn-default btn-commoninfo" onclick="displayInquiry()">More Questions, Please Enquire</button>
+                                </div>
+                            </div>
 
-                </div>
+                        </div>
                     </div>
                 </div>
     </div>

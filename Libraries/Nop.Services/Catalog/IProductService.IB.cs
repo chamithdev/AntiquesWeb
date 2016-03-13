@@ -54,5 +54,9 @@ namespace Nop.Services.Catalog
             decimal varience = 0
             );
 
+        int GetMaxDisplayOrder(int vendorId);
+
+        void RearrangeDisplayOrder(int productId, int displayOrder);
+
     }
 }

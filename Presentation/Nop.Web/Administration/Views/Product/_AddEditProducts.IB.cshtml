@@ -244,14 +244,14 @@
                         ,
                         <input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
                 </div>
-                @*<div class="form-lg">
-                    Rank
-                    @Html.EditorFor(model => model.Rank, new { @class = "form-control" })
-                </div>
                 <div class="form-lg">
-                    Show on Home Page
-                    @Html.EditorFor(model => model.ShowOnHomePage, new { @class = "form-control" })
-                </div>*@
+                    Display Order
+                    @Html.EditorFor(model => model.DisplayOrder, new { @class = "form-control" })
+                </div>
+                @*<div class="form-lg">
+        Show on Home Page
+        @Html.EditorFor(model => model.ShowOnHomePage, new { @class = "form-control" })
+    </div>*@
 
             </div>
         </div>
@@ -280,66 +280,70 @@
                     Including sales tax, excluding shipping
                 </div>
                 <div class="form-lg">
-                    <strong>Product Details</strong><br />
-                    Circa Date :
-                    @*@Html.EditorFor(model => model.CircaDate)*@
-                    @*@Html.DropDownListFor(model => model.CircaDate, Model.CircaDates)*@
-                    @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
-                    @Html.EditorFor(model => model.CircaDate, new { @class = "js-default-val-text  percent-40" })
-                    @Html.ValidationMessageFor(model => model.CircaDate)
-                    <br />
-                    Materials :
-                    @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
-                    @Html.EditorFor(model => model.Material, new { @class = "js-default-val-text  percent-42" })
-                    @Html.ValidationMessageFor(model => model.Material)
-                    <br />
-                    Colour :
-                    @Html.EditorFor(model => model.Color, new { @class = "js-default-val-text  percent-42" })
-                    @Html.ValidationMessageFor(model => model.Color)
-                    <br />
-                    Country of Origin :
-                    @Html.EditorFor(model => model.Country, new { @class = "js-default-val-text  percent-42" })
-                    @Html.ValidationMessageFor(model => model.Country)
-                    <br />
-                    Designer/ made by :
-                    @Html.EditorFor(model => model.DesignBy, new { @class = "js-default-val-text  percent-42" })
-                    @Html.ValidationMessageFor(model => model.DesignBy)
-                    <br />
-                    Condition Report :
-                    @Html.EditorFor(model => model.Condition, new { @class = "js-default-val-text  percent-42" })
-                    @Html.ValidationMessageFor(model => model.Condition)
-                    <br />
-                    <br />
-                    Style :                  
-                    @Html.DropDownListFor(model => model.Style, Model.Styles, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Condition)
-                    <br />
-                    
-                
+                    @Html.EditorFor(model => model.CallForPrice, new { @class = "checkbox" })
+                    Hide Price from Customer
                 </div>
-                <div class="form-lg">
-                    
-                    Dim
-                    @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
-                    @Html.EditorFor(model => model.Height, "Integer", new { @class = "js-default-val-text  percent-10" })
-                    cm H x
-                    @Html.EditorFor(model => model.Width, "Integer", new { @class = "js-default-val-text  percent-10" })
-                    cm W x
-                    @Html.EditorFor(model => model.Length, "Integer", new { @class = "js-default-val-text  percent-10" })
-                    cm D  Approx weight
-                    @Html.EditorFor(model => model.Weight, "Integer", new { @class = "js-default-val-text  percent-10" })
-                    kg
+                    <div class="form-lg">
+                        <strong>Product Details</strong><br />
+                        Circa Date :
+                        @*@Html.EditorFor(model => model.CircaDate)*@
+                        @*@Html.DropDownListFor(model => model.CircaDate, Model.CircaDates)*@
+                        @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
+                        @Html.EditorFor(model => model.CircaDate, new { @class = "js-default-val-text  percent-40" })
+                        @Html.ValidationMessageFor(model => model.CircaDate)
+                        <br />
+                        Materials :
+                        @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
+                        @Html.EditorFor(model => model.Material, new { @class = "js-default-val-text  percent-42" })
+                        @Html.ValidationMessageFor(model => model.Material)
+                        <br />
+                        Colour :
+                        @Html.EditorFor(model => model.Color, new { @class = "js-default-val-text  percent-42" })
+                        @Html.ValidationMessageFor(model => model.Color)
+                        <br />
+                        Country of Origin :
+                        @Html.EditorFor(model => model.Country, new { @class = "js-default-val-text  percent-42" })
+                        @Html.ValidationMessageFor(model => model.Country)
+                        <br />
+                        Designer/ made by :
+                        @Html.EditorFor(model => model.DesignBy, new { @class = "js-default-val-text  percent-42" })
+                        @Html.ValidationMessageFor(model => model.DesignBy)
+                        <br />
+                        Condition Report :
+                        @Html.EditorFor(model => model.Condition, new { @class = "js-default-val-text  percent-42" })
+                        @Html.ValidationMessageFor(model => model.Condition)
+                        <br />
+                        <br />
+                        Style :
+                        @Html.DropDownListFor(model => model.Style, Model.Styles, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Condition)
+                        <br />
+
+
+                    </div>
+                    <div class="form-lg">
+
+                        Dim
+                        @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
+                        @Html.EditorFor(model => model.Height, "Integer", new { @class = "js-default-val-text  percent-10" })
+                        cm H x
+                        @Html.EditorFor(model => model.Width, "Integer", new { @class = "js-default-val-text  percent-10" })
+                        cm W x
+                        @Html.EditorFor(model => model.Length, "Integer", new { @class = "js-default-val-text  percent-10" })
+                        cm D  Approx weight
+                        @Html.EditorFor(model => model.Weight, "Integer", new { @class = "js-default-val-text  percent-10" })
+                        kg
+                    </div>
+                    <div class="text-center form-lg">
+                        Only
+                        @Html.EditorFor(model => model.StockQuantity, "Integer", new { @class = "js-default-val-text  percent-10" })
+                        Units Available
+                    </div>
+                    <div class="form-lg">
+                        <strong>Description</strong><br />
+                        @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control" })
+                    </div>
                 </div>
-                <div class="text-center form-lg">
-                    Only
-                    @Html.EditorFor(model => model.StockQuantity, "Integer", new { @class = "js-default-val-text  percent-10" })
-                    Units Available 
-                </div>
-                <div class="form-lg">
-                    <strong>Description</strong><br />
-                    @Html.EditorFor(model => model.FullDescription, new { @class = "js-default-val-text" })
-                </div>
-            </div>
             @*<div class="col-sm-6 col-md-4">
                     <div class="form-lg">
                         <strong>Picture Text</strong> <br />

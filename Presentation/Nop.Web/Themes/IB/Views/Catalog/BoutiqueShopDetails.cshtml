@@ -22,7 +22,7 @@
     var vendorId = Request["vendorId"] != null ? Convert.ToString(Request["vendorId"]) : "0";
 }
 
-@Html.HiddenFor(m => m.Id, new {id="HiddenField_vendorId" })
+@Html.HiddenFor(m => m.Id, new { id = "HiddenField_vendorId" })
 
 <div class="input-group m-b">
     <span class="input-group-addon">Search By</span>
@@ -36,7 +36,7 @@
             }
             else if (s == "1")
             {
-                <Text>Alphabetically</Text>
+                <Text>Latest</Text>
             }
             else if (s == "2")
             {
@@ -56,33 +56,33 @@
 </div>
 
 <div id="body-content">
-    
+
 </div>
 
 <div class="container">
-    
+
 </div>
 <div class="section-pannel">
     @*<div class="section-header">
             <h4><span>My Product Search</span></h4>
         </div>*@
     <div class="row">
-        
-            <!--  <div class="details-close"><a href="#"><strong>X</strong></a></div>-->
-            <div class="col-sm-6"><img style="width:100%" src="@Model.Vendor.ImageUrl" /></div>
-            <div class="col-sm-6 details">
-                <div class="more-details">
-                    <h2>@Model.Vendor.Name</h2>
-                    <p> @Model.Vendor.City,&nbsp; @Model.Vendor.Coutry</p>
-                    <a href="@Model.Vendor.Web" >@Model.Vendor.Web</a>
-                    @*<input type="button" class="btn btn-default" value="Website Link" />
-                        <input type="button" class="btn btn-default" value="Contact Supplier" />*@
-                    <p class="top-padding10">
-                        @Html.Raw(Model.Vendor.Description)
-                    </p>
-                </div>
+
+        <!--  <div class="details-close"><a href="#"><strong>X</strong></a></div>-->
+        <div class="col-sm-6"><img style="width:100%" src="@Model.Vendor.ImageUrl" /></div>
+        <div class="col-sm-6 details">
+            <div class="more-details">
+                <h2>@Model.Vendor.Name</h2>
+                <p> @Model.Vendor.City,&nbsp; @Model.Vendor.Coutry</p>
+                <a href="@Model.Vendor.Web" class="btn btn-default">Website</a>
+                @*<input type="button" class="btn btn-default" value="Website Link" />*@
+                <input type="button" class="btn btn-default" onclick="displayInquiry();" value="Contact Supplier" />
+                <p class="top-padding10">
+                    @Html.Raw(Model.Vendor.Description)
+                </p>
             </div>
-        
+        </div>
+
     </div>
     <br />
     <div class="row" id="div_vendor_products">
@@ -102,9 +102,9 @@
                     }
 
                     @*<li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>*@
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>*@
                     <li><a href="/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@pageCount&q=@q&s=@s">&raquo;</a></li>
                 </ul>
 
@@ -117,6 +117,50 @@
 </div>
 
 
+<div class="modal fade" id="contactModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Make an Enquiry</h4>
+            </div>
+            <form class="form-horizontal" method="post" action="" id="frmInquiery">
+                <div class="modal-body">
+                    <input type="hidden" id="id" name="Id" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required="required" name="Name" id="txtname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" required="required" name="Phone" id="txtPhone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" required="required" name="Email" id="txtemail">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">Message</label>
+                        <div class="col-sm-10">
+                            <textarea name="Message" required="required" class="form-control" id="txtMsg" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center" id="pmsg"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="SendMessage()">Send Message</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 <script type="text/javascript">
@@ -218,6 +262,86 @@
         });
 
     });
+
+
+
+
+    function displayInquiry(id) {
+        $('#contactModel').modal({ show: true });
+    }
+
+    function Validate()
+    {
+
+
+        if($('#txtname').val() =='')
+        {
+            alert('Please fill in name');
+            return false;
+        }
+
+        if ($('#txtPhone').val() == '') {
+            alert('Please fill in phone');
+            return false;
+        }
+
+        if ($('#txtemail').val() == '') {
+            alert('Please fill in email');
+            return false;
+        }
+
+        if (!validateEmail()) {
+            alert('Please fill in valid email');
+            return false;
+        }
+
+        if ($('#txtMsg').val() == '') {
+            alert('Please fill in message');
+            return false;
+        }
+
+        function validateEmail() {
+            var filter = /^[a-zA-Z0-9_.-]+@@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{0,4}$/;
+            if (filter.test($('#txtemail').val())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+
+        return true;
+
+
+    }
+
+    function SendMessage()
+    {
+        if(Validate())
+        {
+            var model = new Object();
+            model.VendorId = @vendorId;
+            model.Name = $('#txtname').val();
+            model.Phone = $('#txtPhone').val();
+            model.Email = $('#txtemail').val();
+            model.Message = $('#txtMsg').val();
+
+            ajaxPostJson("Product","VendorInquire",model,function(data){
+
+                if(data.Success)
+                {
+                    $("#pmsg").text('Thank you. Youe message has been sent.');
+                    setTimeout(function(){
+                        $('#contactModel').modal('hide');
+                    },3000);
+
+                }
+            })
+
+        }
+    }
+
 
 
 </script>
