@@ -272,6 +272,7 @@ namespace Nop.Admin.Controllers
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
                 vpm.TotalCount = products.TotalCount;
+                vpm.CanReOrder = p.StockQuantity > 0;
                 model.Add(vpm);
 	        }
 
@@ -338,7 +339,7 @@ namespace Nop.Admin.Controllers
 
 
                 product.DisplayOrder = model.DisplayOrder;//(product.DisplayOrder - model.DisplayOrder);
-                if (product.DisplayOrder>0)
+                if (product.DisplayOrder>0 && product.StockQuantity>0)
                     _productService.UpdateProduct(product);
 
                 
@@ -482,8 +483,12 @@ namespace Nop.Admin.Controllers
             
 
             var product = _productService.GetProductById(id);
+            var maxOrder = _productService.GetMaxDisplayOrder(product.VendorId);
+            if (maxOrder < 9000)
+                product.DisplayOrder = 9000;
+            else
+                product.DisplayOrder = maxOrder + 1;
 
-            product.DisplayOrder = 9999999;
             product.StockQuantity = 0;
             _productService.UpdateProduct(product);
 

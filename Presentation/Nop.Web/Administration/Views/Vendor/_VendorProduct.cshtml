@@ -17,39 +17,35 @@
     //pagesList.Add(2);
     
 }
+@foreach (Nop.Admin.Models.Vendors.VendorModel.VenddorProductModel pm in Model)
+{
+    <li class="ui-state-default@(pm.CanReOrder ? "" : " disable-sort-item")" id="@pm.ProductId" data-order="@pm.DisplayOrder">
+        <div class="thumbnail-vendor thumbnail-large">
+            <div class="thum-img">
+                <a href="@Url.Action("editib", "product", new { area = "admin",id=@pm.ProductId }, null)">  <img alt="" src="@pm.ProductPicture.PictureUrl" title="@pm.ProductName" /></a>
+            </div>
+            <div class="caption">
+                <h3>
+                    <label type="text" defaultval="Title" value="">@pm.ProductName</label>
+                </h3>
+                <p>
+                    <label type="text" defaultval="Date" value="" class="js-default-val-text">@pm.CircaDate</label>
+                    <br />
+                    <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
+                </p>
+                <p>
+                    @if (pagesList.Count > 0 && pm.CanReOrder)
+                    {
+                        <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style="z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
+                        <br />
+                    }
+                    <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
+                </p>
+            </div>
+        </div>
+    </li>
 
-
-        @foreach (Nop.Admin.Models.Vendors.VendorModel.VenddorProductModel pm in Model)
-        {
-            <li class="ui-state-default" id="@pm.ProductId" data-order="@pm.DisplayOrder">
-
-
-                <div class="thumbnail-vendor thumbnail-large">
-                    <div class="thum-img">
-                        <a href="@Url.Action("editib", "product", new { area = "admin",id=@pm.ProductId }, null)">  <img alt="" src="@pm.ProductPicture.PictureUrl" title="@pm.ProductName" /></a>
-                    </div>
-                    <div class="caption">
-                        <h3>
-                            <label type="text" defaultval="Title" value="">@pm.ProductName</label>
-                        </h3>
-                        <p>
-                            <label type="text" defaultval="Date" value="" class="js-default-val-text">@pm.CircaDate</label>
-                            <br />
-                            <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
-                        </p>
-                        <p>
-                            @if (pagesList.Count > 0)
-                            {
-                                <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = "ddlMove", @class = "form-control", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
-                                <br />
-                            }
-                            <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
-                        </p>
-                    </div>
-                </div>
-            </li>
-
-        }
+}
 
 
 

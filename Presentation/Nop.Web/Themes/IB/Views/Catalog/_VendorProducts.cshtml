@@ -12,12 +12,9 @@
     <div class="row">
 
     @foreach (Nop.Web.Models.Catalog.ProductOverviewModel pm in Model)
-    {
-       
-
+    {     
             @Html.Partial("_ProductBox", pm)
 
-       
     }      
     </div>
 </div>

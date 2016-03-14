@@ -88,6 +88,17 @@ namespace Nop.Services.Catalog
             return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
         }
 
+        public int GetMaxDisplayOrderUnsold(int vendorId)
+        {
+            var query = _productRepository.Table;
+            var max = from p in query
+                      where ((p.VendorId == vendorId || vendorId == 0) && p.StockQuantity>0)
+                      group p by p.VendorId into d
+                      select d.Max(s => s.DisplayOrder);
+
+            return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
+        }
+
         public int GetMinDisplayOrder(int vendorId)
         {
             var query = _productRepository.Table;

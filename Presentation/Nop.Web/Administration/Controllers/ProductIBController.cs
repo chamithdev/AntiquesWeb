@@ -92,7 +92,7 @@ namespace Nop.Admin.Controllers
                 {
                     model.VendorId = _workContext.CurrentVendor.Id;
 
-                    maxDisplayOrder = _productService.GetMaxDisplayOrder(model.VendorId);
+                    maxDisplayOrder = _productService.GetMaxDisplayOrderUnsold(model.VendorId);
                 }
                 
                 model.ShowOnHomePage = true;

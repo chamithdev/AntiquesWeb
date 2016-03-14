@@ -56,6 +56,8 @@ namespace Nop.Services.Catalog
 
         int GetMaxDisplayOrder(int vendorId);
 
+        int GetMaxDisplayOrderUnsold(int vendorId);
+
         int GetMinDisplayOrder(int vendorId);
 
         void RearrangeDisplayOrder(int productId, int displayOrder);

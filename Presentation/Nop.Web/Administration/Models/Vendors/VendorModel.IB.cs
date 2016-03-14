@@ -75,6 +75,8 @@ namespace Nop.Admin.Models.Vendors
 
             public int TotalCount { get; set; }
 
+            public bool CanReOrder { get; set; }
+
         }
         public partial class ProductPagingModel
         {
