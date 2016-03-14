@@ -36,7 +36,7 @@
                 <p>
                     @if (pagesList.Count > 0 && pm.CanReOrder)
                     {
-                        <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style="z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
+                        <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
                         <br />
                     }
                     <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />

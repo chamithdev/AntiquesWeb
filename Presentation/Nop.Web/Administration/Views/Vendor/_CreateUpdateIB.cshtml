@@ -47,7 +47,8 @@
 
             $("#sortable").sortable({
                 connectWith: "#sortable",
-                cancel: ".disable-sort-item",
+                //cancel: ".disable-sort-item",
+                items: '> li:not(.disable-sort-item)',
                 update: function () {
                     var order1 = $('#sortable').sortable('toArray').toString();
                     var originalArr =  original.split(',');
