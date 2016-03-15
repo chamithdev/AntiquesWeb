@@ -260,17 +260,17 @@
             contentType: 'application/json; charset=utf-8',
             beforeSend: function () {
                 //$('#ajaxBusy').show();
-                $('.fader').show();
+                $('.fader-wrapper').show();
 
             },
             success: function (json) {
                 callback(json);
                 //$('#ajaxBusy').hide();
-                $('.fader').hide();
+                $('.fader-wrapper').hide();
 
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('.fader').hide();
+                $('.fader-wrapper').hide();
                 if (errorCallback != undefined)
                     errorCallback(xhr);
                 alert(thrownError);

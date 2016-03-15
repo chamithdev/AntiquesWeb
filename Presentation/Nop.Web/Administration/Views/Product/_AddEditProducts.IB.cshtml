@@ -23,15 +23,15 @@
                 uploadMultiple: true,
                 maxFilesize: 40,
                 uploadprogress: function (e, progress) {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success:function()
                 {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     window.location.reload(true);
                 },
                 error: function () {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     alert('error uploading data');
                 },
 
@@ -90,14 +90,14 @@
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
@@ -112,14 +112,14 @@
                 cache: false,
                // data: param,
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);

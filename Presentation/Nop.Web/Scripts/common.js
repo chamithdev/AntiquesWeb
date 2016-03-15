@@ -62,7 +62,7 @@ $(function(){
 (function( $ ){
    $.fn.onloadPopup = function() {
     $('.pop-box').show();
-	$('.fader').show();
+	$('.fader-wrapper').show();
    }; 
 })(jQuery);
 
@@ -70,7 +70,7 @@ $(function(){
 $('#popoverBtn').click(function(e){
 
 	$('.pop-box').show();
-	$('.fader').show();
+	//$('.fader-wrapper').show();
 
 	e.preventDefault();
 		slider2.reloadSlider({
@@ -87,13 +87,13 @@ $('#popoverBtn').click(function(e){
 
 $('#popClose').click(function(){
 	$('.pop-box').hide();
-	$('.fader').hide();
+	$('.fader-wrapper').hide();
 });
 
 $(document).keyup(function(e) {
 	if (e.keyCode == 27) { // escape key maps to keycode `27`
 		$('.pop-box').hide();
-		$('.fader').hide();
+		$('.fader-wrapper').hide();
     }
 });
 
