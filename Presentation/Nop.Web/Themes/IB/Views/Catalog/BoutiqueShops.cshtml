@@ -120,6 +120,11 @@
         //we let the event bubble for the modal plugin, so ne returning false here
     });
 
+    $("#q").keyup(function (e) {
+        if (e.keyCode == 13) {
+            window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+        }
+    });
     $(document).ready(function () {
 
     });

@@ -264,7 +264,12 @@
     });
 
 
-
+    $("#q").keyup(function (e) {
+        if(e.keyCode == 13)
+        {
+            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+        }
+    });
 
     function displayInquiry(id) {
         $('#contactModel').modal({ show: true });
