@@ -77,6 +77,8 @@ namespace Nop.Admin.Models.Vendors
 
             public int TotalCount { get; set; }
 
+            public int StockQuantity { get; set; }
+
             public bool CanReOrder { get; set; }
 
         }

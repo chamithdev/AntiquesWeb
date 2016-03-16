@@ -215,6 +215,12 @@
             window.location.reload(true);
         });
     }
+    function InStock(id)
+    {
+        ajaxGetDataParam("Vendor", "InStock", id, function () {            
+            window.location.reload(true);
+        });
+    }
   
 </script>
 @Html.HiddenFor(model => model.Id)
@@ -260,7 +266,8 @@
                         @Html.ValidationMessageFor(model => model.Email)
                         <br />
                         About us
-                        @Html.EditorFor(x => x.Description, new { @class = "percent-42" })
+                        <br />
+                        @Html.TextAreaFor(x => x.Description, 10, 1, new { @class = "percent-100" })
                         @Html.ValidationMessageFor(model => model.Description)
                         <br/>
                         @if(Model.DisplayActive)
@@ -293,7 +300,7 @@
 
             <div class="section-pannel">
                 <div class="section-header">
-                    <h4><span>Our Products </span></h4>
+                    <h4><span>Stock</span></h4>
                 </div>
                 <div class="row">
                     <ul id="sortable" class="clear">

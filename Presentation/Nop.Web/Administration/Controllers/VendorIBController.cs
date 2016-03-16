@@ -272,6 +272,7 @@ namespace Nop.Admin.Controllers
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
                 vpm.TotalCount = products.TotalCount;
+                vpm.StockQuantity = p.StockQuantity;
                 vpm.CanReOrder = p.StockQuantity > 0;
                 model.Add(vpm);
 	        }
@@ -494,6 +495,14 @@ namespace Nop.Admin.Controllers
 
             //if (products.Count == 0)
             //    return Content("");
+            return new NullJsonResult();
+        }
+
+        public JsonResult InStock(int id)
+        {
+            var product = _productService.GetProductById(id);
+            product.StockQuantity = 10;
+            _productService.UpdateProduct(product);
             return new NullJsonResult();
         }
 

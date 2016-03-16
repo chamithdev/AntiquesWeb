@@ -321,24 +321,27 @@
 
 
                     </div>
-                    <div class="form-lg">
-
-                        Dim
-                        @*<input type="text" class="js-default-val-text percent-10" defaultval="" value="" />*@
-                        @Html.EditorFor(model => model.Height, "Integer", new { @class = "js-default-val-text  percent-10" })
-                        cm H x
-                        @Html.EditorFor(model => model.Width, "Integer", new { @class = "js-default-val-text  percent-10" })
-                        cm W x
-                        @Html.EditorFor(model => model.Length, "Integer", new { @class = "js-default-val-text  percent-10" })
-                        cm D  Approx weight
-                        @Html.EditorFor(model => model.Weight, "Integer", new { @class = "js-default-val-text  percent-10" })
-                        kg
-                    </div>
-                    <div class="text-center form-lg">
-                        Only
-                        @Html.EditorFor(model => model.StockQuantity, "Integer", new { @class = "js-default-val-text  percent-10" })
-                        Units Available
-                    </div>
+                <div class="form-lg">
+                    <strong>Dimensions</strong><br/>
+                    Height :
+                    @Html.EditorFor(model => model.Height, "Integer", new {@class = "js-default-val-text  percent-10"})
+                    CM x
+                    Width :
+                    @Html.EditorFor(model => model.Width, "Integer", new {@class = "js-default-val-text  percent-10"})
+                    CM
+                    <br/>
+                    Depth :
+                    @Html.EditorFor(model => model.Length, "Integer", new {@class = "js-default-val-text  percent-10"})
+                    CM
+                    Approx Weight :
+                    @Html.EditorFor(model => model.Weight, "Integer", new {@class = "js-default-val-text  percent-10"})
+                    KG
+                </div>
+                <div class="text-center form-lg">
+                    Only
+                    @Html.EditorFor(model => model.StockQuantity, "Integer", new { @class = "js-default-val-text  percent-10" })
+                    Units Available
+                </div>
                     <div class="form-lg">
                         <strong>Description</strong><br />
                         @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control" })
