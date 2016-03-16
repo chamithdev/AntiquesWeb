@@ -84,7 +84,7 @@ namespace Nop.Admin.Controllers
             model.ProductTemplateId = 1;
             model.Published = true;
             model.VisibleIndividually = true;
-            int minDisplayOrder = 0;
+            int minDisplayOrder = 999999;
             if (ModelState.IsValid)
             {
                 //a vendor should have access only to his products

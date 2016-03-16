@@ -58,6 +58,8 @@ namespace Nop.Admin.Models.Vendors
             [NopResourceDisplayName("Admin.Catalog.Products.Pictures.Fields.OverrideTitleAttribute")]
             [AllowHtml]
             public string OverrideTitleAttribute { get; set; }
+
+           
         }
 
         public partial class VenddorProductModel
@@ -77,9 +79,9 @@ namespace Nop.Admin.Models.Vendors
 
             public int TotalCount { get; set; }
 
-            public int StockQuantity { get; set; }
-
             public bool CanReOrder { get; set; }
+
+            public int StockQuantity { get; set; }
 
         }
         public partial class ProductPagingModel

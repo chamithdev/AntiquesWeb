@@ -19,7 +19,7 @@
     var baseUrl = "/admin/";
     var original ="";
     $(document).ready(function () {
-
+        $("#currentPage").val("1");
         Dropzone.autoDiscover = false;
         $("#dz").dropzone(
             {
@@ -147,6 +147,7 @@
             $("#sortable li").removeClass("active");
             $('#'+pageNo).addClass("active");
             original = $('#sortable').sortable('toArray').toString();
+            $("#currentPage").val(pageNo+1);
             //class="active" 
         }, null);
 
@@ -211,7 +212,13 @@
     }
     function MoveToPage(id,page) 
     {
-        ajaxGetDataMultiple("Vendor", "MoveToPage", { 'productId': id, 'page': page }, function () {
+        if(page==0)
+            return;
+        var currentPage = $('#currentPage').val();
+        if(page == currentPage)
+            return;
+
+        ajaxGetDataMultiple("Vendor", "MoveToPage", { 'productId': id, 'page': page,'currentPage':currentPage }, function () {
             window.location.reload(true);
         });
     }
@@ -221,10 +228,13 @@
             window.location.reload(true);
         });
     }
+
+    
   
 </script>
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.PictureId, new {@id="hdnPictureId" })
+<input type="hidden" id="currentPage"  />
 <div id="body-content">
     <div class="container">
         <div class="section-pannel">

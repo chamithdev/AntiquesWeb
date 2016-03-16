@@ -9,12 +9,14 @@
         pages += 1;
     }
     var pagesList = new List<int>();
-    for (int i = 1; i <= pages; i++)
+    for (int i = 0; i <= pages; i++)
 	{
 	    pagesList.Add(i);
 	}
     //pagesList.Add(1);
     //pagesList.Add(2);
+    
+  
     
 }
 @foreach (Nop.Admin.Models.Vendors.VendorModel.VenddorProductModel pm in Model)
@@ -40,7 +42,7 @@
                         <br />
                         <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
                     }
-                    else
+                    @if (!pm.CanReOrder)
                     {
                         <input type="button" value="In Stock" class="btn btn-submit" onclick="InStock(@pm.ProductId)" />
                     }

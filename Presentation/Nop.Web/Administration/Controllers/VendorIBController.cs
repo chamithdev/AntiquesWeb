@@ -506,15 +506,17 @@ namespace Nop.Admin.Controllers
             return new NullJsonResult();
         }
 
-        public JsonResult MoveToPage(int productId,int page)
+        public JsonResult MoveToPage(int productId, int page, int currentPage)
         {
 
 
             //var product = _productService.GetProductById(productId);
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            
-            
-            var moveToOrder = defaultGridPageSize * page;
+            var fac=1;
+            if (page < currentPage)
+                fac = -1;
+
+            var moveToOrder = (defaultGridPageSize * page) * fac;
 
             //product.DisplayOrder = moveToOrder > maxOrderNo ? (maxOrderNo +1) : moveToOrder;
 
