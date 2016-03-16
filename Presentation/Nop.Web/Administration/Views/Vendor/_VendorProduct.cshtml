@@ -38,8 +38,13 @@
                     {
                         <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
                         <br />
+                        <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
                     }
-                    <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
+                    else
+                    {
+                        <input type="button" value="In Stock" class="btn btn-submit" onclick="InStock(@pm.ProductId)" />
+                    }
+                    
                 </p>
             </div>
         </div>

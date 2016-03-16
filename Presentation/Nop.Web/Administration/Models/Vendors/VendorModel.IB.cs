@@ -25,6 +25,8 @@ namespace Nop.Admin.Models.Vendors
         [DisplayName("Web Site")]
         public string Web { get; set; }
 
+        public string Phone { get; set; }
+
         public int PictureId { get; set; }
 
         public Picture MainPicture { get; set; }

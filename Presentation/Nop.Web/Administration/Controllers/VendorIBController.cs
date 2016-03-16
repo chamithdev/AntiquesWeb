@@ -484,8 +484,8 @@ namespace Nop.Admin.Controllers
 
             var product = _productService.GetProductById(id);
             var maxOrder = _productService.GetMaxDisplayOrder(product.VendorId);
-            if (maxOrder < 9000)
-                product.DisplayOrder = 9000;
+            if (maxOrder < 999999)
+                product.DisplayOrder = 999999;
             else
                 product.DisplayOrder = maxOrder + 1;
 
