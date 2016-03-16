@@ -99,16 +99,7 @@
                         Condition Report : @Model.Condition. <br />
                     </div>
                     <div class="block">Dim @Model.Height.ToString("#") cm H x @Model.Width.ToString("#") cm W x @Model.Length.ToString("#") cm D  Approx weight @Model.Weight.ToString("#") kg </div>
-
-
-                    <div class="row m-t m-b">
-                        <div class="col-xs-12">
-                            <span class="availability">Only @Model.StockQuantity Available</span>
-                            @*<input type="button" value="Add Product to Cart" class="btn btn-default btn-addtocart pull-right" />*@
-                        </div>
-                    </div>
-
-
+                    
                     <div class="block">
                         <strong>Description</strong><br />
                         @Html.Raw(Model.FullDescription)
@@ -124,7 +115,7 @@
                             }
                             else
                             {
-                                <strong class="text-danger">SOLD OUT!</strong>
+                                <strong class="text-danger">SOLD</strong>
                             }
                         </div>
                     </div>
