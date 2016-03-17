@@ -108,21 +108,21 @@
             $(".btn:first-child").val($(this).id);
 
             $('#s').val($(this).attr('id'));
-            window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            window.location.href = '/Catalog/BoutiqueShops/?pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val();
             return true;
         });
 
     });
 
     $('#aSearch').click(function () {
-        $(this).attr('href', '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+        $(this).attr('href', '/Catalog/BoutiqueShops/?pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val());
         return true;
         //we let the event bubble for the modal plugin, so ne returning false here
     });
 
     $("#q").keyup(function (e) {
         if (e.keyCode == 13) {
-            window.location.href = '/Catalog/BoutiqueShops/?pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            window.location.href = '/Catalog/BoutiqueShops/?pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val();
         }
     });
     $(document).ready(function () {

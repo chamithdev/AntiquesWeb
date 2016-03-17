@@ -178,7 +178,7 @@
         //});
 
         $('#aSearch').click(function () {
-            $(this).attr('href', '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val());
+            $(this).attr('href', '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val());
             return true;
             //we let the event bubble for the modal plugin, so ne returning false here
             //productdetailsVendor(1);
@@ -256,7 +256,7 @@
             $(".btn:first-child").val($(this).id);
 
             $('#s').val($(this).attr('id'));
-            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val();
             //productdetailsVendor(1);
             return true;
         });
@@ -267,7 +267,7 @@
     $("#q").keyup(function (e) {
         if(e.keyCode == 13)
         {
-            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=@currentPage&q=' + $('#q').val() + '&s=' + $('#s').val();
+            window.location.href = '/Catalog/BoutiqueShopDetails/?vendorId=@vendorId&pageNo=1&q=' + $('#q').val() + '&s=' + $('#s').val();
         }
     });
 
