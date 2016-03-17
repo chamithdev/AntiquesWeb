@@ -36,7 +36,7 @@
                     <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
                 </p>
                 <p>
-                    @if (pagesList.Count > 0 && pm.CanReOrder)
+                    @if (pagesList.Count >1 && pm.CanReOrder)
                     {
                         <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
                         <br />
