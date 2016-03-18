@@ -8,11 +8,28 @@
     {
         pages += 1;
     }
-    var pagesList = new List<int>();
+    var pagesList = new List<SelectListItem>();
+    var current = Convert.ToInt32(ViewBag.CurrentPage);
+    if (current==0)
+    {
+        current = 1;
+    }
     for (int i = 0; i <= pages; i++)
 	{
-	    pagesList.Add(i);
+        var text = "-";
+        if (i > 0)
+        {
+            text = i.ToString();
+        }
+
+
+        if (i != current)
+        {
+            pagesList.Add(new SelectListItem { Text = text, Value = i.ToString() });
+        }
+            
 	}
+   
     //pagesList.Add(1);
     //pagesList.Add(2);
     
@@ -38,7 +55,7 @@
                 <p>
                     @if (pagesList.Count >1 && pm.CanReOrder)
                     {
-                        <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
+                        <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList, "Value", "Text"), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
                         <br />
                         <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
                     }

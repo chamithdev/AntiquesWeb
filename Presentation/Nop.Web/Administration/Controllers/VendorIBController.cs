@@ -35,6 +35,7 @@ using System.IO;
 using Nop.Admin.Models.Vendors;
 using Nop.Admin.Extensions;
 using Nop.Core.Infrastructure;
+using Nop.Core.Domain.Customers;
 namespace Nop.Admin.Controllers
 {
     public partial class VendorController
@@ -284,7 +285,7 @@ namespace Nop.Admin.Controllers
         public ActionResult PagedProductList(VendorModel.ProductPagingModel model)
         {
             var prodModels = VendorProducts(model.VendorId, model.PageIndex);
-
+            ViewBag.CurrentPage = model.PageIndex;
             return View("_VendorProduct", prodModels);
             //return new JsonResult
             //{
@@ -413,6 +414,10 @@ namespace Nop.Admin.Controllers
                     .ToList();
             model.Products = VendorProducts(vendor.Id);
             model.DisplayActive = _workContext.CurrentCustomer.CustomerRoles.Any(r=>r.SystemName =="Administrators");
+            var phones =_genericAttributeService.GetAttributesForEntity(_workContext.CurrentCustomer.Id,"Customer");
+            var phone = phones.FirstOrDefault(a => a.Key == SystemCustomerAttributeNames.Phone);
+            if (phone != null)
+                model.Phone = phone.Value;
             return View(model);
         }
 
@@ -454,13 +459,15 @@ namespace Nop.Admin.Controllers
                 _urlRecordService.SaveSlug(vendor, model.SeName, 0);
                 //locales
                 UpdateLocales(vendor, model);
-
+                _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, SystemCustomerAttributeNames.Phone, model.Phone);
                 SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
                 if (_workContext.CurrentVendor != null)
                 {
                     //selected tab
                     SaveSelectedTabIndex();
-
+                    var phones = _genericAttributeService.GetAttributesForEntity(_workContext.CurrentCustomer.Id, SystemCustomerAttributeNames.Phone);
+                    if (phones.Count > 0)
+                        model.Phone = phones[0].Value;
                     return RedirectToAction("MyHome", new { id = vendor.Id });
                 }
                 return RedirectToAction("List");
