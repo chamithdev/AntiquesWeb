@@ -4,11 +4,43 @@
 @{
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
     var pageCount = Convert.ToInt32(ViewBag.PageCount);
+    if (pageCount > 60)
+    {
+        pageCount = 60;
+    }
+
+   
+        
+        
     var currentPage = 1;
     if (Request["pageNo"] !=null)
     {
         currentPage = Convert.ToInt32(Request["pageNo"]);
     }
+    
+    
+
+   // var chunk = 10;
+   // var seed = 10 * Convert.ToInt16(10 * Math.Ceiling((double)currentPage / 10));
+   //  var startPage = 1;
+   //  var endPage = 10;
+   //if((chunk -currentPage) <= 2)
+   //{
+   //    if (chunk >= currentPage)
+   //    {
+   //        startPage = currentPage - (3 - (chunk - currentPage));
+   //    }else
+   //    {
+   //        startPage = currentPage - (currentPage - chunk);
+   //    }
+   //    endPage = startPage + 12;
+   //    if(endPage >pageCount)
+   //    {
+   //        endPage = pageCount;
+   //    }
+       
+   //}
+    
 
 
     var q = "";
@@ -75,11 +107,14 @@
     <div class="page-wrap text-center">
         <ul class="pagination">
             <li><a href="/Product/LatestFinds/?pageNo=1&q=@q&s=@s">&laquo;</a></li>
-            @for (int x = 1; x <= pageCount; x++)
+            @for (int x = startPage; x <= endPage; x++)
             {
                 <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Product/LatestFinds/?pageNo=@x&q=@q&s=@s">@(x)</a></li>
             }
-
+            @if(endPage < pageCount)
+            {
+                <li><a href="#">...</a></li>
+            }
             @*<li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>

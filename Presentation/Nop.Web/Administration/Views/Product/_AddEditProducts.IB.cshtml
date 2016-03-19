@@ -25,10 +25,13 @@
                 uploadprogress: function (e, progress) {
                     $('.fader-wrapper').show();
                 },
-                success:function()
+                complete:function(f)
                 {
-                    $('.fader-wrapper').hide();
-                    window.location.reload(true);
+                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                        $('.fader-wrapper').hide();
+                        window.location.reload(true);
+                    }
+                  
                 },
                 error: function () {
                     $('.fader-wrapper').hide();

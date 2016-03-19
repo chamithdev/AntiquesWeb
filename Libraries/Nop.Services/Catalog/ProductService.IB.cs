@@ -38,6 +38,7 @@ namespace Nop.Services.Catalog
                         where p.Published &&
                         !p.Deleted &&
                         p.ShowOnHomePage
+                        && p.StockQuantity>0
                         && p.CreatedOnUtc >= baseDate
                         select p;
             var products = query.ToList();
