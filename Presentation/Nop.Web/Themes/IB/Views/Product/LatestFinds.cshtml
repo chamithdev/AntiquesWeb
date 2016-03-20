@@ -107,14 +107,14 @@
     <div class="page-wrap text-center">
         <ul class="pagination">
             <li><a href="/Product/LatestFinds/?pageNo=1&q=@q&s=@s">&laquo;</a></li>
-            @for (int x = startPage; x <= endPage; x++)
+            @for (int x = 1; x <= pageCount; x++)
             {
                 <li id="@x" @(currentPage == x ? "class=active" : "")><a href="/Product/LatestFinds/?pageNo=@x&q=@q&s=@s">@(x)</a></li>
             }
-            @if(endPage < pageCount)
+            @*@if(endPage < pageCount)
             {
                 <li><a href="#">...</a></li>
-            }
+            }*@
             @*<li><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
