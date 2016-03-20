@@ -326,19 +326,51 @@
                     </div>
                 <div class="form-lg">
                     <strong>Dimensions</strong><br/>
-                    Height :
-                    @Html.EditorFor(model => model.Height, "Integer", new {@class = "js-default-val-text  percent-10"})
-                    CM x
-                    Width :
-                    @Html.EditorFor(model => model.Width, "Integer", new {@class = "js-default-val-text  percent-10"})
-                    CM
-                    <br/>
-                    Depth :
-                    @Html.EditorFor(model => model.Length, "Integer", new {@class = "js-default-val-text  percent-10"})
-                    CM
-                    Approx Weight :
-                    @Html.EditorFor(model => model.Weight, "Integer", new {@class = "js-default-val-text  percent-10"})
-                    KG
+
+                    
+
+                    <table >
+                        <tr>
+                            <td>
+                                Height :
+                                
+                            </td>
+                            <td style="padding-right:30px">
+                                @Html.EditorFor(model => model.Height, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                CM 
+                                
+                            </td>
+                            <td>
+                                x Width :
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.Width, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                CM
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="height:10px;">
+                                
+                            </td>
+                        </tr>
+                        <tr >
+                            <td>
+                                Depth :
+                                
+                            </td>
+                            <td style="padding-right:30px">
+                                @Html.EditorFor(model => model.Length, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                CM
+
+                            </td>
+                            <td>Approx Weight :</td>
+                            <td>@Html.EditorFor(model => model.Weight, "Integer", new { @class = "js-default-val-text  percent-10" })
+                            KG</td>
+                        </tr>
+                    </table>
+
+                    
+                    
                 </div>
                 <div class="text-center form-lg">
                     Only
