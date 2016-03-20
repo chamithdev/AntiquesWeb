@@ -50,15 +50,19 @@
                     <label type="text" defaultval="£Price" value="" class="js-default-val-text">@pm.ProductPrice</label>
                 </p>
                 <p>
-                    @if (pagesList.Count >1 && pm.CanReOrder)
+                    @if (pagesList.Count >1)
                     {
                         <text>Move To Page :</text>@Html.DropDownList("MoveTo", new SelectList(pagesList, "Value", "Text"), new { @id = pm.Id, @class = "form-control", @style = "z-index:1000;", @onchange = "MoveToPage(" + @pm.ProductId + ",$(this).val())" }) ;
                         <br />
-                        <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
+                       
                     }
                     @if (!pm.CanReOrder)
                     {
                         <input type="button" value="In Stock" class="btn btn-submit" onclick="InStock(@pm.ProductId)" />
+                    }
+                    else
+                    {
+                        <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
                     }
                     
                 </p>
