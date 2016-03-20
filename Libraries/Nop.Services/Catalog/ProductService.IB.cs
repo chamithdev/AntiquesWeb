@@ -104,7 +104,7 @@ namespace Nop.Services.Catalog
         {
             var query = _productRepository.Table;
             var max = from p in query
-                      where (p.VendorId == vendorId || vendorId == 0)
+                      where (p.VendorId == vendorId)
                       group p by p.VendorId into d
                       select d.Min(s => s.DisplayOrder);
 
