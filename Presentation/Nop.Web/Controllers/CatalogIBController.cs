@@ -445,7 +445,22 @@ namespace Nop.Web.Controllers
             products = products.Skip(skip).Take(pageSize).ToList();
 
             var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
-           
+
+            var firstCustomer = _customerService
+                .GetAllCustomers(vendorId: vendor.Id)
+                .OrderBy(v => v.CreatedOnUtc)
+                .FirstOrDefault();
+
+            var phone = string.Empty;
+            if (firstCustomer != null)
+            {
+                var attribs = _genericAttributeService.GetAttributesForEntity(firstCustomer.Id, "Customer");
+                var phoneAttribute = attribs.FirstOrDefault(a => a.Key == SystemCustomerAttributeNames.Phone);
+                if (phoneAttribute != null)
+                {
+                    phone = phoneAttribute.Value;
+                }
+            }
             
             var vendorModel = new VendorModel
             {
@@ -457,7 +472,8 @@ namespace Nop.Web.Controllers
                 Coutry = vendor.Country,
                 City = vendor.City,
                 Web = vendor.Web,
-                Products = productOverviewModel
+                Products = productOverviewModel,
+                PhoneOfTheFirstCustomer = phone
             };
 
 
