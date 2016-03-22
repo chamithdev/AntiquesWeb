@@ -28,5 +28,10 @@ namespace Nop.Web.Models.Catalog
         public string City { get; set; }
         public string Coutry { get; set; }
         public string Web { get; set; }
+
+        /// <summary>
+        /// Phone number of the first customer attached to this Vendor
+        /// </summary>
+        public string PhoneOfTheFirstCustomer { get; set; }
     }
 }

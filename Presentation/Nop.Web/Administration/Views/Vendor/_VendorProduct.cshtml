@@ -58,11 +58,11 @@
                     }*@
                     @if (!pm.CanReOrder)
                     {
-                        <input type="button" value="In Stock" class="btn btn-submit" onclick="InStock(@pm.ProductId)" />
+                        <input type="button" value="Relist" class="btn btn-submit" onclick="InStock(@pm.ProductId)" />
                     }
                     else
                     {
-                        <input type="button" value="Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
+                        <input type="button" value="Mark as Sold Out" class="btn btn-submit" onclick="Soldout(@pm.ProductId)" />
                     }
                     
                 </p>
