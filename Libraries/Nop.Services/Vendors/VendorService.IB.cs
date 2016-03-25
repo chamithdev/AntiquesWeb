@@ -14,8 +14,8 @@ namespace Nop.Services.Vendors
         public virtual IPagedList<Vendor> GetAllVendorsByDateRange(DateTime datefromUtc,DateTime dateToUtc,
             int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
         {
-            var query =(from v in _vendorRepository.Table
-                 join c in _customerRepository.Table on v.Id equals c.VendorId
+            var query =(from v in _vendorRepository.TableNoTracking
+                 join c in _customerRepository.TableNoTracking on v.Id equals c.VendorId
                         where v.Active && !v.Deleted && c.CreatedOnUtc >= datefromUtc && c.CreatedOnUtc <= dateToUtc
                  select v
                  );
@@ -32,8 +32,8 @@ namespace Nop.Services.Vendors
             bool isDecendin=true, int pageIndex = 0, int pageSize = int.MaxValue, 
             bool showHidden = false)
         {
-            var query = (from v in _vendorRepository.Table
-                         join c in _customerRepository.Table on v.Id equals c.VendorId
+            var query = (from v in _vendorRepository.TableNoTracking
+                         join c in _customerRepository.TableNoTracking on v.Id equals c.VendorId
                          where v.Active && !v.Deleted
                          orderby c.CreatedOnUtc descending
                          select v
@@ -41,8 +41,8 @@ namespace Nop.Services.Vendors
                        
             if(!isDecendin)
             {
-                query = (from v in _vendorRepository.Table
-                         join c in _customerRepository.Table on v.Id equals c.VendorId
+                query = (from v in _vendorRepository.TableNoTracking
+                         join c in _customerRepository.TableNoTracking on v.Id equals c.VendorId
                          where v.Active && !v.Deleted
                          orderby c.CreatedOnUtc
                          select v

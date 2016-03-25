@@ -508,7 +508,7 @@ namespace Nop.Admin.Controllers
         public JsonResult InStock(int id)
         {
             var product = _productService.GetProductById(id);
-            product.StockQuantity = 10;
+            product.StockQuantity = 1;
             _productService.UpdateProduct(product);
             return new NullJsonResult();
         }

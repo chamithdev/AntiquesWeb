@@ -3,22 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Nop.Core;
-using Nop.Core.Caching;
-using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Security;
-using Nop.Core.Domain.Shipping;
-using Nop.Core.Domain.Stores;
-using Nop.Data;
 using Nop.Services.Customers;
-using Nop.Services.Events;
-using Nop.Services.Localization;
-using Nop.Services.Messages;
-using Nop.Services.Security;
-using Nop.Services.Stores;
 
 namespace Nop.Services.Catalog
 {
@@ -33,8 +19,7 @@ namespace Nop.Services.Catalog
         public virtual IList<Product> GetLatestProductsDisplayedOnHomePage()
         {
             var baseDate = DateTime.Now.AddDays(-31);
-            var query = from p in _productRepository.Table
-                        //orderby p.CreatedOnUtc descending
+            var query = from p in _productRepository.TableNoTracking
                         where p.Published &&
                         !p.Deleted &&
                         p.ShowOnHomePage
@@ -47,7 +32,7 @@ namespace Nop.Services.Catalog
 
         public virtual IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "")
         {
-            var query = _productRepository.Table;
+            var query = _productRepository.TableNoTracking;
             query = query.Where(x => x.VendorId == vendorId);
 
             query = query.Where(x => !x.Deleted);
@@ -80,7 +65,7 @@ namespace Nop.Services.Catalog
 
         public int GetMaxDisplayOrder(int vendorId)
         {
-            var query = _productRepository.Table;
+            var query = _productRepository.TableNoTracking;
             var max = from p in query
                       where (p.VendorId == vendorId || vendorId == 0)
                       group p by p.VendorId into d
@@ -91,24 +76,24 @@ namespace Nop.Services.Catalog
 
         public int GetMaxDisplayOrderUnsold(int vendorId)
         {
-            var query = _productRepository.Table;
+            var query = _productRepository.TableNoTracking;
             var max = from p in query
                       where ((p.VendorId == vendorId || vendorId == 0) && p.StockQuantity>0)
                       group p by p.VendorId into d
                       select d.Max(s => s.DisplayOrder);
 
-            return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
+            return max.Any() ? Convert.ToInt32(max.First()) : 0;
         }
 
         public int GetMinDisplayOrder(int vendorId)
         {
-            var query = _productRepository.Table;
+            var query = _productRepository.TableNoTracking;
             var max = from p in query
                       where (p.VendorId == vendorId)
                       group p by p.VendorId into d
                       select d.Min(s => s.DisplayOrder);
 
-            return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
+            return max.Any() ? Convert.ToInt32(max.First()) : 0;
         }
         
 
