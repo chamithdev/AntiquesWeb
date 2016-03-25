@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Services.Customers;
@@ -18,16 +19,14 @@ namespace Nop.Services.Catalog
         /// 
         public virtual IList<Product> GetLatestProductsDisplayedOnHomePage()
         {
-            var baseDate = DateTime.Now.AddDays(-31);
-            var query = from p in _productRepository.TableNoTracking
-                        where p.Published &&
-                        !p.Deleted &&
-                        p.ShowOnHomePage
-                        && p.StockQuantity>0
-                        && p.CreatedOnUtc >= baseDate
-                        select p;
-            var products = query.ToList();
-            return products;
+            return this.GetLatestProductQuery().ToList();
+        }
+        
+        public virtual IList<Product> GetLatestProducts(Expression<Func<Product, bool>> predicate)
+        {   
+            var query = this.GetLatestProductQuery();
+
+            return query.Where(predicate).ToList();
         }
 
         public virtual IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "")
@@ -457,7 +456,21 @@ namespace Nop.Services.Catalog
 
         }
 
-            #endregion
+        #endregion
+
+
+        private IQueryable<Product> GetLatestProductQuery()
+        {
+            var baseDate = DateTime.UtcNow.AddDays(-31);
+            var query = from p in _productRepository.TableNoTracking
+                        where p.Published &&
+                              !p.Deleted &&
+                              p.ShowOnHomePage
+                              && p.StockQuantity > 0
+                              && p.CreatedOnUtc >= baseDate
+                        select p;
+            return query;
+        }
     }
            
 }

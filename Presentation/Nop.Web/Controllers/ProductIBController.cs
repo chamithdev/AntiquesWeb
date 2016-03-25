@@ -1,42 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.ServiceModel.Syndication;
 using System.Web.Mvc;
-using Nop.Core;
-using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.Seo;
-using Nop.Core.Domain.Vendors;
-using Nop.Services.Catalog;
-using Nop.Services.Customers;
-using Nop.Services.Directory;
-using Nop.Services.Events;
-using Nop.Services.Helpers;
-using Nop.Services.Localization;
-using Nop.Services.Logging;
-using Nop.Services.Media;
-using Nop.Services.Messages;
-using Nop.Services.Orders;
-using Nop.Services.Security;
-using Nop.Services.Seo;
-using Nop.Services.Shipping;
-using Nop.Services.Stores;
-using Nop.Services.Tax;
 using Nop.Services.Vendors;
 using Nop.Web.Extensions;
-using Nop.Web.Framework;
-using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Security;
-using Nop.Web.Framework.Security.Captcha;
-using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
-using Nop.Web.Models.Media;
 
 namespace Nop.Web.Controllers
 {
@@ -82,9 +51,9 @@ namespace Nop.Web.Controllers
                 pageNo = 1;
 
             int skip = (pageNo.Value -1) * pageSize;
-            var products = _productService.GetLatestProductsDisplayedOnHomePage();
-
-            products = products.Where(p => p.Name.Contains(q) || q == "").ToList();
+            var products = string.IsNullOrEmpty(q) ? _productService.GetLatestProductsDisplayedOnHomePage() : 
+                _productService.GetLatestProducts(product => product.Name.Contains(q));
+            
             if (s == "0")
                 products = products.OrderByDescending(p => p.CreatedOnUtc).ToList();
             else if (s == "1")

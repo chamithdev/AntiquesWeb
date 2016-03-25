@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
@@ -15,6 +16,8 @@ namespace Nop.Services.Catalog
         /// </summary>
         /// <returns></returns>
         IList<Product> GetLatestProductsDisplayedOnHomePage();
+
+        IList<Product> GetLatestProducts(Expression<Func<Product, bool>> predicate);
 
         /// <summary>
         /// Get All Products for given vendor id.
