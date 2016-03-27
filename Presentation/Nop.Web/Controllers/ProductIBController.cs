@@ -6,13 +6,16 @@ using Nop.Core.Domain.Catalog;
 using Nop.Services.Vendors;
 using Nop.Web.Extensions;
 using Nop.Web.Models.Catalog;
+using Nop.Core;
+using Nop.Services.Messages;
+using Nop.Core.Domain.Messages;
 
 namespace Nop.Web.Controllers
 {
     public partial class ProductController
     {
         IVendorService _venderService;
-
+        INewsLetterSubscriptionService _newsLetterSubscriptionService;
 
 
         [ChildActionOnly]
@@ -51,8 +54,8 @@ namespace Nop.Web.Controllers
                 pageNo = 1;
 
             int skip = (pageNo.Value -1) * pageSize;
-            var products = string.IsNullOrEmpty(q) ? _productService.GetLatestProductsDisplayedOnHomePage() : 
-                _productService.GetLatestProducts(product => product.Name.Contains(q));
+            var products = string.IsNullOrEmpty(q) ? _productService.GetLatestProductsDisplayedOnHomePage() :
+                _productService.GetLatestProducts(product => product.Name.ToLower().Contains(q.ToLower()));
             
             if (s == "0")
                 products = products.OrderByDescending(p => p.CreatedOnUtc).ToList();
@@ -69,8 +72,8 @@ namespace Nop.Web.Controllers
             //availability dates
             products = products.Where(p => p.IsAvailable()).ToList();
 
-            if (products.Count() == 0)
-                return Content("");
+            //if (products.Count() == 0)
+            //    return Content("");
 
             var model = PrepareProductOverviewModelsIB(products, true, true).ToList();
             if (s == "0")
@@ -103,6 +106,10 @@ namespace Nop.Web.Controllers
             {
                 _workflowMessageService.SendVendorInquery(vendor, model.Name, model.Phone, model.Email, model.Message, _workContext.WorkingLanguage.Id);
             }
+            if (model.Subscribe)
+            {
+
+            }
 
             return Json(new { Success = true }, JsonRequestBehavior.AllowGet);
         }
@@ -122,6 +129,65 @@ namespace Nop.Web.Controllers
                 preparePriceModel, preparePictureModel,
                 productThumbPictureSize, prepareSpecificationAttributes,
                 forceRedirectionAfterAddingToCart);
+        }
+
+         [NonAction]
+        public bool SubscribeNewsletter(string email, bool subscribe)
+        {
+            string result;
+            bool success = false;
+
+            if (!CommonHelper.IsValidEmail(email))
+            {
+                result = _localizationService.GetResource("Newsletter.Email.Wrong");
+            }
+            else
+            {
+                email = email.Trim();
+
+                var subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email, _storeContext.CurrentStore.Id);
+                if (subscription != null)
+                {
+                    if (subscribe)
+                    {
+                        if (!subscription.Active)
+                        {
+                            _workflowMessageService.SendNewsLetterSubscriptionActivationMessage(subscription, _workContext.WorkingLanguage.Id);
+                        }
+                        result = _localizationService.GetResource("Newsletter.SubscribeEmailSent");
+                    }
+                    else
+                    {
+                        if (subscription.Active)
+                        {
+                            _workflowMessageService.SendNewsLetterSubscriptionDeactivationMessage(subscription, _workContext.WorkingLanguage.Id);
+                        }
+                        result = _localizationService.GetResource("Newsletter.UnsubscribeEmailSent");
+                    }
+                }
+                else if (subscribe)
+                {
+                    subscription = new NewsLetterSubscription
+                    {
+                        NewsLetterSubscriptionGuid = Guid.NewGuid(),
+                        Email = email,
+                        Active = false,
+                        StoreId = _storeContext.CurrentStore.Id,
+                        CreatedOnUtc = DateTime.UtcNow
+                    };
+                    _newsLetterSubscriptionService.InsertNewsLetterSubscription(subscription);
+                    _workflowMessageService.SendNewsLetterSubscriptionActivationMessage(subscription, _workContext.WorkingLanguage.Id);
+
+                    result = _localizationService.GetResource("Newsletter.SubscribeEmailSent");
+                }
+                else
+                {
+                    result = _localizationService.GetResource("Newsletter.UnsubscribeEmailSent");
+                }
+                success = true;
+            }
+
+            return success;
         }
 
        

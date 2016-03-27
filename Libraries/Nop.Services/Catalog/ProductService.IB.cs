@@ -38,7 +38,7 @@ namespace Nop.Services.Catalog
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                query = query.Where(d => d.Name.Trim().Contains(searchTerm.Trim()));
+                query = query.Where(d => d.Name.ToLower().Trim().Contains(searchTerm.ToLower().Trim()));
             }
 
             //Order by Latest.

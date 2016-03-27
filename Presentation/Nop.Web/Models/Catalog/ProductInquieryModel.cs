@@ -19,5 +19,7 @@ namespace Nop.Web.Models.Catalog
         public string Message { get; set; }
 
         public int VendorId { get; set; }
+
+        public bool Subscribe { get; set; }
     }
 }

@@ -336,7 +336,7 @@
                                 
                             </td>
                             <td style="padding-right:30px">
-                                @Html.EditorFor(model => model.Height, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                @Html.TextBoxFor(model => model.Height, new { @class = "js-default-val-text  percent-36" })
                                 CM 
                                 
                             </td>
@@ -344,7 +344,7 @@
                                 x Width :
                             </td>
                             <td>
-                                @Html.EditorFor(model => model.Width, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                @Html.TextBoxFor(model => model.Width, new { @class = "js-default-val-text  percent-36" })
                                 CM
                             </td>
                         </tr>
@@ -359,12 +359,12 @@
                                 
                             </td>
                             <td style="padding-right:30px">
-                                @Html.EditorFor(model => model.Length, "Integer", new { @class = "js-default-val-text  percent-10" })
+                                @Html.TextBoxFor(model => model.Length, new { @class = "js-default-val-text  percent-36" })
                                 CM
 
                             </td>
                             <td>Approx Weight :</td>
-                            <td>@Html.EditorFor(model => model.Weight, "Integer", new { @class = "js-default-val-text  percent-10" })
+                            <td>@Html.TextBoxFor(model => model.Weight, new { @class = "js-default-val-text  percent-36" })
                             KG</td>
                         </tr>
                     </table>
@@ -374,7 +374,7 @@
                 </div>
                 <div class="text-center form-lg">
                     Only
-                    @Html.EditorFor(model => model.StockQuantity, "Integer", new { @class = "js-default-val-text  percent-10" })
+                    @Html.TextBoxFor(model => model.StockQuantity, new { @class = "js-default-val-text  percent-36" })
                     Units Available
                 </div>
                     <div class="form-lg">

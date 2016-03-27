@@ -129,7 +129,8 @@ namespace Nop.Web.Controllers
             SeoSettings seoSettings,
             ICacheManager cacheManager,
             IVendorService venderService,
-            ICustomDataService customDataService
+            ICustomDataService customDataService,
+            INewsLetterSubscriptionService newsLetterSubscriptionService
             )
         {
             this._categoryService = categoryService;
@@ -173,6 +174,7 @@ namespace Nop.Web.Controllers
             this._cacheManager = cacheManager;
             this._venderService = venderService;
             this._customDataService = customDataService;
+            this._newsLetterSubscriptionService = newsLetterSubscriptionService;
         }
 
         #endregion

@@ -86,10 +86,19 @@
 
     </div>
     <br />
-    <div class="row" id="div_vendor_products">
-        @Html.Partial("_VendorProducts", @Model.Vendor.Products)
+    @if (Model.Vendor.Products.Count > 0)
+    {
 
-    </div>
+        <div class="row" id="div_vendor_products">
+            @Html.Partial("_VendorProducts", @Model.Vendor.Products)
+
+        </div>
+    }
+    else
+    {
+        <p><h4>No Result</h4></p>
+    }
+
 
     <div class="row">
         @if (pageCount > 1)

@@ -49,7 +49,7 @@ namespace Nop.Services.Vendors
                  );
             }
             if(!string.IsNullOrWhiteSpace(name))
-                query = query.Where(v => v.Name.Contains(name));
+                query = query.Where(v => v.Name.ToLower().Contains(name.ToLower()));
 
             var vendors = new PagedList<Vendor>(query, pageIndex, pageSize);
             return vendors;
