@@ -180,7 +180,16 @@
                             <textarea name="Message" required="required" class="form-control" id="txtMsg" rows="3"></textarea>
                         </div>
                     </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="Subscribe" id="chkSubscribe"> Subscribe to Newsletter
+                                    </label>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
                 <p class="text-center" id="pmsg"></p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-submit p5-t p5-b" onclick="SendMessage()">Send Message</button>
@@ -252,7 +261,7 @@
             beforeSend: function () {
                 //$('#ajaxBusy').show();
                 $('.fader-wrapper').show();
-
+                
             },
             success: function (json) {
                 callback(json);
@@ -278,7 +287,7 @@
             model.Phone = $('#txtPhone').val();
             model.Email = $('#txtemail').val();
             model.Message = $('#txtMsg').val();
-
+            model.Subscribe =$('#chkSubscribe').prop('checked');
             ajaxPostJson("Product","ProductInquire",model,function(data){
 
                 if(data.Success)
