@@ -1122,6 +1122,7 @@
     <Content Include="Content\samples\product_NightVision_1.zip" />
     <Content Include="Content\samples\product_ScienceAndFaith_1.zip" />
     <None Include="Properties\PublishProfiles\filepublish.pubxml" />
+    <None Include="Properties\PublishProfiles\ibnop5 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ibnop5.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fineuploader\iframe.xss.response-4.2.2.js" />
@@ -1989,6 +1990,7 @@
     <Content Include="Themes\IB\Content\images\calendar-next.png" />
     <Content Include="Themes\IB\Content\images\calendar-prev.png" />
     <Content Include="Themes\IB\Content\images\close.png" />
+    <Content Include="Themes\IB\Content\images\coming-soon3.png" />
     <Content Include="Themes\IB\Content\images\compare-button.png" />
     <Content Include="Themes\IB\Content\images\details.png" />
     <Content Include="Themes\IB\Content\images\download-button.png" />
@@ -2203,6 +2205,7 @@
     <Content Include="Themes\IB\Views\Product\LatestFinds.cshtml" />
     <Content Include="Themes\IB\Views\Product\_ProductPrice.cshtml" />
     <Content Include="Themes\IB\Views\Home\ContactUs.cshtml" />
+    <Content Include="Themes\IB\Views\Home\CustomerServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
