@@ -72,9 +72,8 @@ namespace Nop.Services.Messages
             //tokens
             var tokens = new List<Token>();
             _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-
-
-            tokens.Add(new Token("Product.ProductUrl", store.Url + "/Product/" + product.Name));
+            
+            tokens.Add(new Token("Product.ProductUrl", store.Url + product.Name.Trim().Replace(" ", "-")));
             tokens.Add(new Token("Product.ProductName", product.Name));
             tokens.Add(new Token("From", from));
             tokens.Add(new Token("Phone", phone));

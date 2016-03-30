@@ -4,31 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
-using Nop.Core.Domain.Orders;
-using Nop.Services.Catalog;
-using Nop.Services.Common;
-using Nop.Services.Customers;
-using Nop.Services.Directory;
-using Nop.Services.Discounts;
-using Nop.Services.ExportImport;
-using Nop.Services.Helpers;
 using Nop.Services.Localization;
-using Nop.Services.Logging;
-using Nop.Services.Media;
-using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Seo;
-using Nop.Services.Shipping;
-using Nop.Services.Stores;
-using Nop.Services.Tax;
-using Nop.Services.Vendors;
-using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Security;
 using System.IO;
@@ -43,7 +23,8 @@ namespace Nop.Admin.Controllers
 
         public ActionResult EditIB(int id)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
+                && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
 
             var vendor = _vendorService.GetVendorById(id);
@@ -90,9 +71,10 @@ namespace Nop.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
         public ActionResult EditIB(VendorModel model, bool continueEditing)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
+                && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
-
+            
             var vendor = _vendorService.GetVendorById(model.Id);
             if (vendor == null || vendor.Deleted)
                 //No vendor found with the specified id
@@ -287,11 +269,6 @@ namespace Nop.Admin.Controllers
             var prodModels = VendorProducts(model.VendorId, model.PageIndex);
             ViewBag.CurrentPage = model.PageIndex;
             return View("_VendorProduct", prodModels);
-            //return new JsonResult
-            //{
-            //    Data = prodModels
-            //};
-
         }
 
         [NonAction]
@@ -372,7 +349,8 @@ namespace Nop.Admin.Controllers
 
         public ActionResult MyHome(int id)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
+                && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
 
             var vendor = _vendorService.GetVendorById(id);
@@ -423,8 +401,9 @@ namespace Nop.Admin.Controllers
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
         public ActionResult MyHome(VendorModel model, bool continueEditing)
-        {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
+        {   
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
+               && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
 
             var vendor = _vendorService.GetVendorById(model.Id);
@@ -488,8 +467,6 @@ namespace Nop.Admin.Controllers
 
         public JsonResult SoldOut(int id)
         {
-            
-
             var product = _productService.GetProductById(id);
             var maxOrder = _productService.GetMaxDisplayOrder(product.VendorId);
             if (maxOrder < 999999)
@@ -498,10 +475,9 @@ namespace Nop.Admin.Controllers
                 product.DisplayOrder = maxOrder + 1;
 
             product.StockQuantity = 0;
-            _productService.UpdateProduct(product);
 
-            //if (products.Count == 0)
-            //    return Content("");
+            _productService.UpdateProduct(product);
+            
             return new NullJsonResult();
         }
 
@@ -515,9 +491,7 @@ namespace Nop.Admin.Controllers
 
         public JsonResult MoveToPage(int productId, int page, int currentPage)
         {
-
-
-            //var product = _productService.GetProductById(productId);
+            
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
             var fac=1;
             if (page < currentPage)
@@ -525,14 +499,8 @@ namespace Nop.Admin.Controllers
 
             var moveToOrder = (defaultGridPageSize * page) * fac;
 
-            //product.DisplayOrder = moveToOrder > maxOrderNo ? (maxOrderNo +1) : moveToOrder;
-
             _productService.RearrangeDisplayOrder(productId, moveToOrder);
-        
-            //_productService.UpdateProduct(product);
 
-            //if (products.Count == 0)
-            //    return Content("");
             return new NullJsonResult();
         }
 
