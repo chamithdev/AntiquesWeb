@@ -12,6 +12,8 @@
             $('#thumbImgWrap').show();
         }
 
+        $('.percent-36').currencyFormat();
+
         function setQuantity() {
             $("#@Html.FieldIdFor(model => model.StockQuantity)").val(0);
         }
@@ -129,6 +131,8 @@
                 }
             });
         };
+
+       
     });
 
     
@@ -147,8 +151,23 @@
 
     }
 
+    (function($) {
+        $.fn.currencyFormat = function() {
+            this.each( function( i ) {
+                $(this).change( function( e ){
+                    if( isNaN( parseFloat( this.value ) ) ) return;
+                    this.value = parseFloat(this.value).toFixed(0);
+                });
+
+                if( isNaN( parseFloat( this.value ) ) ) return;
+                this.value = parseFloat(this.value).toFixed(0);
+            });
+            return this; //for chaining
+        }
+    })( jQuery );
 
 
+   
    
 
 </script>
@@ -336,16 +355,17 @@
                                 
                             </td>
                             <td style="padding-right:30px">
-                                @Html.TextBoxFor(model => model.Height, new { @class = "js-default-val-text  percent-36" })
+                                @Html.TextBoxFor(model => model.Height, new { @class = "percent-36" })
                                 CM 
-                                
+                                @Html.ValidationMessageFor(model => model.Height)
                             </td>
                             <td>
                                 x Width :
                             </td>
                             <td>
-                                @Html.TextBoxFor(model => model.Width, new { @class = "js-default-val-text  percent-36" })
+                                @Html.TextBoxFor(model => model.Width, new { @class = "percent-36" })
                                 CM
+                                @Html.ValidationMessageFor(model => model.Width)
                             </td>
                         </tr>
                         <tr>
@@ -359,13 +379,15 @@
                                 
                             </td>
                             <td style="padding-right:30px">
-                                @Html.TextBoxFor(model => model.Length, new { @class = "js-default-val-text  percent-36" })
+                                @Html.TextBoxFor(model => model.Length, new { @class = "percent-36" })
                                 CM
-
+                                @Html.ValidationMessageFor(model => model.Length)
                             </td>
                             <td>Approx Weight :</td>
-                            <td>@Html.TextBoxFor(model => model.Weight, new { @class = "js-default-val-text  percent-36" })
-                            KG</td>
+                            <td>@Html.TextBoxFor(model => model.Weight, new { @class = "percent-36" })
+                            KG
+                                @Html.ValidationMessageFor(model => model.Weight)
+                            </td>
                         </tr>
                     </table>
 
@@ -374,8 +396,9 @@
                 </div>
                 <div class="text-center form-lg">
                     Only
-                    @Html.TextBoxFor(model => model.StockQuantity, new { @class = "js-default-val-text  percent-36" })
+                    @Html.TextBoxFor(model => model.StockQuantity, new { @class = "percent-36" })
                     Units Available
+                    @Html.ValidationMessageFor(model => model.StockQuantity)
                 </div>
                     <div class="form-lg">
                         <strong>Description</strong><br />

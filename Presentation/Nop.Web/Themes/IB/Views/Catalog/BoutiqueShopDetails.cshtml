@@ -347,7 +347,12 @@
                 if(data.Success)
                 {
                     $("#pmsg").text('Thank you. Youe message has been sent.');
+                    $('#txtname').val('');
+                    $('#txtPhone').val('');
+                    $('#txtemail').val('');
+                    $('#txtMsg').val('');
                     setTimeout(function(){
+                        $("#pmsg").text('');
                         $('#contactModel').modal('hide');
                     },3000);
 

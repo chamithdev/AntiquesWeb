@@ -1,2 +1,2 @@
 DataProvider: sqlserver
-DataConnectionString: Data Source=DESKTOP-E7U51L7;Initial Catalog=ibnop2;Integrated Security=True;Persist Security Info=False
+DataConnectionString: Data Source=CHAMITH;Initial Catalog=ibnop2;Integrated Security=True;Persist Security Info=False

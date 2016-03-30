@@ -62,7 +62,7 @@ $(function(){
 (function( $ ){
    $.fn.onloadPopup = function() {
     $('.pop-box').show();
-	$('.fader-wrapper').show();
+	//$('.fader-wrapper').show();
    }; 
 })(jQuery);
 

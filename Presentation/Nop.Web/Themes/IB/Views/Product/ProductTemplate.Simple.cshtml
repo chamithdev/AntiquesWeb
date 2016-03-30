@@ -292,8 +292,16 @@
 
                 if(data.Success)
                 {
+
+
                     $("#pmsg").text('Thank you. Youe message has been sent.');
+                    $('#txtname').val('');
+                    $('#txtPhone').val('');
+                   $('#txtemail').val('');
+                    $('#txtMsg').val('');
+                    $('#chkSubscribe').prop('checked',false);
                     setTimeout(function(){
+                        $("#pmsg").text('');
                         $('#inquieryModel').modal('hide');
                     },3000);
 

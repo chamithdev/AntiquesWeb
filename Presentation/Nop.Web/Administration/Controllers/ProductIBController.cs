@@ -84,6 +84,7 @@ namespace Nop.Admin.Controllers
             model.ProductTemplateId = 1;
             model.Published = true;
             model.VisibleIndividually = true;
+            
             int minDisplayOrder = 999999;
             if (ModelState.IsValid)
             {
