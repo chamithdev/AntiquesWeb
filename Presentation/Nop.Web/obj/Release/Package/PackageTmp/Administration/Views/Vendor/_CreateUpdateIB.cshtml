@@ -17,18 +17,19 @@
 }
 <script>
     var baseUrl = "/admin/";
+    var original ="";
     $(document).ready(function () {
-
+        $("#currentPage").val("1");
         Dropzone.autoDiscover = false;
         $("#dz").dropzone(
             {
                 url: "/admin/vendor/UploadVendorImages/@Model.Id",
                 uploadprogress: function (e, progress) {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (data,obj) {
                     $('#hdnPictureId').val(obj.Message);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
 
                 },
                 error: function () {
@@ -39,22 +40,29 @@
 
         $(function () {
 
-            var original = $('#sortable').sortable('toArray').toString();
-            var originalArr =  original.split(',');
+            original = $('#sortable').sortable('toArray').toString();
+            
             //$("#sortableImg").sortable();
             //$("#sortableImg").disableSelection();
 
             $("#sortable").sortable({
                 connectWith: "#sortable",
+                cancel: ".disable-sort-item",
+                //items: '> li:not(.disable-sort-item)',
                 update: function () {
                     var order1 = $('#sortable').sortable('toArray').toString();
+                    var originalArr =  original.split(',');
                     var picNos = order1.split(',');
                     var prods = [];
                     for (i = 0; i < picNos.length; i++) {
                         var prod = new Object();
                         var oraOrder = originalArr.indexOf(picNos[i])
                         prod.Id = picNos[i];
-                        var order = $('#'+picNos[oraOrder]).data("order");
+
+                        var order = $('#'+originalArr[i]).data("order");
+                        //var currentOrder = $('#'+picNos[i]).data("order");
+                        //var nextOrder = $('#'+picNos[i+1]).data("order");
+                       
                         prod.DisplayOrder = order; //oraOrder - i;
                         prods.push(prod);
 
@@ -89,14 +97,14 @@
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
@@ -112,14 +120,14 @@
                 cache: false,
                 data: param,
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
@@ -142,6 +150,8 @@
             $("#sortable").html(data);
             $("#sortable li").removeClass("active");
             $('#'+pageNo).addClass("active");
+            original = $('#sortable').sortable('toArray').toString();
+            $("#currentPage").val(pageNo+1);
             //class="active" 
         }, null);
 
@@ -159,14 +169,14 @@
                 cache: false,
                 data: param,
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
@@ -181,14 +191,14 @@
                 cache: false,
                 data: param,
                 beforeSend: function () {
-                    $('.fader').show();
+                    $('.fader-wrapper').show();
                 },
                 success: function (json) {
                     callback(json);
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    $('.fader').hide();
+                    $('.fader-wrapper').hide();
                     if (errorCallback != undefined)
                         errorCallback(xhr);
                     alert(thrownError);
@@ -206,14 +216,30 @@
     }
     function MoveToPage(id,page) 
     {
-        ajaxGetDataMultiple("Vendor", "MoveToPage", { 'productId': id, 'page': page }, function () {
+        if(page==0)
+            return;
+        var currentPage = $('#currentPage').val();
+        if(page == currentPage)
+            return;
+
+        ajaxGetDataMultiple("Vendor", "MoveToPage", { 'productId': id, 'page': page,'currentPage':currentPage }, function () {
             window.location.reload(true);
         });
     }
+    function InStock(id)
+    {
+        ajaxGetDataParam("Vendor", "InStock", id, function () {            
+            window.location.reload(true);
+        });
+    }
+
+    
   
 </script>
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.PictureId, new {@id="hdnPictureId" })
+
+<input type="hidden" id="currentPage"  />
 <div id="body-content">
     <div class="container">
         <div class="section-pannel">
@@ -250,12 +276,15 @@
                         <br />
                         Website
                         @Html.EditorFor(model => model.Web, new { @class = "percent-42" })
+                        Phone
+                        @Html.EditorFor(model => model.Phone, new { @class = "percent-42" })
                         Email
                         @Html.EditorFor(model => model.Email, new { @class = "percent-42" })
                         @Html.ValidationMessageFor(model => model.Email)
                         <br />
                         About us
-                        @Html.EditorFor(x => x.Description, new { @class = "percent-42" })
+                        <br />
+                        @Html.TextAreaFor(x => x.Description, 10, 1, new { @class = "percent-100" })
                         @Html.ValidationMessageFor(model => model.Description)
                         <br/>
                         @if(Model.DisplayActive)
@@ -275,7 +304,11 @@
                         @*<input type="button" value="Update Directory" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
                         @*<a href="@Url.Action("UpdateDirectoryib", "vendor", new { area = "admin", vendorId =@Model.Id}, null)" class="btn btn-default btn-info percent-100 margin-bottom10">Update Directory</a>*@
                             @*<input type="button" value="Guest Editor" class="btn btn-default btn-info  percent-100 margin-bottom10" />*@
+
+                        <a href="@Url.Action("ChangePassword", "Customer", new { area = "" }, null)" class="btn btn-submit percent-100  margin-bottom10">Change Password</a>
                         <a href="@Url.Action("Logout", "Customer", new { area = "" }, null)" class="btn btn-submit percent-100  margin-bottom10">Log Out</a>
+
+
 
 </div>
                 </div>
@@ -284,7 +317,7 @@
 
             <div class="section-pannel">
                 <div class="section-header">
-                    <h4><span>Our Products </span></h4>
+                    <h4><span>Stock</span></h4>
                 </div>
                 <div class="row">
                     <ul id="sortable" class="clear">

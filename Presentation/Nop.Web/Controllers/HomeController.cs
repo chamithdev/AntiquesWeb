@@ -28,7 +28,12 @@ namespace Nop.Web.Controllers
         {
             return View();
         }
-
         
+        public ActionResult CustomerServices()
+        {
+            return View();
+        }
+
+
     }
 }
