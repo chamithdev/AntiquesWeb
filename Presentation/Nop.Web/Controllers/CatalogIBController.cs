@@ -137,10 +137,9 @@ namespace Nop.Web.Controllers
                 vendors = _vendorService.GetAllVendorsOrderByDate(name: q).ToList();
             else if(s=="1")
                 vendors = vendors.OrderBy(v => v.Name).ToList();
-
+                        
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
-
-
+            
             if (pageNo == null)
                 pageNo = 1;
 

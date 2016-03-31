@@ -657,7 +657,7 @@ namespace Nop.Admin.Controllers
                 model.RecurringCycleLength = 100;
                 model.RecurringTotalCycles = 10;
                 model.RentalPriceLength = 1;
-                model.StockQuantity = 10;
+                model.StockQuantity = 1;
                 model.NotifyAdminForQuantityBelow = 1;
                 model.OrderMinimumQuantity = 1;
                 model.OrderMaximumQuantity = 10000;

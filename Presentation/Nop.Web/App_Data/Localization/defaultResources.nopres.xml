@@ -2260,7 +2260,7 @@
     <Value>Call for price</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.CallForPrice.Hint">
-    <Value>Check to show "Call for Pricing" or "Call for quote" instead of price</Value>
+    <Value>Check to show "Price On Application" instead of price</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Catalog.Products.Fields.CreatedOn">
     <Value>Created on</Value>
@@ -13237,7 +13237,7 @@
     <Value>Home</Value>
   </LocaleResource>
   <LocaleResource Name="Products.CallForPrice">
-    <Value>Call for pricing</Value>
+    <Value>Price On Application</Value>
   </LocaleResource>
   <LocaleResource Name="Products.Compare">
     <Value>Compare products</Value>

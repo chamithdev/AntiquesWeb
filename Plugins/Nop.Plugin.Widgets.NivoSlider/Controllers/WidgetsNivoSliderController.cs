@@ -75,6 +75,15 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
             model.Picture5Id = nivoSliderSettings.Picture5Id;
             model.Text5 = nivoSliderSettings.Text5;
             model.Link5 = nivoSliderSettings.Link5;
+            model.Picture6Id = nivoSliderSettings.Picture6Id;
+            model.Text6 = nivoSliderSettings.Text6;
+            model.Link6 = nivoSliderSettings.Link6;
+            model.Picture7Id = nivoSliderSettings.Picture7Id;
+            model.Text7 = nivoSliderSettings.Text7;
+            model.Link7 = nivoSliderSettings.Link7;
+            model.Picture8Id = nivoSliderSettings.Picture8Id;
+            model.Text8 = nivoSliderSettings.Text8;
+            model.Link8 = nivoSliderSettings.Link8;
             model.ActiveStoreScopeConfiguration = storeScope;
             if (storeScope > 0)
             {
@@ -133,19 +142,15 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
             nivoSliderSettings.Picture5Id = model.Picture5Id;
             nivoSliderSettings.Text5 = model.Text5;
             nivoSliderSettings.Link5 = model.Link5;
-
-            nivoSliderSettings.Picture5Id = model.Picture6Id;
-            nivoSliderSettings.Text5 = model.Text6;
-            nivoSliderSettings.Link5 = model.Link6;
-
-
-            nivoSliderSettings.Picture5Id = model.Picture7Id;
-            nivoSliderSettings.Text5 = model.Text7;
-            nivoSliderSettings.Link5 = model.Link7;
-
-            nivoSliderSettings.Picture5Id = model.Picture8Id;
-            nivoSliderSettings.Text5 = model.Text8;
-            nivoSliderSettings.Link5 = model.Link8;
+            nivoSliderSettings.Picture6Id = model.Picture6Id;
+            nivoSliderSettings.Text6 = model.Text6;
+            nivoSliderSettings.Link6 = model.Link6;
+            nivoSliderSettings.Picture7Id = model.Picture7Id;
+            nivoSliderSettings.Text7 = model.Text7;
+            nivoSliderSettings.Link7 = model.Link7;
+            nivoSliderSettings.Picture8Id = model.Picture8Id;
+            nivoSliderSettings.Text8 = model.Text8;
+            nivoSliderSettings.Link8 = model.Link8;
 
 
             /* We do not clear cache after each setting update.
@@ -227,17 +232,47 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
                 _settingService.DeleteSetting(nivoSliderSettings, x => x.Link5, storeScope);
 
 
-            if (model.Link5_OverrideForStore || storeScope == 0)
+            if (model.Picture6Id_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Picture6Id, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Picture6Id, storeScope);
+
+            if (model.Text6_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Text6, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Text6, storeScope);
+
+            if (model.Link6_OverrideForStore || storeScope == 0)
                 _settingService.SaveSetting(nivoSliderSettings, x => x.Link6, storeScope, false);
             else if (storeScope > 0)
                 _settingService.DeleteSetting(nivoSliderSettings, x => x.Link6, storeScope);
 
-            if (model.Link5_OverrideForStore || storeScope == 0)
+            if (model.Picture7Id_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Picture7Id, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Picture7Id, storeScope);
+
+            if (model.Text7_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Text7, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Text7, storeScope);
+
+            if (model.Link7_OverrideForStore || storeScope == 0)
                 _settingService.SaveSetting(nivoSliderSettings, x => x.Link7, storeScope, false);
             else if (storeScope > 0)
                 _settingService.DeleteSetting(nivoSliderSettings, x => x.Link7, storeScope);
 
-            if (model.Link5_OverrideForStore || storeScope == 0)
+            if (model.Picture8Id_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Picture8Id, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Picture8Id, storeScope);
+
+            if (model.Text8_OverrideForStore || storeScope == 0)
+                _settingService.SaveSetting(nivoSliderSettings, x => x.Text8, storeScope, false);
+            else if (storeScope > 0)
+                _settingService.DeleteSetting(nivoSliderSettings, x => x.Text8, storeScope);
+            
+            if (model.Link8_OverrideForStore || storeScope == 0)
                 _settingService.SaveSetting(nivoSliderSettings, x => x.Link8, storeScope, false);
             else if (storeScope > 0)
                 _settingService.DeleteSetting(nivoSliderSettings, x => x.Link8, storeScope);
@@ -275,17 +310,17 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
             model.Text5 = nivoSliderSettings.Text5;
             model.Link5 = nivoSliderSettings.Link5;
 
-            model.Picture5Url = GetPictureUrl(nivoSliderSettings.Picture6Id);
-            model.Text5 = nivoSliderSettings.Text6;
-            model.Link5 = nivoSliderSettings.Link6;
+            model.Picture6Url = GetPictureUrl(nivoSliderSettings.Picture6Id);
+            model.Text6 = nivoSliderSettings.Text6;
+            model.Link6 = nivoSliderSettings.Link6;
 
-            model.Picture5Url = GetPictureUrl(nivoSliderSettings.Picture7Id);
-            model.Text5 = nivoSliderSettings.Text7;
-            model.Link5 = nivoSliderSettings.Link7;
+            model.Picture7Url = GetPictureUrl(nivoSliderSettings.Picture7Id);
+            model.Text7 = nivoSliderSettings.Text7;
+            model.Link7 = nivoSliderSettings.Link7;
 
-            model.Picture5Url = GetPictureUrl(nivoSliderSettings.Picture8Id);
-            model.Text5 = nivoSliderSettings.Text8;
-            model.Link5 = nivoSliderSettings.Link8;
+            model.Picture8Url = GetPictureUrl(nivoSliderSettings.Picture8Id);
+            model.Text8 = nivoSliderSettings.Text8;
+            model.Link8 = nivoSliderSettings.Link8;
 
             if (string.IsNullOrEmpty(model.Picture1Url) && string.IsNullOrEmpty(model.Picture2Url) &&
                 string.IsNullOrEmpty(model.Picture3Url) && string.IsNullOrEmpty(model.Picture4Url) &&
