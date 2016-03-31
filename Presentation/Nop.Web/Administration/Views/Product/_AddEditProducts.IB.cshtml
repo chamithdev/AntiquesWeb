@@ -156,11 +156,15 @@
             this.each( function( i ) {
                 $(this).change( function( e ){
                     if( isNaN( parseFloat( this.value ) ) ) return;
-                    this.value = parseFloat(this.value).toFixed(0);
+                    if(parseFloat(this.value) =='0')
+                        this.value = parseFloat(this.value).toFixed(0);
                 });
 
                 if( isNaN( parseFloat( this.value ) ) ) return;
-                this.value = parseFloat(this.value).toFixed(0);
+                if(parseFloat(this.value) =='0')
+                    this.value = parseFloat(this.value).toFixed(0);
+                
+
             });
             return this; //for chaining
         }
