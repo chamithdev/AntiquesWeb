@@ -75,6 +75,19 @@ namespace Nop.Plugin.Widgets.NivoSlider.Controllers
             model.Picture5Id = nivoSliderSettings.Picture5Id;
             model.Text5 = nivoSliderSettings.Text5;
             model.Link5 = nivoSliderSettings.Link5;
+
+            model.Picture6Id = nivoSliderSettings.Picture6Id;
+            model.Text6 = nivoSliderSettings.Text6;
+            model.Link6 = nivoSliderSettings.Link6;
+
+            model.Picture7Id = nivoSliderSettings.Picture7Id;
+            model.Text7 = nivoSliderSettings.Text7;
+            model.Link7 = nivoSliderSettings.Link7;
+
+            model.Picture8Id = nivoSliderSettings.Picture8Id;
+            model.Text8 = nivoSliderSettings.Text8;
+            model.Link8 = nivoSliderSettings.Link8;
+
             model.ActiveStoreScopeConfiguration = storeScope;
             if (storeScope > 0)
             {
