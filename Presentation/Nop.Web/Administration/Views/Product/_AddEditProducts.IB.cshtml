@@ -301,7 +301,7 @@
                 </div>
                 <div class="form-lg">
                     @* £ *@[@Model.PrimaryStoreCurrencyCode]
-                    @Html.EditorFor(model => model.Price, new { @class = "js-default-val-text" })
+                    @Html.TextBoxFor(model => model.Price, new { @class = "percent-36" })
                     @*<input type="text" class="js-default-val-text" name="" defaultval="" value="" />*@
                     Including sales tax, excluding shipping
                 </div>
