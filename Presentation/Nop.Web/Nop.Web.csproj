@@ -1124,6 +1124,9 @@
     <None Include="Properties\PublishProfiles\filepublish.pubxml" />
     <None Include="Properties\PublishProfiles\ibnop5 %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ibnop5.pubxml" />
+    <None Include="Properties\PublishProfiles\ibnop5__ibstaging.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fineuploader\iframe.xss.response-4.2.2.js" />
     <Content Include="Scripts\fineuploader\jquery.fineuploader-4.2.2.js" />

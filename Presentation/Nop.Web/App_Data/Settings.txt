@@ -1,3 +1,2 @@
 DataProvider: sqlserver
-DataConnectionString: Data Source=CHAMITH;Initial Catalog=ibnop2;Integrated Security=True;Persist Security Info=False
-
+DataConnectionString: Data Source=chamith;Initial Catalog=ibnop2;User ID=sa;Password=abc123;Persist Security Info=False;

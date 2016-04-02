@@ -23,6 +23,11 @@ namespace Nop.Admin.Controllers
 
         public ActionResult EditIB(int id)
         {
+            if (_workContext.CurrentVendor == null || id != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
                 && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
@@ -71,10 +76,15 @@ namespace Nop.Admin.Controllers
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
         public ActionResult EditIB(VendorModel model, bool continueEditing)
         {
+            if (_workContext.CurrentVendor == null || model.Id != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
                 && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
-            
+
             var vendor = _vendorService.GetVendorById(model.Id);
             if (vendor == null || vendor.Deleted)
                 //No vendor found with the specified id
@@ -113,7 +123,7 @@ namespace Nop.Admin.Controllers
         }
 
 
-         [HttpPost, AdminAntiForgeryAttribute(true)]
+        [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult UploadVendorImages(string id)
         {
             bool isSavedSuccessfully = true;
@@ -124,6 +134,12 @@ namespace Nop.Admin.Controllers
                 var vendor = _vendorService.GetVendorById(int.Parse(id));
                 if (vendor == null)
                     throw new ArgumentException("No vendor found with the specified id");
+
+                if (_workContext.CurrentVendor == null || vendor.Id != _workContext.CurrentVendor.Id)
+                {
+                    return AccessDeniedView();
+                }
+
                 foreach (string fileName in Request.Files)
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
@@ -134,7 +150,7 @@ namespace Nop.Admin.Controllers
 
 
 
-                  
+
 
                     var picture = _pictureService.GetPictureById(pic.Id);
                     if (picture == null)
@@ -145,9 +161,9 @@ namespace Nop.Admin.Controllers
                     _vendorService.UpdateVendor(vendor);
 
                     //return RedirectToAction("MyHome", new { id = vendor.Id });
-                    
 
-                   
+
+
 
                 }
 
@@ -174,7 +190,7 @@ namespace Nop.Admin.Controllers
             Stream stream = null;
             var fileName = "";
             var contentType = "";
-           
+
             HttpPostedFileBase httpPostedFile = postFile;
             if (httpPostedFile == null)
                 throw new ArgumentException("No file uploaded");
@@ -227,29 +243,28 @@ namespace Nop.Admin.Controllers
         }
 
         [NonAction]
-        public List<VendorModel.VenddorProductModel> VendorProducts(int id,int pageIndex=0)
+        public List<VendorModel.VenddorProductModel> VendorProducts(int id, int pageIndex = 0)
         {
-           
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
             var products = _productService.SearchProducts(
-              vendorId: id,             
+              vendorId: id,
               showHidden: true,
               pageIndex: pageIndex,
               pageSize: defaultGridPageSize,
-              orderBy:ProductSortingEnum.Position
-             
+              orderBy: ProductSortingEnum.Position
+
           );
-            var model = new List<VendorModel.VenddorProductModel> ();
+            var model = new List<VendorModel.VenddorProductModel>();
             foreach (var p in products)
-	        {
-		        var vpm = new VendorModel.VenddorProductModel();
+            {
+                var vpm = new VendorModel.VenddorProductModel();
                 vpm.Id = id;
-                vpm.ProductId=p.Id;
+                vpm.ProductId = p.Id;
                 vpm.ProductName = p.Name;
                 var vpic = new VendorModel.VenddorPictureModel();
                 var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
                 var imgUrl = _pictureService.GetPictureUrl(pic, 200);
-                if(pic != null)
+                if (pic != null)
                     vpic.PictureId = pic.Id;
                 vpic.PictureUrl = imgUrl;
                 vpm.ProductPicture = vpic;
@@ -258,14 +273,19 @@ namespace Nop.Admin.Controllers
                 vpm.StockQuantity = p.StockQuantity;
                 vpm.CanReOrder = p.StockQuantity > 0;
                 model.Add(vpm);
-	        }
+            }
 
-            var items = model.OrderBy(p=>p.DisplayOrder).ToList();
+            var items = model.OrderBy(p => p.DisplayOrder).ToList();
             return items;
 
         }
         public ActionResult PagedProductList(VendorModel.ProductPagingModel model)
         {
+            if (_workContext.CurrentVendor == null || model.VendorId != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             var prodModels = VendorProducts(model.VendorId, model.PageIndex);
             ViewBag.CurrentPage = model.PageIndex;
             return View("_VendorProduct", prodModels);
@@ -285,12 +305,12 @@ namespace Nop.Admin.Controllers
                 var vpic = new VendorModel.VenddorPictureModel();
                 var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
                 var imgUrl = _pictureService.GetPictureUrl(pic, 200);
-                if (pic!= null)
+                if (pic != null)
                     vpic.PictureId = pic.Id;
                 vpic.PictureUrl = imgUrl;
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
-               // vpm.TotalCount = products.TotalCount;
+                // vpm.TotalCount = products.TotalCount;
                 model.Add(vpm);
             }
 
@@ -304,6 +324,11 @@ namespace Nop.Admin.Controllers
         [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult UpdateProductOrder(List<VendorModel.VenddorProductModel> models)
         {
+            if (_workContext.CurrentVendor == null)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 
@@ -315,15 +340,16 @@ namespace Nop.Admin.Controllers
                 if (product == null)
                     throw new ArgumentException("No product picture found with the specified id");
 
-
+                if (product.VendorId != _workContext.CurrentVendor.Id)
+                {
+                    return AccessDeniedView();
+                }
 
                 product.DisplayOrder = model.DisplayOrder;//(product.DisplayOrder - model.DisplayOrder);
-                if (product.DisplayOrder>0 && product.StockQuantity>0)
+                if (product.DisplayOrder > 0 && product.StockQuantity > 0)
                     _productService.UpdateProduct(product);
-
-                
             }
-            
+
 
             return new NullJsonResult();
         }
@@ -333,6 +359,11 @@ namespace Nop.Admin.Controllers
         #region Vendor - Product Page
         public ActionResult UpdateDirectoryib(int vendorId)
         {
+            if (_workContext.CurrentVendor == null || vendorId != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 
@@ -349,6 +380,11 @@ namespace Nop.Admin.Controllers
 
         public ActionResult MyHome(int id)
         {
+            if (_workContext.CurrentVendor == null || id != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
                 && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
@@ -391,8 +427,8 @@ namespace Nop.Admin.Controllers
                     .Select(c => c.Email)
                     .ToList();
             model.Products = VendorProducts(vendor.Id);
-            model.DisplayActive = _workContext.CurrentCustomer.CustomerRoles.Any(r=>r.SystemName =="Administrators");
-            var phones =_genericAttributeService.GetAttributesForEntity(_workContext.CurrentCustomer.Id,"Customer");
+            model.DisplayActive = _workContext.CurrentCustomer.CustomerRoles.Any(r => r.SystemName == "Administrators");
+            var phones = _genericAttributeService.GetAttributesForEntity(_workContext.CurrentCustomer.Id, "Customer");
             var phone = phones.FirstOrDefault(a => a.Key == SystemCustomerAttributeNames.Phone);
             if (phone != null)
                 model.Phone = phone.Value;
@@ -401,7 +437,12 @@ namespace Nop.Admin.Controllers
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing"), AdminAntiForgeryAttribute(true)]
         public ActionResult MyHome(VendorModel model, bool continueEditing)
-        {   
+        {
+            if (_workContext.CurrentVendor == null || model.Id != _workContext.CurrentVendor.Id)
+            {
+                return AccessDeniedView();
+            }
+
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts)
                && !_permissionService.Authorize(StandardPermissionProvider.AccessAdminPanel))
                 return AccessDeniedView();
@@ -460,7 +501,7 @@ namespace Nop.Admin.Controllers
                     .Select(c => c.Email)
                     .ToList();
             //return View(model);
-            
+
             return RedirectToAction("Edit", new { id = vendor.Id });
         }
 
@@ -468,6 +509,12 @@ namespace Nop.Admin.Controllers
         public JsonResult SoldOut(int id)
         {
             var product = _productService.GetProductById(id);
+
+            if (_workContext.CurrentVendor == null || product.VendorId != _workContext.CurrentVendor.Id)
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             var maxOrder = _productService.GetMaxDisplayOrder(product.VendorId);
             if (maxOrder < 999999)
                 product.DisplayOrder = 999999;
@@ -477,23 +524,32 @@ namespace Nop.Admin.Controllers
             product.StockQuantity = 0;
 
             _productService.UpdateProduct(product);
-            
+
             return new NullJsonResult();
         }
 
         public JsonResult InStock(int id)
         {
             var product = _productService.GetProductById(id);
+
+            if (_workContext.CurrentVendor == null || product.VendorId != _workContext.CurrentVendor.Id)
+            {
+                throw new UnauthorizedAccessException();
+            }
+
             product.StockQuantity = 1;
+
             _productService.UpdateProduct(product);
+
             return new NullJsonResult();
         }
 
         public JsonResult MoveToPage(int productId, int page, int currentPage)
         {
-            
+            //Todo: Add security check to check the Vendor sending the request is in fact the currently logged on Vendor
+
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            var fac=1;
+            var fac = 1;
             if (page < currentPage)
                 fac = -1;
 
