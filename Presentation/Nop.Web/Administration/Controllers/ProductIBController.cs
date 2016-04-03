@@ -103,7 +103,12 @@ namespace Nop.Admin.Controllers
                 var product = model.ToEntity();
                 product.CreatedOnUtc = DateTime.UtcNow;
                 product.UpdatedOnUtc = DateTime.UtcNow;
-                product.DisplayOrder = minDisplayOrder - 1;
+                if (model.StockQuantity == 0)
+                {
+                    var maxdisplayOrder = _productService.GetMaxDisplayOrder(model.VendorId);
+                    model.DisplayOrder = maxdisplayOrder + 1;
+                }else
+                    product.DisplayOrder = minDisplayOrder - 1;
                 _productService.InsertProduct(product);
                 //search engine name
                 model.SeName = product.ValidateSeName(model.SeName, product.Name, true);
@@ -399,6 +404,11 @@ namespace Nop.Admin.Controllers
                 if (_workContext.CurrentVendor != null)
                 {
                     model.VendorId = _workContext.CurrentVendor.Id;
+                }
+                if (model.StockQuantity == 0)
+                {
+                    var maxdisplayOrder = _productService.GetMaxDisplayOrder(model.VendorId);
+                    model.DisplayOrder = maxdisplayOrder + 1;
                 }
                 
                 var prevStockQuantity = product.GetTotalStockQuantity();

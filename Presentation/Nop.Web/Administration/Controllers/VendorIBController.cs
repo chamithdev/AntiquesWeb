@@ -246,14 +246,17 @@ namespace Nop.Admin.Controllers
         public List<VendorModel.VenddorProductModel> VendorProducts(int id, int pageIndex = 0)
         {
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            var products = _productService.SearchProducts(
-              vendorId: id,
-              showHidden: true,
-              pageIndex: pageIndex,
-              pageSize: defaultGridPageSize,
-              orderBy: ProductSortingEnum.Position
+            var products = _productService.GetAllProductsForVendorId(id);
+            var total = products.Count;
+            products = products.Skip(defaultGridPageSize * pageIndex).Take(defaultGridPageSize).ToList();
+          //  var products = _productService.SearchProducts(
+          //    vendorId: id,
+          //    showHidden: true,
+          //    pageIndex: pageIndex,
+          //    pageSize: defaultGridPageSize,
+          //    orderBy: ProductSortingEnum.Position
 
-          );
+          //);
             var model = new List<VendorModel.VenddorProductModel>();
             foreach (var p in products)
             {
@@ -269,7 +272,7 @@ namespace Nop.Admin.Controllers
                 vpic.PictureUrl = imgUrl;
                 vpm.ProductPicture = vpic;
                 vpm.DisplayOrder = p.DisplayOrder;
-                vpm.TotalCount = products.TotalCount;
+                vpm.TotalCount = total;
                 vpm.StockQuantity = p.StockQuantity;
                 vpm.CanReOrder = p.StockQuantity > 0;
                 model.Add(vpm);
