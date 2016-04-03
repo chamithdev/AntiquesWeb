@@ -1126,7 +1126,10 @@
     <None Include="Properties\PublishProfiles\ibnop5.pubxml" />
     <None Include="Properties\PublishProfiles\ibnop5__ibstaging.pubxml" />
     <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fineuploader\iframe.xss.response-4.2.2.js" />
     <Content Include="Scripts\fineuploader\jquery.fineuploader-4.2.2.js" />
@@ -1995,6 +1998,7 @@
     <Content Include="Themes\IB\Content\images\close.png" />
     <Content Include="Themes\IB\Content\images\coming-soon3.png" />
     <Content Include="Themes\IB\Content\images\compare-button.png" />
+    <Content Include="Themes\IB\Content\images\DecorativeFairApril2016.jpg" />
     <Content Include="Themes\IB\Content\images\details.png" />
     <Content Include="Themes\IB\Content\images\download-button.png" />
     <Content Include="Themes\IB\Content\images\edit.png" />

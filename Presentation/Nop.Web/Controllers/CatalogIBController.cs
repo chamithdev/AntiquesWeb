@@ -437,8 +437,11 @@ namespace Nop.Web.Controllers
             int skip = (pageNo.Value - 1) * pageSize;
 
             model.Id = vendorId;
+
             var vendor = _vendorService.GetVendorById(vendorId);
+
             var products = _productService.GetAllProductsForVendorId(vendorId, s, q);
+
             ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
 
             products = products.Skip(skip).Take(pageSize).ToList();
@@ -481,36 +484,34 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
-        [HttpPost, AdminAntiForgeryAttribute(true)]
-        public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName, int? pageNo)
-        {
+        //[HttpPost, AdminAntiForgeryAttribute(true)]
+        //public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName, int? pageNo)
+        //{
 
-            var pageSize = _catalogSettings.SearchPageProductsPerPage;
-            if (pageNo == null)
-                pageNo = 1;
+        //    var pageSize = _catalogSettings.SearchPageProductsPerPage;
+        //    if (pageNo == null)
+        //        pageNo = 1;
 
-            int skip = (pageNo.Value - 1) * pageSize;
-
+        //    int skip = (pageNo.Value - 1) * pageSize;
             
+        //    var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
+        //    ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
 
-            var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
-            ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
+        //    products = products.Skip(skip).Take(pageSize).ToList();
 
-            products = products.Skip(skip).Take(pageSize).ToList();
-
-            var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
+        //    var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
            
-            //products
-            var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
+        //    //products
+        //    var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
 
-            return Json(
-                new
-                {
-                    success = true,
-                    // JsonRequestBehavior.AllowGet,
-                    message = string.Format(_localizationService.GetResource("Products.ProductHasBeenAddedToTheCart.Link"), Url.RouteUrl("ShoppingCart")),
-                    productListHtml = productDetail,
-                });
-        }
+        //    return Json(
+        //        new
+        //        {
+        //            success = true,
+        //            // JsonRequestBehavior.AllowGet,
+        //            message = string.Format(_localizationService.GetResource("Products.ProductHasBeenAddedToTheCart.Link"), Url.RouteUrl("ShoppingCart")),
+        //            productListHtml = productDetail,
+        //        });
+        //}
     }
 }

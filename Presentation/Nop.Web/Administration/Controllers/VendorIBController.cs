@@ -249,21 +249,16 @@ namespace Nop.Admin.Controllers
             var products = _productService.GetAllProductsForVendorId(id);
             var total = products.Count;
             products = products.Skip(defaultGridPageSize * pageIndex).Take(defaultGridPageSize).ToList();
-          //  var products = _productService.SearchProducts(
-          //    vendorId: id,
-          //    showHidden: true,
-          //    pageIndex: pageIndex,
-          //    pageSize: defaultGridPageSize,
-          //    orderBy: ProductSortingEnum.Position
-
-          //);
+         
             var model = new List<VendorModel.VenddorProductModel>();
             foreach (var p in products)
             {
-                var vpm = new VendorModel.VenddorProductModel();
-                vpm.Id = id;
-                vpm.ProductId = p.Id;
-                vpm.ProductName = p.Name;
+                var vpm = new VendorModel.VenddorProductModel
+                {
+                    Id = id,
+                    ProductId = p.Id,
+                    ProductName = p.Name
+                };
                 var vpic = new VendorModel.VenddorPictureModel();
                 var pic = _pictureService.GetPicturesByProductId(p.Id, 1).FirstOrDefault();
                 var imgUrl = _pictureService.GetPictureUrl(pic, 200);
@@ -278,7 +273,7 @@ namespace Nop.Admin.Controllers
                 model.Add(vpm);
             }
 
-            var items = model.OrderBy(p => p.DisplayOrder).ToList();
+            var items = model.OrderBy(p => p.StockQuantity == 0 ? 1 : 0).ThenBy(v => v.DisplayOrder).ToList();
             return items;
 
         }

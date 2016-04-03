@@ -32,6 +32,7 @@ namespace Nop.Services.Catalog
         public virtual IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "")
         {
             var query = _productRepository.TableNoTracking;
+
             query = query.Where(x => x.VendorId == vendorId);
 
             query = query.Where(x => !x.Deleted);
@@ -54,7 +55,7 @@ namespace Nop.Services.Catalog
             else
             {
                 //Order by Default.
-                query = query.OrderBy(x => x.DisplayOrder);
+                query = query.OrderBy(x => x.StockQuantity == 0 ? 1 : 0).ThenBy(x => x.DisplayOrder);
             }
 
             var products = query.ToList();
