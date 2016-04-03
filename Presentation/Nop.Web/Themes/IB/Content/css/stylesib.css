@@ -337,6 +337,26 @@ hr.logo-line {
         border-bottom: 1px dashed #ccc;
     }
 
+ .password-recovery-panel {
+    font-size: 18px;
+    padding: 20px 50px 20px 0;
+}
+
+ .password-recovery-panel h2 {
+        font-size: 44px;
+        color: #333333;
+        border-bottom: 1px dashed #ccc;
+ }
+
+ .password-recovery-panel .btn-submit {
+    padding: 4px 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    background-color: #5A5A5A;
+    color: #fff;
+    border: 1px solid #5A5A5A;
+}
+
 .form-control-custom1 {
     background-color: white;
     height: 40px;
