@@ -77,7 +77,7 @@ namespace Nop.Web.Controllers
 
             var model = PrepareProductOverviewModelsIB(products, true, true).ToList();
             if (s == "0")
-                model = model.OrderBy(p => p.CreateDateUtc).ToList();
+                model = model.OrderByDescending(p => p.CreateDateUtc).ToList();
             else if (s == "1")
                 model = model.OrderBy(p => p.Name).ToList();
            
