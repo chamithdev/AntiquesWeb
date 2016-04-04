@@ -2045,6 +2045,7 @@
     <Content Include="Themes\IB\Content\images\topic-type1.png" />
     <Content Include="Themes\IB\Content\images\topic-type2.png" />
     <Content Include="Themes\IB\Content\images\topic-type3.png" />
+    <Content Include="Themes\IB\Content\images\tumblr.png" />
     <Content Include="Themes\IB\Content\images\twitter.png" />
     <Content Include="Themes\IB\Content\images\user-login.png" />
     <Content Include="Themes\IB\Content\images\view-grid.png" />
