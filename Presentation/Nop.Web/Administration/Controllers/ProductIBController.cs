@@ -612,53 +612,7 @@ namespace Nop.Admin.Controllers
             var picture = _pictureService.InsertPicture(fileBinary, contentType, null);
             return picture;
         }
-        
-        [NonAction]
-        private void SaveAttribute(ProductModel model,ProductAttribute attr)
-        {
-            //var productAttributeMapping = new ProductAttributeMapping
-            //{
-            //    ProductId = model.Id,
-            //    ProductAttributeId = attr.Id,
-            //    TextPrompt = "",
-            //    IsRequired = false,
-            //    AttributeControlTypeId = 4,
-            //    DisplayOrder = 1
-            //};
-            //_productAttributeService.InsertProductAttributeMapping(productAttributeMapping);
 
-            //var pav = new ProductAttributeValue
-            //    {
-            //        ProductAttributeMappingId = productAttributeMapping.Id,
-            //        AttributeValueType = AttributeValueType.Simple,
-            //        Name = predefinedValue.Name,
-            //        PriceAdjustment = predefinedValue.PriceAdjustment,
-            //        WeightAdjustment = predefinedValue.WeightAdjustment,
-            //        Cost = predefinedValue.Cost,
-            //        IsPreSelected = predefinedValue.IsPreSelected,
-            //        DisplayOrder = predefinedValue.DisplayOrder
-            //    };
-            //_productAttributeService.InsertProductAttributeValue(pav);
-
-            ////predefined values
-            //var predefinedValues = _productAttributeService.GetPredefinedProductAttributeValues(model.ProductAttributeId);
-            //foreach (var predefinedValue in predefinedValues)
-            //{
-            //    var pav = new ProductAttributeValue
-            //    {
-            //        ProductAttributeMappingId = productAttributeMapping.Id,
-            //        AttributeValueType = AttributeValueType.Simple,
-            //        Name = predefinedValue.Name,
-            //        PriceAdjustment = predefinedValue.PriceAdjustment,
-            //        WeightAdjustment = predefinedValue.WeightAdjustment,
-            //        Cost = predefinedValue.Cost,
-            //        IsPreSelected = predefinedValue.IsPreSelected,
-            //        DisplayOrder = predefinedValue.DisplayOrder
-            //    };
-            //    _productAttributeService.InsertProductAttributeValue(pav);
-            //}
-        }
-        
         [HttpPost, AdminAntiForgeryAttribute(true)]
         public ActionResult GetProductInfoForVendorIB(int productId)
         {

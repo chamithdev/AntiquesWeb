@@ -75,15 +75,17 @@
                        data-pin-custom="true">
                         <img src="/Themes/IB/Content/images/pinterest.png" alt="" width="34" height="34"/>
                     </a>
+                    <a href="https://twitter.com/intent/tweet?url=@Html.Raw(HttpUtility.UrlEncode(url))&hashtags=interior,vintage,design">
+                        <img src="/Themes/IB/Content/images/twitter.png" alt="" width="34" height="34"/>
+                    </a>
                     <div class="fb-like">
                         <iframe src="//www.facebook.com/plugins/like.php?href=@Html.Raw(HttpUtility.UrlEncode(url))&amp;width=100&amp;height=21&amp;colorscheme=dark&amp;layout=button&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=159953744080931" scrolling="no" frameborder="0" style="border: none; overflow: hidden; width: 100px; height: 21px;" allowTransparency="true"></iframe>
                     </div>
-                    @*<a href="https://www.facebook.com/plugins/like.php?href=@Html.Raw(HttpUtility.UrlEncode(url))&amp;width=100&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=159953744080931">
-                        <img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34" />
+                    @*<a href="https://www.facebook.com/plugins/like.php?href=@Html.Raw(HttpUtility.UrlEncode(url))&amp;width=100&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=159953744080931"
+                       target="">
+                        <img src="/Themes/IB/Content/images/facebook.png" alt="" width="34" height="34"/>
                     </a>*@
-
-                    <a href="https://twitter.com/intent/tweet?url=@Html.Raw(HttpUtility.UrlEncode(url))&hashtags=interior,vintage,design"><img src="/Themes/IB/Content/images/twitter.png" alt="" width="34" height="34" /></a>
-                    </div>
+                </div>
 
                 @Html.Partial("_ProductDetailsPictures", Model)
 

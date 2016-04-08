@@ -778,7 +778,7 @@ namespace Nop.Admin.Controllers
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
-
+            
             var model = new ProductListModel();
             //a vendor should have access only to his products
             model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
@@ -827,6 +827,7 @@ namespace Nop.Admin.Controllers
         [HttpPost]
         public ActionResult ProductList(DataSourceRequest command, ProductListModel model)
         {
+            
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 

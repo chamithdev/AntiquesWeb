@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using Nop.Core;
 using Nop.Core.Caching;
@@ -423,11 +424,29 @@ namespace Nop.Web.Controllers
 
         public ActionResult BoutiqueShopDetails(int vendorId, string s, string q, int? pageNo)
         {
-           
-            if (s == "")
-                s = "0";
-            if (string.IsNullOrWhiteSpace(q))
-                q = "";
+
+            Expression<Func<Product, bool>> predicate = x => x.VendorId == vendorId && x.Published && x.ProductPictures.Count > 0;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                predicate = x => x.VendorId == vendorId && x.Published && x.Name.Equals(q);
+            }
+
+            IList<Product> products = new List<Product>();
+            
+            if (string.IsNullOrWhiteSpace(s) || s == "0")
+            {
+                products = _productService.GetAllProducts(predicate , x => x.StockQuantity == 0 ? 1 : 0 , x => x.DisplayOrder);
+            }
+            else if (s == "1")
+            {
+                products = _productService.GetAllProducts(predicate, x => x.CreatedOnUtc, false);
+            }
+            else if (s == "2")
+            {
+                products = _productService.GetAllProducts(predicate, x => x.Name);
+            }
+            
 
             ProductOverviewModel model = new ProductOverviewModel();
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
@@ -439,9 +458,7 @@ namespace Nop.Web.Controllers
             model.Id = vendorId;
 
             var vendor = _vendorService.GetVendorById(vendorId);
-
-            var products = _productService.GetAllProductsForVendorId(vendorId, s, q);
-
+            
             ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
 
             products = products.Skip(skip).Take(pageSize).ToList();
@@ -494,7 +511,7 @@ namespace Nop.Web.Controllers
 
         //    int skip = (pageNo.Value - 1) * pageSize;
             
-        //    var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
+        //    var products = _productService.GetAllProducts(vendorId, orderById, searchName);
         //    ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
 
         //    products = products.Skip(skip).Take(pageSize).ToList();

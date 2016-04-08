@@ -246,7 +246,10 @@ namespace Nop.Admin.Controllers
         public List<VendorModel.VenddorProductModel> VendorProducts(int id, int pageIndex = 0)
         {
             var defaultGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().DefaultGridPageSize;
-            var products = _productService.GetAllProductsForVendorId(id);
+            var products = _productService.GetAllProducts(product => product.VendorId == id
+                , x => x.StockQuantity == 0 ? 1 : 0
+                , x => x.DisplayOrder);
+
             var total = products.Count;
             products = products.Skip(defaultGridPageSize * pageIndex).Take(defaultGridPageSize).ToList();
          
@@ -365,10 +368,10 @@ namespace Nop.Admin.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 return AccessDeniedView();
 
-            var products = _productService.GetAllProductsForVendorId(vendorId);
+            var products = _productService.GetAllProducts(product => product.VendorId == vendorId,
+                x => x.StockQuantity == 0 ? 1 : 0,
+                x => x.DisplayOrder);
 
-            //if (products.Count == 0)
-            //    return Content("");
             ViewBag.VendorId = vendorId;
             var model = VendorProducts(products);
             return View(model);
@@ -379,7 +382,7 @@ namespace Nop.Admin.Controllers
         public ActionResult MyHome(int id)
         {
             if (_workContext.CurrentVendor == null || id != _workContext.CurrentVendor.Id)
-            {
+            {   
                 return AccessDeniedView();
             }
 
