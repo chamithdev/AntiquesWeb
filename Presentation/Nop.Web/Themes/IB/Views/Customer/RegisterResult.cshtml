@@ -18,16 +18,24 @@
         continueUrl = Url.RouteUrl("HomePage");
     }
 }
-<div class="page registration-result-page">
-    <div class="page-title">
-        <h1>@T("Account.Register")</h1>
-    </div>
-    <div class="page-body">
-        <div class="result">
-            @Model.Result
-        </div>
-        <div class="buttons">
-            <input type="button" class="button-1 register-continue-button" onclick="location.href='@continueUrl'" value="@T("Account.Register.Result.Continue")" />
+<div id="body-content" class="section-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+                <section class="account-registration-panel">
+                    <div class="page-title">
+                        <h2>@T("Account.Register")</h2>
+                    </div>
+                    <div class="page-body">
+                        <div class="result">
+                            <h4>@Model.Result</h4>
+                        </div>
+                        <div>
+                            <input type="button" class="button-continue" onclick="location.href = '@continueUrl'" value="@T("Account.Register.Result.Continue")" />
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </div>
