@@ -15,11 +15,9 @@ namespace Nop.Web.Controllers
         [ChildActionOnly]
         public ActionResult LatestBoutique()
         {
-            //var vendors = _vendorService.GetAllVendors();
-            var vendors = _vendorService.GetAllVendorsByDateRange(datefromUtc: DateTime.Now.AddMonths(-2), dateToUtc: DateTime.Now);
-
-            //var customers = _customerService.GetAllCustomers(createdFromUtc: DateTime.Now.AddMonths(-2), createdToUtc: DateTime.Now).Where(c => c.VendorId > 0).Take(12);
-            //customers = customers.OrderBy(c => Guid.NewGuid());
+            // var vendors2 = _vendorService.GetAllVendors()
+            var vendors = _vendorService.GetAllVendorsByDateRange(datefromUtc: DateTime.Now.AddMonths(-6), dateToUtc: DateTime.Now);
+            
             var selectedvendors = vendors.OrderBy(v => Guid.NewGuid()).ToList().Take(12);
 
             var shops = new List<VendorModel>();
