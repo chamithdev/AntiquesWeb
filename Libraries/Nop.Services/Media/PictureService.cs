@@ -351,7 +351,7 @@ namespace Nop.Services.Media
                     break;
                 case PictureType.Entity:
                 default:
-                    defaultImageFileName = _settingService.GetSettingByKey("Media.DefaultImageName", "default-image.png");
+                    defaultImageFileName = _settingService.GetSettingByKey("Media.DefaultImageName", "default-image2.png");
                     break;
             }
 
