@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using Nop.Core;
 using Nop.Core.Caching;
@@ -240,12 +241,12 @@ namespace Nop.Web.Controllers
             var categoryIds = new List<int>();
             var pvendorIds = new List<int>();
             var customKeys = new List<string>();
-          
+            
 
             var categoriesModel = new List<SearchModel.CategoryModel>();
             //all categories
             var categories = _categoryService.GetAllCategories();
-          
+
 
 
             model.ProductCategories = categories.ToList();
@@ -258,22 +259,22 @@ namespace Nop.Web.Controllers
             model.WidthMinAvailable = _productService.MinAvalableWidth();
 
 
-
-
+            
+         
 
             model.Styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style).OrderBy(d => d.Value).ToList();
-            
+
             model.Materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material).OrderBy(d=>d.Value).ToList();
 
             model.Colors = _productService.GetColorList().Where(d => !string.IsNullOrWhiteSpace(d)).Select(d => new SelectListItem { Text = d, Value = d }).ToList();
             model.Colors.Insert(0, new SelectListItem { Text = "-", Value = "" });
             model.Designers = _productService.GetDesignerList().Where(d=> !string.IsNullOrWhiteSpace(d)).Select(d => new SelectListItem { Text = d, Value = d }).ToList();
             model.Designers.Insert(0, new SelectListItem { Text = "-", Value = "" });
-           
+
             model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
             model.q = "";
+            
 
-         
 
 
             var products = _productService.SearchProductsCustom(
@@ -352,11 +353,11 @@ namespace Nop.Web.Controllers
             if (model.sms != null)
                 customKeys.AddRange(model.sms);
             if (model.cid > 0)
-            {
+                {
                 categoryIds.Add(model.cid);
                 var subcatids = _categoryService.GetAllCategoriesByParentCategoryId(model.cid).Select(c => c.Id).ToArray();
-                categoryIds.AddRange(subcatids);
-            }
+                    categoryIds.AddRange(subcatids);
+                }
          
 
             var mdId = 0;
@@ -393,19 +394,19 @@ namespace Nop.Web.Controllers
             else command.PageNumber = pgN;
 
 
-            var products = _productService.SearchProductsCustom(
-                   categoryIds: categoryIds,
-                   vendorIds: pvendorIds,
-                   customKeys: customKeys,
+                var products = _productService.SearchProductsCustom(
+                     categoryIds: categoryIds,
+                     vendorIds: pvendorIds,
+                     customKeys: customKeys,
                    sizeFrom: model.hm,
                    sizeTo: model.hmx,
-                   varience: varience,
-                   storeId: _storeContext.CurrentStore.Id,
-                   visibleIndividuallyOnly: true,
+                     varience: varience,
+                     storeId: _storeContext.CurrentStore.Id,
+                     visibleIndividuallyOnly: true,
                    keywords:model.q,
-                   languageId: _workContext.WorkingLanguage.Id,
+                     languageId: _workContext.WorkingLanguage.Id,
                    orderBy: ProductSortingEnum.Position,
-                   pageIndex: command.PageNumber - 1,
+                     pageIndex: command.PageNumber - 1,
                    pageSize: command.PageSize,
                    circaDateFrom:model.cdf ?? "",
                    circaDateTo: model.cdt ?? "",
@@ -417,19 +418,37 @@ namespace Nop.Web.Controllers
                    priceMin:model.pm);
 
 
-            model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
-            model.PagingFilteringContext.LoadPagedList(products);
-            
+                model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
+                model.PagingFilteringContext.LoadPagedList(products);
+
             return model;
         }
 
         public ActionResult BoutiqueShopDetails(int vendorId, string s, string q, int? pageNo)
         {
+
+            Expression<Func<Product, bool>> predicate = x => x.VendorId == vendorId && x.Published && x.ProductPictures.Count > 0;
+
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                predicate = x => x.VendorId == vendorId && x.Published && x.Name.Equals(q);
+            }
            
-            if (s == "")
-                s = "0";
-            if (string.IsNullOrWhiteSpace(q))
-                q = "";
+            IList<Product> products = new List<Product>();
+            
+            if (string.IsNullOrWhiteSpace(s) || s == "0")
+            {
+                products = _productService.GetAllProducts(predicate , x => x.StockQuantity == 0 ? 1 : 0 , x => x.DisplayOrder);
+            }
+            else if (s == "1")
+            {
+                products = _productService.GetAllProducts(predicate, x => x.CreatedOnUtc, false);
+            }
+            else if (s == "2")
+            {
+                products = _productService.GetAllProducts(predicate, x => x.Name);
+            }
+            
 
             ProductOverviewModel model = new ProductOverviewModel();
             var pageSize = _catalogSettings.SearchPageProductsPerPage;
@@ -441,8 +460,6 @@ namespace Nop.Web.Controllers
             model.Id = vendorId;
 
             var vendor = _vendorService.GetVendorById(vendorId);
-
-            var products = _productService.GetAllProductsForVendorId(vendorId, s, q);
 
             ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
 
@@ -487,8 +504,8 @@ namespace Nop.Web.Controllers
         }
 
 
-        
 
-      
+           
+
     }
 }

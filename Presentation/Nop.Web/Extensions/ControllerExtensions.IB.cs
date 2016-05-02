@@ -70,7 +70,7 @@ namespace Nop.Web.Extensions
                    
                 };
                 // style
-                var style = customDataService.GetCustomDataByValue(product.Style);
+                var style = customDataService.GetCustomDataByValue("Style", product.Style);
                 model.Style = style != null ? style.Value : "";
                 //price
                 if (preparePriceModel)

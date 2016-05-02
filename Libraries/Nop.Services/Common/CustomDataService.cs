@@ -36,7 +36,7 @@ namespace Nop.Services.Common
             string key = string.Format(GENERICATTRIBUTE_KEY, keyGroup);
             return _cacheManager.Get(key, () =>
             {
-                var query = from ga in _customDataRepository.Table
+                var query = from ga in _customDataRepository.TableNoTracking
                             where ga.KeyGroup == keyGroup
                             select ga;
                 var customData = query.ToList();
@@ -44,10 +44,9 @@ namespace Nop.Services.Common
             });
         }
 
-        public CustomData GetCustomDataByValue(string key)
+        public CustomData GetCustomDataByValue(string keyGroup, string key)
         {
-
-            var query = _customDataRepository.Table.FirstOrDefault(c=>c.Key == key);
+            var query = _customDataRepository.TableNoTracking.FirstOrDefault(c=> c.KeyGroup.Equals(keyGroup) && c.Key.Equals(key));
             return query;
         }
 #endregion

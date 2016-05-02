@@ -1034,34 +1034,36 @@ namespace Nop.Web.Controllers
                     // if user is a vendor. Create a vendor
                     if(model.IsVendor)
                     {
-                        var vendor = new Nop.Core.Domain.Vendors.Vendor();
-                        vendor.Name = string.IsNullOrWhiteSpace(model.Company) ? model.FirstName : model.Company;
-                        vendor.ShowOnHomePage = true;
-                        vendor.Country = "";
-                        vendor.Email = model.Email;
-                        //vendor.Active = true;
+                        var vendor = new Nop.Core.Domain.Vendors.Vendor
+                        {
+                            Name = string.IsNullOrWhiteSpace(model.Company) ? model.FirstName : model.Company,
+                            ShowOnHomePage = true,
+                            Country = "",
+                            Email = model.Email
+                        };
+                        
                         _vendorService.InsertVendor(vendor);
+
                         customer.VendorId = vendor.Id;
+
                         var roles = _customerService
                             .GetAllCustomerRoles(true)                            
                             .ToList();
+
                         var vendorRole = roles.FirstOrDefault(cr => cr.SystemName == SystemCustomerRoleNames.Vendors);
+
                         if (vendorRole != null)
                             customer.CustomerRoles.Add(vendorRole);
 
                         _customerService.UpdateCustomer(customer);
-                        _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
-                        
-                        return RedirectToRoute("HomePage");
-                    }
 
+                        _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
+                    }
                     
                   
                     //notifications
                     if (_customerSettings.NotifyNewCustomerRegistration)
                         _workflowMessageService.SendCustomerRegisteredNotificationMessage(customer, _localizationSettings.DefaultAdminLanguageId);
-
-                   
                     
                     switch (_customerSettings.UserRegistrationType)
                     {

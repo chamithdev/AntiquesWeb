@@ -319,8 +319,8 @@
                         @Html.ValidationMessageFor(model => model.CircaDate)
                         <br />
                         Materials :
-                        @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@
-                        @Html.EditorFor(model => model.Material, new { @class = "js-default-val-text  percent-42" })
+                        @*<input type="text" class="js-default-val-text percent-42" defaultval="" value="" />*@                     
+                        @Html.DropDownListFor(model => model.Material, Model.Materials, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Material)
                         <br />
                         Colour :
@@ -342,7 +342,7 @@
                         <br />
                         Style :
                         @Html.DropDownListFor(model => model.Style, Model.Styles, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Condition)
+                        @Html.ValidationMessageFor(model => model.Style)
                         <br />
 
 

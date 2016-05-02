@@ -17,14 +17,23 @@ namespace Nop.Services.Catalog
         /// <returns></returns>
         IList<Product> GetLatestProductsDisplayedOnHomePage();
 
-        IList<Product> GetLatestProducts(Expression<Func<Product, bool>> predicate);
-
         /// <summary>
-        /// Get All Products for given vendor id.
+        /// Looks at products that were created within the last 2 months.
         /// </summary>
-        /// <param name="vendorId"></param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
-        IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "");
+        IList<Product> GetLatestProducts(Expression<Func<Product, bool>> predicate);
+        
+        IList<Product> GetAllProducts<TOrderBy>(
+             Expression<Func<Product, bool>> predicate,
+            Expression<Func<Product, TOrderBy>> orderby,
+            bool isAscending = true);
+
+        IList<Product> GetAllProducts<TOrderBy, TThenBy>(
+          Expression<Func<Product, bool>> predicate,
+         Expression<Func<Product, TOrderBy>> orderby,
+         Expression<Func<Product, TThenBy>> thenBy,
+         bool isAscending = true);
 
 
         IPagedList<Product> SearchProductsCustom

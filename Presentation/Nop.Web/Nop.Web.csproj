@@ -469,6 +469,7 @@
     <Content Include="Content\files\ExportImport\Index.htm" />
     <Content Include="Content\files\Index.htm" />
     <Content Include="Content\Images\default-image.png" />
+    <Content Include="Content\Images\default-image2.png" />
     <Content Include="Content\kendo\2014.1.318\Black\editor.png" />
     <Content Include="Content\kendo\2014.1.318\Black\imagebrowser.png" />
     <Content Include="Content\kendo\2014.1.318\Black\indeterminate.gif" />
@@ -1130,6 +1131,10 @@
     <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\interiorboutiques__IbStaging.pubxml" />
     <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2 %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2 %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2 %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2 %285%29.pubxml" />
+    <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2 %286%29.pubxml" />
     <None Include="Properties\PublishProfiles\interiorboutiques__ibstaging2.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fineuploader\iframe.xss.response-4.2.2.js" />
@@ -2438,7 +2443,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>15536</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:15560/</IISUrl>
+          <IISUrl>http://localhost:15561/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

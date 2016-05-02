@@ -166,6 +166,7 @@ hr.logo-line {
     border: 1px solid #E4E4E4;
     position: relative;
     min-height: 320px;
+    margin-bottom: 15px;
 }
 
     
@@ -248,10 +249,18 @@ hr.logo-line {
         }
 
 
+.thumbnail:hover .thum-img {
+    opacity:1;
+    -webkit-filter: contrast(150%); /* Chrome, Safari, Opera */
+    filter: contrast(150%);
+}
 
-.thumbnail:hover .thum-img a img {
-        opacity:0.5; background:#FFFFFF;
-    }
+/*.thumbnail:hover .thum-img a img {
+        opacity:0.9; background:#000;
+    }*/
+
+
+
 
 .thumbnail .caption {
     padding: 0;
@@ -333,6 +342,11 @@ hr.logo-line {
     border-right: 1px solid #ccc;
 }
 
+.account-registration-panel {
+    font-size: 18px;
+    padding: 20px 50px 20px 0
+}
+
     .signin-panel h2 {
         font-size: 44px;
         color: #333333;
@@ -354,6 +368,15 @@ hr.logo-line {
     }
 
 .signin-panel .btn-login {
+    padding: 4px 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    background-color: #5A5A5A;
+    color: #fff;
+    border: 1px solid #5A5A5A;
+}
+
+.account-registration-panel .button-continue {
     padding: 4px 20px;
     font-size: 20px;
     text-transform: uppercase;

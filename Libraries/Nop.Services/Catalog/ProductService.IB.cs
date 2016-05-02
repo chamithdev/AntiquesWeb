@@ -19,48 +19,41 @@ namespace Nop.Services.Catalog
         /// 
         public virtual IList<Product> GetLatestProductsDisplayedOnHomePage()
         {
-            return this.GetLatestProductQuery().ToList();
+            return this.GetPublishedAvailableProductsWithinLastTwoMonthsQuery().ToList();
         }
         
         public virtual IList<Product> GetLatestProducts(Expression<Func<Product, bool>> predicate)
         {   
-            var query = this.GetLatestProductQuery();
+            var query = this.GetPublishedAvailableProductsWithinLastTwoMonthsQuery();
 
             return query.Where(predicate).ToList();
         }
 
-        public virtual IList<Product> GetAllProductsForVendorId(int vendorId, string orderBy = "", string searchTerm = "")
+        public virtual IList<Product> GetAllProducts<TOrderBy>(
+            Expression<Func<Product, bool>> predicate, 
+            Expression<Func<Product, TOrderBy>> orderby,
+            bool isAscending = true)
         {
-            var query = _productRepository.TableNoTracking;
+            var query = GetAllProductQuery(predicate);
 
-            query = query.Where(x => x.VendorId == vendorId);
+            query = isAscending ? query.OrderBy(orderby) : query.OrderByDescending(orderby);
+        
+            return query.ToList();
+        }
+        
+        public virtual IList<Product> GetAllProducts<TOrderBy, TThenBy>(
+           Expression<Func<Product, bool>> predicate,
+           Expression<Func<Product, TOrderBy>> orderby,
+           Expression<Func<Product, TThenBy>> thenBy,
+           bool isAscending = true)
+        {
+            var query = GetAllProductQuery(predicate);
 
-            query = query.Where(x => !x.Deleted);
+            query = isAscending
+                ? query.OrderBy(orderby).ThenBy(thenBy)
+                : query.OrderByDescending(orderby).ThenByDescending(thenBy);
 
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                query = query.Where(d => d.Name.ToLower().Trim().Contains(searchTerm.ToLower().Trim()));
-            }
-
-            //Order by Latest.
-            if (orderBy == "1")
-            {
-                query = query.OrderByDescending(x => x.CreatedOnUtc);
-            }
-            else if (orderBy == "2")
-            {
-                //Order by Alphabeticall.
-                query = query.OrderBy(x => x.Name);
-            }
-            else
-            {
-                //Order by Default.
-                query = query.OrderBy(x => x.StockQuantity == 0 ? 1 : 0).ThenBy(x => x.DisplayOrder);
-            }
-
-            var products = query.ToList();
-
-            return products;
+            return query.ToList();
         }
 
         public int GetMaxDisplayOrder(int vendorId)
@@ -71,7 +64,7 @@ namespace Nop.Services.Catalog
                       group p by p.VendorId into d
                       select d.Max(s => s.DisplayOrder);
 
-            return max.Count() > 0 ? Convert.ToInt32(max.First()) : 0;
+            return max.Any() ? Convert.ToInt32(max.First()) : 0;
         }
 
         public int GetMaxDisplayOrderUnsold(int vendorId)
@@ -518,16 +511,28 @@ namespace Nop.Services.Catalog
         #endregion
 
 
-        private IQueryable<Product> GetLatestProductQuery()
+        private IQueryable<Product> GetPublishedAvailableProductsWithinLastTwoMonthsQuery()
         {
-            var baseDate = DateTime.UtcNow.AddDays(-31);
+            var baseDate = DateTime.UtcNow.AddDays(-60);
             var query = from p in _productRepository.TableNoTracking
-                        where p.Published &&
-                              !p.Deleted &&
-                              p.ShowOnHomePage
-                              && p.StockQuantity > 0
-                              && p.CreatedOnUtc >= baseDate
-                        select p;
+                where p.Published &&
+                      !p.Deleted &&
+                      p.ShowOnHomePage
+                      && p.StockQuantity > 0
+                      && p.CreatedOnUtc >= baseDate
+                      && p.ProductPictures.Count > 0
+                 select p;
+            return query;
+        }
+
+        private IQueryable<Product> GetAllProductQuery(Expression<Func<Product, bool>> predicate)
+        {
+            var query = _productRepository.TableNoTracking;
+
+            query = query.Where(predicate);
+
+            query = query.Where(x => !x.Deleted);
+
             return query;
         }
 

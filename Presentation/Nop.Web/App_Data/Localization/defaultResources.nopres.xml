@@ -466,7 +466,7 @@
     <Value>Options</Value>
   </LocaleResource>
   <LocaleResource Name="Account.PasswordRecovery">
-    <Value>Password recovery</Value>
+    <Value>Password Recovery</Value>
   </LocaleResource>
   <LocaleResource Name="Account.PasswordRecovery.ChangePasswordButton">
     <Value>Recover</Value>

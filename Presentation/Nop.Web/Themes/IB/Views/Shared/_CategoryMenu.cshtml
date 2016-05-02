@@ -1,0 +1,446 @@
+﻿@model Nop.Web.Models.Catalog.SearchModel
+           
+@{
+    int countCats = 0;
+    int countStyle= 0;
+    int countMaterial = 0;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Current Filters</h3>
+    </div>
+    <div class="panel-body ">
+       <div class="row">
+           <div class="col-md-8" id="filters">
+               No Filters
+           </div>
+           <div class="col-md-4" id="clearLnk">
+               <a href="/Catalog/ShopByCategory" ><span>Clear All</span></a>
+           </div>
+       </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Category</h3>
+    </div>
+    <div class="panel-body n-p ">
+        <div id="cssmenu">
+            <ul id="ulCategoryList">
+                @foreach (Nop.Core.Domain.Catalog.Category c in Model.ProductCategories.Where(p => p.ParentCategoryId == 0))
+                {
+                    countCats++;
+                    <li class="has-sub @(countCats>20 ? "hide" : "")">
+                  
+                    @*<li class="has-sub">*@
+                        <a href="#" onclick="SearchProducts('@c.Id')"><span>@c.Name</span></a>
+                    @foreach (Nop.Core.Domain.Catalog.Category s in Model.ProductCategories.Where(p => p.ParentCategoryId == c.Id))
+                    {
+                        <ul>
+                            @*<li class="even">
+                                    <a href="#"><span>menu1</span></a>
+                                    <ul>
+                                        <li class="even"><a href="#"><span>menu1</span></a></li>
+                                        <li class="odd"><a href="#"><span>menu2</span></a></li>
+                                        <li class="even"><a href="#"><span>menu3</span></a></li>
+                                    </ul>
+                                </li>
+                                <li class="odd"><a href="#"><span>menu2</span></a></li>*@
+                            <li class="even"><a href="javascript:" onclick="SearchProducts('@s.Id')"><span>@s.Name</span></a>
+                            <input type="hidden" id="hdCatId"/>
+                            </li>
+                            
+                        </ul>
+
+                    }
+                </li>
+
+                }
+            </ul>
+        </div>
+       
+    </div>
+    <div class="panel-footer text-right">
+        <a href="javascript:" id="lblCatMore" onclick="ToggleCategoryList('ulCategoryList', 'lblCatMore')">See more</a>
+    </div>
+  
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Price Range</h3>
+    </div>
+    <div class="panel-body ">
+        <table>
+            <tr>
+                <td class="text-left">@Model.PriceMinAvailable</td>
+                <td class="text-right">@Model.PriceMaxAvailable</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="sliderPriceRange"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="p-t p-r"><input type="text" id="txtMinPrice" class="form-control"></td>
+                <td class="p-t p-l"> <input type="text" id="txtMaxPrice" class="form-control"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Size</h3>
+    </div>
+    <div class="panel-body ">
+        <table width="100%">
+            <tr>
+                <td colspan="2">
+                    Width
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left">@Model.WidthMinAvailable</td>
+                <td class="text-right">@Model.WidthMaxAvailable</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="sliderWidthRange"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                   <input type="hidden" id="hdWidthMin"/>
+                   <input type="hidden" id="hdWidthMax" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Height
+                </td>
+            </tr>
+            <tr>
+                <td class="text-left">@Model.HeightMinAvailable</td>
+                <td class="text-right">@Model.HeightMaxAvailable</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="sliderHeightRange">
+                        <input type="hidden" id="hdHeightMin" />
+                        <input type="hidden" id="hdHeightMax" />
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Circa date</h3>
+    </div>
+    <div class="panel-body ">
+        <div class="form-group">
+            <label class="col-md-2  control-label">
+                From
+            </label>
+            <div class="col-sm-4 n-p-r">
+                <input type="text" id="txtCircaDateFrom" class="form-control">
+            </div>
+            <label class="col-md-2  control-label">
+                To
+            </label>
+            <div class="col-sm-4 n-p-r">
+                <input type="text" id="txtCircaDateTo" class="form-control ">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-b">
+    <div class="col-sm-12">
+        <div class="input-group">
+            <input type="text" class="form-control" id="txtq" placeholder="Search within results">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="pagerClick(0)">Go!</button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Style</h3>
+    </div>
+    <div class="panel-body n-p ">
+
+        <ul class="list-group" id="ulStyleList">
+            @foreach (Nop.Core.Domain.Common.CustomData cd in Model.Styles)
+            {
+                countStyle++;
+                <li class="list-group-item n-p @(countStyle > 10 ? "hide" : "")">
+                    <div class="checkbox p5 n-m">
+                        <label><input type="checkbox" name="Styles" value="@cd.Key">@cd.Value</label>
+                    </div>
+                </li>
+
+            }
+           
+
+        </ul>
+    </div>
+    <div class="panel-footer text-right">
+        <a href="javascript:" id="lblStyleMore" onclick="ToggleCategoryList('ulStyleList', 'lblStyleMore')">See more</a>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Material</h3>
+    </div>
+    <div class="panel-body n-p ">
+
+        <ul class="list-group" id="ulMaterialList">
+            @foreach (Nop.Core.Domain.Common.CustomData cd in Model.Materials)
+            {
+                countMaterial++;
+                <li class="list-group-item n-p @(countMaterial > 10 ? "hide" : "")">
+                    <div class="checkbox p5 n-m">
+                        <label><input type="checkbox" name="Material" value="@cd.Key">@cd.Value</label>
+                    </div>
+                </li>
+
+            }
+
+            @*<li class="list-group-item n-p ">
+                <div class="checkbox p5 n-m">
+                    <label><input type="checkbox" value="abc">Scandinavian Modern</label>
+                </div>
+            </li>
+
+            <li class="list-group-item n-p ">
+                <div class="checkbox p5 n-m">
+                    <label><input type="checkbox" value="abc">Modern</label>
+                </div>
+            </li>
+
+            <li class="list-group-item n-p ">
+                <div class="checkbox p5 n-m">
+                    <label><input type="checkbox" value="abc">Art Deco</label>
+                </div>
+            </li>
+
+            <li class="list-group-item n-p ">
+                <div class="checkbox p5 n-m">
+                    <label><input type="checkbox" value="abc">Louis XVI</label>
+                </div>
+            </li>*@
+
+
+        </ul>
+    </div>
+    <div class="panel-footer text-right">
+        <a href="javascript:" id="lblMaterialMore" onclick="ToggleCategoryList('ulMaterialList', 'lblMaterialMore')">See more</a>
+    </div>
+</div>
+<div class="form">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Color</label>
+        @Html.DropDownListFor(model => model.c, new SelectList(Model.Colors, "Value", "Text"), new { id = "ddlColor", @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Designer</label>
+        @Html.DropDownListFor(model => model.d, new SelectList(Model.Designers,"Value","Text"), new { id = "ddlDesignBy", @class = "form-control" })
+    </div>
+</div>
+    <button type="button" class="btn btn-default btn-submit btn-group-justified m-b50" onclick="pagerClick(0)">SUBMIT</button>
+
+
+    <script>
+        $(document).ready(function () {
+            getSearchData();
+
+        $('#txtMinPrice').val(0);
+        $('#txtMaxPrice').val(@Model.PriceMaxAvailable);
+        $('#hdWidthMin').val(0);
+        $('#hdWidthMax').val( @Model.WidthMaxAvailable);
+        $('#hdHeightMin').val(0);
+        $('#hdHeightMax').val(@Model.HeightMaxAvailable);
+        $("#sliderPriceRange").slider({
+            range: true,
+            min: @Model.PriceMinAvailable,
+            max: @Model.PriceMaxAvailable,
+            values: [0, @Model.PriceMaxAvailable],
+            step: 20,
+            slide: function (event, ui) {
+                $('#txtMinPrice').val(ui.values[0]);
+                $('#txtMaxPrice').val(ui.values[1]);
+                //$("#lblRange1").text(ui.values[0] + " - " + ui.values[1]);
+            }
+        });
+
+        $("#sliderWidthRange").slider({
+            range: true,
+            min: @Model.WidthMinAvailable,
+            max: @Model.WidthMaxAvailable,
+            values: [0, @Model.WidthMaxAvailable],
+            step: 20,
+            slide: function (event, ui) {
+                $('#hdWidthMin').val(ui.values[0]);
+                $('#hdWidthMax').val(ui.values[1]);
+                //$("#lblRange1").text(ui.values[0] + " - " + ui.values[1]);
+            }
+        });
+
+        $("#sliderHeightRange").slider({
+            range: true,
+            min: @Model.HeightMinAvailable,
+            max: @Model.HeightMaxAvailable,
+            values: [0, @Model.HeightMaxAvailable],
+            step: 20,
+            slide: function (event, ui) {
+                $('#hdHeightMin').val(ui.values[0]);
+                $('#hdHeightMax').val(ui.values[1]);
+                //$("#lblRange1").text(ui.values[0] + " - " + ui.values[1]);
+            }
+        });
+
+
+        $('#cssmenu ul ul li:odd').addClass('odd');
+        $('#cssmenu ul ul li:even').addClass('even');
+        $('#cssmenu > ul > li > a').click(function () {
+            $('#cssmenu li').removeClass('active');
+            $(this).closest('li').addClass('active');
+            var checkElement = $(this).next();
+            if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
+                $(this).closest('li').removeClass('active');
+                checkElement.slideUp('normal');
+            }
+            if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
+                $('#cssmenu ul ul:visible').slideUp('normal');
+                checkElement.slideDown('normal');
+            }
+            if ($(this).closest('li').find('ul').children().length == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+
+
+
+    });
+</script>
+
+    <style type="text/css">
+        #cssmenu,
+        #cssmenu ul,
+        #cssmenu li,
+        #cssmenu a {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            list-style: none;
+            font-weight: normal;
+            text-decoration: none;
+            line-height: 1;
+            font-family: Arial;
+            font-size: 12px;
+            position: relative;
+        }
+
+            #cssmenu a {
+                line-height: 1.3;
+                padding: 6px 0px 6px 16px;
+            }
+
+            #cssmenu > ul > li {
+                cursor: pointer;
+                background: #000;
+            }
+
+                #cssmenu > ul > li > a {
+                    font-size: 12px;
+                    display: block;
+                    color: #555;
+                    background: url(Expand.png) no-repeat 0px 12px #FFF;
+                    line-height: 20px;
+                }
+
+                    #cssmenu > ul > li > a:hover {
+                        text-decoration: none;
+                    }
+
+                #cssmenu > ul > li.active {
+                    /*border-bottom: none;*/
+                }
+
+                    #cssmenu > ul > li.active > a {
+                        background: url(collapsed.png) no-repeat 0px 12px #FFF;
+                        color: #2771ba;
+                        text-shadow: 0 1px 1px #e6e6e6;
+                    }
+
+                #cssmenu > ul > li.has-sub > a:after {
+                    content: '';
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+
+                #cssmenu > ul > li.has-sub a span {
+                    color: #2771ba;
+                }
+
+                #cssmenu > ul > li.has-sub.active > a:after {
+                    right: 14px;
+                    top: 12px;
+                }
+            /* Sub menu */
+            #cssmenu ul ul {
+                padding: 0;
+                display: none;
+            }
+
+                #cssmenu ul ul a {
+                    background: #fff;
+                    display: block;
+                    color: #797979;
+                    font-size: 12px;
+                    padding-left: 30px;
+                }
+
+            #cssmenu ul li ul li a span {
+                color: #797979 !important;
+            }
+
+                #cssmenu ul li ul li a span:hover {
+                    color: #7293b4 !important;
+                    text-decoration: underline;
+                }
+
+            #cssmenu ul ul li:last-child {
+                border: none;
+            }
+
+        .addSubSec {
+            list-style: none;
+            padding: 10px 0 0 20px;
+            margin: 0;
+            background: url(add.png) no-repeat 0 10px;
+            color: #989898;
+        }
+
+        .addSub {
+            padding-left: 0;
+            border-left: 1px solid #d9d9d9;
+        }
+
+            .addSub h3 {
+                font-size: 19px;
+                color: #929292;
+            }
+    </style>

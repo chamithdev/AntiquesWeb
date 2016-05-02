@@ -55,6 +55,12 @@ namespace Nop.Admin.Models.Catalog
             set { _circaDates = value; }
         }
 
+        public IList<SelectListItem> Materials
+        {
+            get { return _circaDates ?? new List<SelectListItem>(); ; }
+            set { _circaDates = value; }
+        }
+
         public List<CategoryModel> Categories { get; set; }
 
         //    var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);

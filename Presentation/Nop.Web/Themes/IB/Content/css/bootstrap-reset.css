@@ -156,8 +156,8 @@
     }
 
         .navbar-nav > li > .dropdown-menu > li > a:hover {
-            background-color: #FFFFFF;
-    color: #F00;
+            background-color: #202020;
+            color: #FFF;
         }
 
 
