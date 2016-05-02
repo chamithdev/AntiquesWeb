@@ -22,6 +22,7 @@ namespace Nop.Core.Domain.Vendors
 
         public int PictureId { get; set; }
 
-
+        public int PictureId2 { get; set; }
+        
     }
 }

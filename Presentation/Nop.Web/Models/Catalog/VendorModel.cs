@@ -25,6 +25,8 @@ namespace Nop.Web.Models.Catalog
 
         public string ImageUrl { get; set; }
 
+        public string ImageUrl2 { get; set; }
+
         public string City { get; set; }
         public string Coutry { get; set; }
         public string Web { get; set; }

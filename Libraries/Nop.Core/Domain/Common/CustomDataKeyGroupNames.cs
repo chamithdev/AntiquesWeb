@@ -11,5 +11,6 @@ namespace Nop.Core.Domain.Common
 
         public static string Style { get { return "Style"; } }
         public static string CircaDate { get { return "CircaDate"; } }
+        public static string Material { get { return "Material"; } }
     }
 }

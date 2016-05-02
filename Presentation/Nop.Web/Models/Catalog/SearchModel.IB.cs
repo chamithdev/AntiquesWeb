@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -43,6 +45,46 @@ namespace Nop.Web.Models.Catalog
             set { _dimension = value; }
         }
         public int SelectedDimension { get; set; }
+
+        public List<Category> ProductCategories { get; set; }
+
+        public decimal pm { get; set; }
+        public decimal pmx { get; set; }
+        public decimal hm { get; set; }
+        public decimal hmx { get; set; }
+
+        public decimal wm { get; set; }
+        public decimal wmx { get; set; }
+
+        public decimal PriceMinAvailable { get; set; }
+        public decimal PriceMaxAvailable { get; set; }
+        public decimal HeightMinAvailable { get; set; }
+        public decimal HeightMaxAvailable { get; set; }
+
+        public decimal WidthMinAvailable { get; set; }
+        public decimal WidthMaxAvailable { get; set; }
+
+        public List<CustomData> Styles { get; set; }
+
+        public List<CustomData> Materials { get; set; }
+
+        public string c { get; set; }
+        public string d { get; set; }
+
+        public IList<SelectListItem> Colors { get; set; }
+        public IList<SelectListItem> Designers { get; set; }
+
         
+
+        public List<string> ss { get; set; }
+
+        public List<string> sms { get; set; }
+
+        public string cdf { get; set; }
+
+        public string cdt { get; set; }
+
+        public int pg { get; set; }
+
     }
 }

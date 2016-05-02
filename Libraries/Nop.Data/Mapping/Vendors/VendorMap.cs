@@ -24,7 +24,7 @@ namespace Nop.Data.Mapping.Vendors
 
             this.Property(p => p.PictureId).IsOptional();
 
-            
+            this.Property(p => p.PictureId2).IsOptional();
         }
     }
 }

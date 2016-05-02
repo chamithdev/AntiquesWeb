@@ -116,6 +116,32 @@ namespace Nop.Plugin.Widgets.NivoSlider.Models
         public string Link8 { get; set; }
         public bool Link8_OverrideForStore { get; set; }
 
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Picture")]
+        [UIHint("Picture")]
+        public int Picture9Id { get; set; }
+        public bool Picture9Id_OverrideForStore { get; set; }
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Text")]
+        [AllowHtml]
+        public string Text9 { get; set; }
+        public bool Text9_OverrideForStore { get; set; }
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Link")]
+        [AllowHtml]
+        public string Link9 { get; set; }
+        public bool Link9_OverrideForStore { get; set; }
+
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Picture")]
+        [UIHint("Picture")]
+        public int Picture10Id { get; set; }
+        public bool Picture10Id_OverrideForStore { get; set; }
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Text")]
+        [AllowHtml]
+        public string Text10 { get; set; }
+        public bool Text10_OverrideForStore { get; set; }
+        [NopResourceDisplayName("Plugins.Widgets.NivoSlider.Link")]
+        [AllowHtml]
+        public string Link10 { get; set; }
+        public bool Link10_OverrideForStore { get; set; }
+
 
     }
 }

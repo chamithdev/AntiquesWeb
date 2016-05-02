@@ -1980,6 +1980,7 @@
     <Content Include="Themes\IB\Content\css\dropzone.css" />
     <Content Include="Themes\IB\Content\css\ie8.css" />
     <Content Include="Themes\IB\Content\css\ie9.css" />
+    <Content Include="Themes\IB\Content\css\jquery-ui.css" />
     <Content Include="Themes\IB\Content\css\jquery.bxslider\images\bx_loader.gif" />
     <Content Include="Themes\IB\Content\css\jquery.bxslider\images\controls.png" />
     <Content Include="Themes\IB\Content\css\jquery.bxslider\jquery.bxslider.css" />
@@ -2215,6 +2216,7 @@
     <Content Include="Themes\IB\Views\Product\_ProductPrice.cshtml" />
     <Content Include="Themes\IB\Views\Home\ContactUs.cshtml" />
     <Content Include="Themes\IB\Views\Home\CustomerServices.cshtml" />
+    <Content Include="Themes\IB\Views\Shared\_CategoryMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

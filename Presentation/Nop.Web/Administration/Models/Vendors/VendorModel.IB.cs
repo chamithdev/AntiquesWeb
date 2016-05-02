@@ -29,9 +29,15 @@ namespace Nop.Admin.Models.Vendors
 
         public int PictureId { get; set; }
 
+        public int PictureId2 { get; set; }
+
         public Picture MainPicture { get; set; }
 
+        public Picture MainPicture2 { get; set; }
+
         public VenddorPictureModel MainPictureModel { get; set; }
+
+        public VenddorPictureModel MainPictureModel2 { get; set; }
 
         public List<VenddorProductModel> Products { get; set; }
 
@@ -68,6 +74,8 @@ namespace Nop.Admin.Models.Vendors
             public int ProductId { get; set; }
 
             public VenddorPictureModel ProductPicture { get; set; }
+
+            public VenddorPictureModel ProductPicture2 { get; set; }
 
             public string ProductName { get; set; }
 

@@ -184,6 +184,67 @@ namespace Nop.Admin.Controllers
             }
         }
 
+        [HttpPost, AdminAntiForgeryAttribute(true)]
+        public ActionResult UploadVendorImagesSecondary(string id)
+        {
+            bool isSavedSuccessfully = true;
+            int picId = 0;
+            string fName = "";
+            try
+            {
+                var vendor = _vendorService.GetVendorById(int.Parse(id));
+                if (vendor == null)
+                    throw new ArgumentException("No vendor found with the specified id");
+
+                if (_workContext.CurrentVendor == null || vendor.Id != _workContext.CurrentVendor.Id)
+                {
+                    return AccessDeniedView();
+                }
+
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    var pic = UploadPicture(file);
+
+                    if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
+                        return AccessDeniedView();
+
+
+
+
+
+                    var picture = _pictureService.GetPictureById(pic.Id);
+                    if (picture == null)
+                        throw new ArgumentException("No picture found with the specified id");
+
+                    vendor.PictureId2 = picture.Id;
+                    picId = picture.Id;
+                    _vendorService.UpdateVendor(vendor);
+
+                    //return RedirectToAction("MyHome", new { id = vendor.Id });
+
+
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+
+
+            if (isSavedSuccessfully)
+            {
+                return Json(new { Message = picId });
+            }
+            else
+            {
+                return Json(new { Message = "Error in saving file" });
+            }
+        }
+
         [NonAction]
         private Picture UploadPicture(HttpPostedFileBase postFile)
         {
@@ -378,7 +439,8 @@ namespace Nop.Admin.Controllers
 
         public ActionResult MyHome(int id)
         {
-            if (_workContext.CurrentVendor == null || id != _workContext.CurrentVendor.Id)
+
+            if (_workContext.CurrentVendor == null || id != _workContext.CurrentVendor.Id || !_workContext.CurrentVendor.Active)
             {
                 return AccessDeniedView();
             }
@@ -407,6 +469,21 @@ namespace Nop.Admin.Controllers
                     DisplayOrder = 1
                 };
                 model.MainPictureModel = m;
+            }
+
+            model.MainPicture2 = _pictureService.GetPictureById(model.PictureId2);
+            if (model.MainPicture2 != null)
+            {
+                var m = new VendorModel.VenddorPictureModel
+                {
+
+                    ProductId = model.MainPicture2.Id,
+                    PictureUrl = _pictureService.GetPictureUrl(model.MainPicture2, 200),
+                    OverrideAltAttribute = model.MainPicture2.AltAttribute,
+                    OverrideTitleAttribute = model.MainPicture2.TitleAttribute,
+                    DisplayOrder = 2
+                };
+                model.MainPictureModel2 = m;
             }
 
             //locales

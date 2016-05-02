@@ -34,8 +34,10 @@ namespace Nop.Web.Controllers
                     MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
-                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200)
+                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId, 200),
+                    ImageUrl2 = vendor.PictureId2 > 0 ? _pictureService.GetPictureUrl(vendor.PictureId2, 200) : _pictureService.GetPictureUrl(vendor.PictureId, 200)
                 };
+
                 shops.Add(vendorModel);
                 
             }

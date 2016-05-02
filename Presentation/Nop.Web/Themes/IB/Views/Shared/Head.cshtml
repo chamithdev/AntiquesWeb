@@ -8,7 +8,7 @@
 
     //add browser specific CSS files
     var browser = Request.Browser;
-    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/slider/css/prettyPhoto.css",themeName));
+    //Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/slider/css/prettyPhoto.css",themeName));
 
     if (browser.Browser == "IE" && browser.MajorVersion == 8)
     {
@@ -30,6 +30,7 @@
         
     }
     //add jQuery UI css file
+    Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/jquery-ui.css", themeName)); 
     Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/jquery.bxslider/jquery.bxslider.css", themeName));
     Html.AppendCssFileParts(string.Format("~/Themes/{0}/Content/css/bootstrap-3.3.6/css/bootstrap.css", themeName));
     

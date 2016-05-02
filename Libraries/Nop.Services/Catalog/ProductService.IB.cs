@@ -141,7 +141,13 @@ namespace Nop.Services.Catalog
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
             decimal sizeTo = 0,
-            decimal varience = 0
+            decimal varience = 0,
+            string circaDateFrom ="",
+            string circaDateTo ="",
+            string color ="",
+            string designBy ="",
+            decimal widthFrom = 0,
+            decimal widthTo = 0
             )
         {
             IList<int> filterableSpecificationAttributeOptionIds;
@@ -151,7 +157,7 @@ namespace Nop.Services.Catalog
                 productType, visibleIndividuallyOnly, featuredProducts,
                 priceMin, priceMax, productTagId, keywords, searchDescriptions, searchSku,
                 searchProductTags, languageId, filteredSpecs,
-                orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo, varience);
+                orderBy, showHidden, overridePublished, customKeys, sizeFrom, sizeTo, varience, circaDateFrom, circaDateTo, color, designBy, widthFrom, widthTo);
             }
 
         public virtual IPagedList<Product> SearchProductsCustom(
@@ -182,7 +188,13 @@ namespace Nop.Services.Catalog
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
             decimal sizeTo = 0,
-            decimal varience = 0)
+            decimal varience = 0,
+            string circaDateFrom = "",
+            string circaDateTo = "",
+            string color = "",
+            string designBy = "",
+            decimal widthFrom = 0,
+            decimal widthTo = 0)
         {
             filterableSpecificationAttributeOptionIds = new List<int>();
 
@@ -283,6 +295,46 @@ namespace Nop.Services.Catalog
             pVarience.ParameterName = "Varience";
             pVarience.Value = (object)varience;
             pVarience.DbType = DbType.Decimal;
+
+
+            var pcsdf = _dataProvider.GetParameter();
+            pcsdf.ParameterName = "CircaDateFrom";
+            pcsdf.Value = (object)circaDateFrom;
+            pcsdf.DbType = DbType.String;
+
+
+            var pcsdt = _dataProvider.GetParameter();
+            pcsdt.ParameterName = "CircaDateTo";
+            pcsdt.Value = (object)circaDateTo;
+            pcsdt.DbType = DbType.String;
+
+
+            var pColor = _dataProvider.GetParameter();
+            pColor.ParameterName = "Color";
+            pColor.Value = (object)color;
+            pColor.DbType = DbType.String;
+
+
+            var pDesignBy = _dataProvider.GetParameter();
+            pDesignBy.ParameterName = "DesignBy";
+            pDesignBy.Value = (object)designBy;
+            pDesignBy.DbType = DbType.String;
+
+
+
+            var pWidthFrom = _dataProvider.GetParameter();
+            pWidthFrom.ParameterName = "WidthFrom";
+            pWidthFrom.Value = (object)widthFrom;
+            pWidthFrom.DbType = DbType.Decimal;
+
+
+
+            var pWidthTo = _dataProvider.GetParameter();
+            pWidthTo.ParameterName = "WidthTo";
+            pWidthTo.Value = (object)widthTo;
+            pWidthTo.DbType = DbType.Decimal;
+
+
 
             var pWarehouseId = _dataProvider.GetParameter();
             pWarehouseId.ParameterName = "WarehouseId";
@@ -438,8 +490,14 @@ namespace Nop.Services.Catalog
                 pTotalRecords,
                 pSizeFrom,
                 pSizeTo,
+                pWidthFrom,
+                pWidthTo,
                 pCustList,
-                pVarience
+                pVarience,
+                pcsdf,
+                pcsdt,
+                pColor,
+                pDesignBy
                 );
             //get filterable specification attribute option identifier
             string filterableSpecificationAttributeOptionIdsStr = (pFilterableSpecificationAttributeOptionIds.Value != DBNull.Value) ? (string)pFilterableSpecificationAttributeOptionIds.Value : "";
@@ -471,6 +529,98 @@ namespace Nop.Services.Catalog
                               && p.CreatedOnUtc >= baseDate
                         select p;
             return query;
+        }
+
+
+        public decimal MaxAvalablePrice()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity>0)
+                        group p by 1 into d
+                        select d.Max(s => s.Price);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+           
+        }
+
+        public decimal MinAvalablePrice()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity > 0)
+                        group p by 1 into d
+                        select d.Min(s => s.Price);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+
+        }
+
+        public decimal MaxAvalableHeight()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity > 0)
+                        group p by 1 into d
+                        select d.Max(s => s.Height);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+
+        }
+
+        public decimal MinAvalableHeight()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity > 0)
+                        group p by 1 into d
+                        select d.Min(s => s.Height);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+
+        }
+
+        public decimal MaxAvalableWidth()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity > 0)
+                        group p by 1 into d
+                        select d.Max(s => s.Width);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+
+        }
+
+        public decimal MinAvalableWidth()
+        {
+            var query = from p in _productRepository.TableNoTracking
+                        where (!p.Deleted && p.StockQuantity > 0)
+                        group p by 1 into d
+                        select d.Min(s => s.Width);
+
+            return query.Any() ? Convert.ToInt32(query.First()) : 0;
+
+        }
+
+        public IList<string> GetColorList()
+        {
+            
+            var query = from p in _productRepository.TableNoTracking                        
+                        where p.Published &&
+                              !p.Deleted
+                        orderby p.Color      
+                        group p by p.Color into d
+                        select d.Key;
+            return query.ToList(); ;
+        }
+
+        public IList<string> GetDesignerList()
+        {
+
+            var query = from p in _productRepository.TableNoTracking
+                        where p.Published &&
+                              !p.Deleted
+                        orderby p.DesignBy     
+                        group p by p.DesignBy into d
+                       
+                        select d.Key;
+            return query.ToList(); ;
         }
     }
            

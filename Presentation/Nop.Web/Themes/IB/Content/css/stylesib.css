@@ -665,3 +665,9 @@ slider-main-img ul {
     box-shadow: 0 2.5em 0 0 #f00;
   }
 }
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}

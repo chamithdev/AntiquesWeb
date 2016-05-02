@@ -38,6 +38,23 @@
 
             });
 
+        $("#dz2").dropzone(
+          {
+              url: "/admin/vendor/UploadVendorImagesSecondary/@Model.Id",
+              uploadprogress: function (e, progress) {
+                  $('.fader-wrapper').show();
+              },
+              success: function (data,obj) {
+                  $('#hdnPictureId2').val(obj.Message);
+                  $('.fader-wrapper').hide();
+
+              },
+              error: function () {
+                  alert('error uploading data');
+              },
+
+          });
+
         $(function () {
 
             original = $('#sortable').sortable('toArray').toString();
@@ -238,7 +255,7 @@
 </script>
 @Html.HiddenFor(model => model.Id)
 @Html.HiddenFor(model => model.PictureId, new {@id="hdnPictureId" })
-
+@Html.HiddenFor(model => model.PictureId2, new { @id = "hdnPictureId2" })
 <input type="hidden" id="currentPage"  />
 <div id="body-content">
     <div class="container">
@@ -265,6 +282,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="img-upload">
+
+                            <!-- Change /upload-target to your upload address -->
+                            @*<form action="/upload-target" class="dropzone custom-msg-main"></form>*@
+                            <div id="dz2" class="dropzone" action="/vendor/UploadVendorImagesSecondary/@Model.Id">
+                                @*<div class="dz-default dz-message"></div>*@
+                                @if (Model.PictureId2 > 0)
+                                {
+                                    <img src="@Model.MainPictureModel2.PictureUrl" title="Click here" class="dz-message" />
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6 col-md-6">
                         Name
                         @Html.EditorFor(model => model.Name, new { @class = "percent-42" })

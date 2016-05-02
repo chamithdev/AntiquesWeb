@@ -161,7 +161,8 @@ namespace Nop.Web.Controllers
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
                     AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
-                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId)
+                    ImageUrl = _pictureService.GetPictureUrl(vendor.PictureId),
+                    ImageUrl2 = vendor.PictureId2 > 0 ? _pictureService.GetPictureUrl(vendor.PictureId2) : _pictureService.GetPictureUrl(vendor.PictureId)
                 };
                 shops.Add(vendorModel);
             }
@@ -226,10 +227,10 @@ namespace Nop.Web.Controllers
         //}
 
         //[HttpPost]
-        public ActionResult ShopByCategory(FormCollection f, CatalogPagingFilteringModel command)
+        public ActionResult ShopByCategory()
         {
 
-            var model =  GetCatalogSearhModel(f, command);//new SearchModel();
+            var model = new SearchModel(); //GetCatalogSearhModel(f, command);//new SearchModel();
             string cacheKey = string.Format(ModelCacheEventConsumer.SEARCH_CATEGORIES_MODEL_KEY,
             _workContext.WorkingLanguage.Id,
             string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
@@ -237,56 +238,62 @@ namespace Nop.Web.Controllers
 
 
             var categoryIds = new List<int>();
-            var mainCatIds = string.IsNullOrWhiteSpace(f["CategoryList"]) ? new string[] { } : f["CategoryList"].Split(new char[] { ',' });
-            var subCats = string.IsNullOrWhiteSpace(f["SubCatList"]) ? new string[] { } : f["SubCatList"].Split(new char[] { ',' });
-            var pvendorIds = string.IsNullOrWhiteSpace(f["VendorList"]) ? new List<int>() : f["VendorList"].Split(new char[] { ',' }).Select(c => int.Parse(c)).ToList();
-            var customKeys = string.IsNullOrWhiteSpace(f["CustomList"]) ? new List<string>() { } : f["CustomList"].Split(new char[] { ',' }).ToList();
-            categoryIds.AddRange(mainCatIds.Select(c => int.Parse(c)).ToList());
-            categoryIds.AddRange(subCats.Select(c => int.Parse(c)).ToList());
-            
+            var pvendorIds = new List<int>();
+            var customKeys = new List<string>();
+          
 
             var categoriesModel = new List<SearchModel.CategoryModel>();
             //all categories
             var categories = _categoryService.GetAllCategories();
-            // top cats
+          
 
 
-            //return allCategories;
+            model.ProductCategories = categories.ToList();
+
+            model.HeightMaxAvailable = _productService.MaxAvalableHeight();
+            model.HeightMinAvailable = _productService.MinAvalableHeight();
+            model.PriceMaxAvailable = _productService.MaxAvalablePrice();
+            model.PriceMinAvailable = _productService.MinAvalablePrice();
+            model.WidthMaxAvailable = _productService.MaxAvalableWidth();
+            model.WidthMinAvailable = _productService.MinAvalableWidth();
 
 
-            model.AvailableCategories = (from c in categories
-                                         where (c.ParentCategoryId == 0)
-                                         select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
 
 
-            if (mainCatIds.Count() == 0)
-                model.SubCategories = new List<SelectListItem>();
-            else
-            {
-                model.SubCategories = (from c in categories
-                                       where (mainCatIds.Contains(c.ParentCategoryId.ToString()))
-                                       select new SelectListItem { Text = c.Name, Value = c.Id.ToString(), Selected = categoryIds.Contains(c.Id) }).ToList();
-            }
+
+            model.Styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style).OrderBy(d => d.Value).ToList();
             
+            model.Materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material).OrderBy(d=>d.Value).ToList();
+
+            model.Colors = _productService.GetColorList().Where(d => !string.IsNullOrWhiteSpace(d)).Select(d => new SelectListItem { Text = d, Value = d }).ToList();
+            model.Colors.Insert(0, new SelectListItem { Text = "-", Value = "" });
+            model.Designers = _productService.GetDesignerList().Where(d=> !string.IsNullOrWhiteSpace(d)).Select(d => new SelectListItem { Text = d, Value = d }).ToList();
+            model.Designers.Insert(0, new SelectListItem { Text = "-", Value = "" });
+           
+            model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
+            model.q = "";
+
          
 
-            var vendors = _vendorService.GetAllVendors();
 
-            model.Vendors = (from v in vendors
-                             select new SelectListItem { Text = v.Name, Value = v.Id.ToString(), Selected = pvendorIds.Contains(v.Id) }).ToList();
+            var products = _productService.SearchProductsCustom(
+                    categoryIds: categoryIds,
+                    vendorIds: pvendorIds,
+                    customKeys: customKeys,
+                    sizeFrom: 0,
+                    sizeTo: 0,
+                    varience: 0,
+                    storeId: _storeContext.CurrentStore.Id,
+                    visibleIndividuallyOnly: true,
+                    keywords: "",
+                    languageId: _workContext.WorkingLanguage.Id,
+                    orderBy: ProductSortingEnum.Position,
+                    pageIndex: 1,
+                    pageSize: _catalogSettings.SearchPageProductsPerPage);
 
 
-            //CustomDataKeyGroupNames
-            var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
-            model.CustomData = ((from st in styles
-                                 select new SelectListItem { Text = st.Value, Value = st.Key, Selected = customKeys.Contains(st.Key) })
-                                .Union
-                                    (from cd in circaDates
-                                     select new SelectListItem { Text = cd.Value, Value = cd.Key, Selected = customKeys.Contains(cd.Key) })).ToList();
-
-            model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
-            model.q = f["q"];
+            model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
+            model.PagingFilteringContext.LoadPagedList(products);
             
 
             return View(model);
@@ -322,16 +329,16 @@ namespace Nop.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult ShopByCategoryPaged(FormCollection f, CatalogPagingFilteringModel command)
+        public ActionResult ShopByCategoryPaged(SearchModel model, CatalogPagingFilteringModel command)
         {
-            var model = GetCatalogSearhModel(f, command);
+            model = GetCatalogSearhModel(model, command);
            
-            return PartialView("_ProductList",model.Products);
+            return PartialView("_ProductList",model);
         }
 
-        private SearchModel GetCatalogSearhModel(FormCollection f, CatalogPagingFilteringModel command)
+        private SearchModel GetCatalogSearhModel(SearchModel model, CatalogPagingFilteringModel command)
         {
-             var model = new SearchModel();
+             //var model = new SearchModel();
             //string cacheKey = string.Format(ModelCacheEventConsumer.SEARCH_CATEGORIES_MODEL_KEY,
             //_workContext.WorkingLanguage.Id,
             //string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
@@ -339,29 +346,25 @@ namespace Nop.Web.Controllers
 
 
             var categoryIds = new List<int>();
-            var mainCatIds = string.IsNullOrWhiteSpace(f["CategoryList"]) ? new string[] { } : f["CategoryList"].Split(new char[] { ',' });
-            var subCats = string.IsNullOrWhiteSpace(f["SubCatList"]) ? new string[] { } : f["SubCatList"].Split(new char[] { ',' });
-            var pvendorIds = string.IsNullOrWhiteSpace(f["VendorList"]) ? new List<int>() : f["VendorList"].Split(new char[] { ',' }).Select(c => int.Parse(c)).ToList();
-            var customKeys = string.IsNullOrWhiteSpace(f["CustomList"]) ? new List<string>() { } : f["CustomList"].Split(new char[] { ',' }).ToList();
-            categoryIds.AddRange(mainCatIds.Select(c => int.Parse(c)).ToList());
-            if (subCats.Length>0)
-                categoryIds.AddRange(subCats.Select(c => int.Parse(c)).ToList());
-            else
+
+            var pvendorIds = new List<int>();
+            var customKeys = model.ss ?? new List<string>();
+            if (model.sms != null)
+                customKeys.AddRange(model.sms);
+            if (model.cid > 0)
             {
-                foreach(string mid in mainCatIds)
-                {
-                    var subcatids = _categoryService.GetAllCategoriesByParentCategoryId(Convert.ToInt32(mid)).Select(c => c.Id).ToArray();
-                    categoryIds.AddRange(subcatids);
-                }
+                categoryIds.Add(model.cid);
+                var subcatids = _categoryService.GetAllCategoriesByParentCategoryId(model.cid).Select(c => c.Id).ToArray();
+                categoryIds.AddRange(subcatids);
             }
+         
+
             var mdId = 0;
 
-            int.TryParse(f["SelectedDimension"], out mdId);
-            var dm = _measureService.GetMeasureDimensionById(mdId);
-            decimal dsizeFrm = 0;
-            decimal dsizeTo = 0;
-            decimal.TryParse(f["SizeFrom"], out dsizeFrm);
-            decimal.TryParse(f["SizeTo"], out dsizeTo);
+            
+            decimal dsizeFrm = model.hm;
+            decimal dsizeTo = model.hmx;
+            
 
             PrepareViewModes(model.PagingFilteringContext, command);
 
@@ -377,46 +380,45 @@ namespace Nop.Web.Controllers
 
             decimal sf = 0;
             decimal sst = 0;
-            decimal varience = 0;
-            var cmdm = _measureService.GetMeasureDimensionBySystemKeyword("centimeters");
-            if (dm != null)
-            {
-                sf = _measureService.ConvertFromPrimaryMeasureDimension(dsizeFrm, dm);
-                sst = _measureService.ConvertFromPrimaryMeasureDimension(dsizeTo, dm);
-                varience = _measureService.ConvertDimension(10, cmdm, dm);
-            }
+            decimal varience = 10;
 
 
 
-            var pgN = int.Parse(string.IsNullOrWhiteSpace(f["PageNo"]) ? "0" : f["PageNo"]);
+            var pgN = model.pg;
             var ipageSize = _catalogSettings.SearchPageProductsPerPage;
             if (command.PageSize == 0)
                 command.PageSize = ipageSize;
             if (pgN == 0)
                 command.PageNumber = 1;
             else command.PageNumber = pgN;
-            if(f.AllKeys.Count()!=0)
-            {
-                var products = _productService.SearchProductsCustom(
-                     categoryIds: categoryIds,
-                     vendorIds: pvendorIds,
-                     customKeys: customKeys,
-                     sizeFrom: sf,
-                     sizeTo: sst,
-                     varience: varience,
-                     storeId: _storeContext.CurrentStore.Id,
-                     visibleIndividuallyOnly: true,
-                     keywords: f["q"],
-                     languageId: _workContext.WorkingLanguage.Id,
-                     orderBy: (ProductSortingEnum)command.OrderBy,
-                     pageIndex: command.PageNumber - 1,
-                     pageSize: command.PageSize);
 
 
-                model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
-                model.PagingFilteringContext.LoadPagedList(products);
+            var products = _productService.SearchProductsCustom(
+                   categoryIds: categoryIds,
+                   vendorIds: pvendorIds,
+                   customKeys: customKeys,
+                   sizeFrom: model.hm,
+                   sizeTo: model.hmx,
+                   varience: varience,
+                   storeId: _storeContext.CurrentStore.Id,
+                   visibleIndividuallyOnly: true,
+                   keywords:model.q,
+                   languageId: _workContext.WorkingLanguage.Id,
+                   orderBy: ProductSortingEnum.Position,
+                   pageIndex: command.PageNumber - 1,
+                   pageSize: command.PageSize,
+                   circaDateFrom:model.cdf ?? "",
+                   circaDateTo: model.cdt ?? "",
+                   color:model.c ?? "",
+                   designBy:model.d ?? "",
+                   widthFrom:model.wm,
+                   widthTo: model.wmx,
+                   priceMax:model.pmx,
+                   priceMin:model.pm);
 
-            }
+
+            model.Products = PrepareProductOverviewModelsIB(products).OrderBy(p => p.Name).ToList();
+            model.PagingFilteringContext.LoadPagedList(products);
             
             return model;
         }
@@ -484,34 +486,9 @@ namespace Nop.Web.Controllers
             return View(model);
         }
 
-        //[HttpPost, AdminAntiForgeryAttribute(true)]
-        //public ActionResult GetProductListVendorId(int vendorId, string orderById, string searchName, int? pageNo)
-        //{
 
-        //    var pageSize = _catalogSettings.SearchPageProductsPerPage;
-        //    if (pageNo == null)
-        //        pageNo = 1;
+        
 
-        //    int skip = (pageNo.Value - 1) * pageSize;
-            
-        //    var products = _productService.GetAllProductsForVendorId(vendorId, orderById, searchName);
-        //    ViewBag.PageCount = (products.Count() % pageSize) > 1 ? (1 + (products.Count() / pageSize)) : Convert.ToInt32((products.Count() / pageSize));
-
-        //    products = products.Skip(skip).Take(pageSize).ToList();
-
-        //    var productOverviewModel = PrepareProductOverviewModelsIB(products).ToList();
-           
-        //    //products
-        //    var productDetail = this.RenderPartialViewToString("_VendorProducts", productOverviewModel);
-
-        //    return Json(
-        //        new
-        //        {
-        //            success = true,
-        //            // JsonRequestBehavior.AllowGet,
-        //            message = string.Format(_localizationService.GetResource("Products.ProductHasBeenAddedToTheCart.Link"), Url.RouteUrl("ShoppingCart")),
-        //            productListHtml = productDetail,
-        //        });
-        //}
+      
     }
 }

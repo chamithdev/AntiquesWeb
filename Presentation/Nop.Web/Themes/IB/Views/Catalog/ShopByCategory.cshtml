@@ -1,335 +1,95 @@
 ﻿@model Nop.Web.Models.Catalog.SearchModel
 @{
-    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
 }
 @{
     var size = Model.PagingFilteringContext.PageSize;
     
     var pages = Model.PagingFilteringContext.TotalPages;
 }
-@using (Html.BeginForm(null, null, FormMethod.Post, new {@id="frmSearchByCat" }))
-{
- <script>
-     $(document).ready(function () {
-         var baseUrl = "/";
-         var ajaxGetJson = function (controller, method, param,param2, callback) {
-             $.ajax({
-                 url: baseUrl + controller + "/" + method ,
-                 type: "GET",
-                 cache: false,
-                 data: { 'ids': param,'selids':param2 },
-                 traditional: true,
-                 beforeSend: function () {
-                     //$('#divPreload').show();
-                     $('#divSubCats').fadeTo("fast", 0.33);
-                 },
-                 success: function (data) {
-                     callback(data);
-                     $('#divSubCats').fadeTo("fast", 1);
-                 },
-                 error: function (xhr, ajaxOptions, thrownError) {
-                     $('#divSubCats').fadeTo("fast", 1);
-                     alert(xhr.status);
-                     alert(thrownError);
-                 }
-             });
-         }
-         $("input[name='CategoryList']").click(function () {
-             var catIds = [];
-             var selcatIds = [];
-             $("input[name='CategoryList']").each(function () {
-                 var catId = (this.checked ? $(this).val() : "");
-                 //if($(this).attr('checked'))
-                 if (catId != "")
-                 {
-                     catIds.push(catId);
-                 }
-
-             });
-
-             
-             
-             $("input[name='SubCatList']").each(function () {
-                 var catId = (this.checked ? $(this).val() : "");
-                 //if($(this).attr('checked'))
-                 if (catId != "")
-                 {
-                     selcatIds.push(catId);
-                 }
-
-             });
-
-
-
-             ajaxGetJson("Catalog", "GetSubCategory", catIds,selcatIds, function (data) {
-                 //var name = $(this).val();
-                 //$('#divSubCategories').empty();
-                 //var ul = $('#divSubCategories');
-                 //$(data).each(function (i, o) {
-
-                 //    ul.append($('<li>').append($('<input>').attr({
-                 //        type: 'checkbox', name: 'SubCatList', value: this.Id, id: 'chklistitem' + this.Id
-                 //    })).append('</li>'));
-                 //    //+ this.Name
-                 //    //$('#divSubCategories').append('<li name="' + name  + '"><input type="checkbox" name="SubCatList" value="' + this.Id + '" ></input>' + this.Name + '</li>');
-                 //});
-                 $('#divSubCats').html(data);
-                 return false;
-             })
-
-         });
-
-
-         ajaxGetData = function (controller, method, param, callback) {
-             $.ajax({
-                 url: baseUrl + controller + "/" + method,
-                 type: "POST",
-                 cache: false,
-                 data: param,
-                 beforeSend: function () {
-                     //$('#ajaxBusy').show();
-                 },
-                 success: function (json) {
-                     callback(json);
-                    // $('#ajaxBusy').hide();
-                 },
-                 error: function (xhr, ajaxOptions, thrownError) {
-                   //  $('#ajaxBusy').hide();
-                     if (errorCallback != undefined)
-                         errorCallback(xhr);
-                     alert(thrownError);
-                 }
-             });
-         }
-
-        
-
-
-         // paging
-     }
-     );
-     function pagerClick(pageNo) {
-         $('.fader-wrapper').show();
-         $('#hdPageno').val(pageNo);
-         var data = $('#frmSearchByCat').serialize();
-         ajaxGetData("Catalog", "ShopByCategoryPaged ", data, function (data) {
-             $("#searchResult").html(data);
-             $(".pagination li").removeClass("active");
-             $('#' + pageNo).addClass("active");
-             $('.fader-wrapper').hide();
-             //class="active" 
-         }, null);
-
-
-     }
- </script>
-    <input type="hidden" id="hdPageno" name="PageNo"/>
-<div class="section-pannel">
-    <div class="row ">
-        <div class="col-sm-6 col-md-3">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Shop by Boutique</h3>
-                </div>
-                <div class="panel-body n-p panel-maxheight ">
-
-                    <ul class="list-group">
-                        @foreach (var v in Model.Vendors)
-                        {
-                            <li class="list-group-item n-p ">
-
-                                <div class="checkbox p5 n-m">
-                                    <label>
-                                        <input type="checkbox" name="VendorList"  @(v.Selected ? "checked" : "") value="@v.Value">
-                                        @v.Text
-                                    </label>
-                                </div>
-
-
-                            </li>
-                        }
-
-                    </ul>
-                </div>
-            </div>
-
-            
-        </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Shop by Category</h3>
-                </div>
-                <div class="panel-body panel-maxheight n-p">
-
-                    <ul class="list-group">
-                        @foreach (var c in Model.AvailableCategories)
-                        {
-                            <li class="list-group-item n-p ">
-
-                                <div class="checkbox p5 n-m">
-                                    <label>
-                                        <input type="checkbox" name="CategoryList" @(c.Selected ? "checked" : "") value="@c.Value">
-                                        @c.Text
-                                    </label>
-                                </div>
-
-
-                            </li>
-                        }
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Shop by Sub Category</h3>
-                </div>
-                <div class="panel-body panel-maxheight n-p" id="divSubCats">
-                    @Html.Partial("_SubCatList", Model.SubCategories)
-                </div>
-            </div>
-
-        </div>
-        <div class="col-sm-6 col-md-3">
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Shop by Circa Date / Style</h3>
-                </div>
-                <div class="panel-body panel-maxheight n-p">
-
-                    <ul class="list-group">
-                        @foreach (var item in Model.CustomData)
-                        {
-                            <li class="list-group-item n-p ">
-
-                                <div class="checkbox p5 n-m">
-                                    <label>
-                                        <input type="checkbox" name="CustomList" @(item.Selected ? "checked" : "") value="@item.Value">
-                                        @item.Text
-                                    </label>
-                                </div>
-
-
-                            </li>
-                        }
-
-                    </ul>
-                </div>
-            </div>
-                       
-        </div>
-        <div class="col-sm-12 col-md-12">
-
-            <div class="form-inline m-b">
-                <div class="form-group">
-                    <label>Size :</label>
-                    <input type="text" class="form-control m-r">
-                </div>
-                <div class="form-group">
-                    <label>Height :</label>
-                    @Html.EditorFor(model => model.SizeFrom, new { @class = "form-control m-r" })
-                </div>
-                <div class="form-group">
-                    <label>Width :</label>
-                    @Html.EditorFor(model => model.SizeTo, new { @class = "form-control m-r" })
-                </div>
-                
-                <div class="form-group">
-                    @Html.DropDownListFor(model => model.SelectedDimension, Model.Dimension, new { @class = "form-control m-r" })
-                </div>
-
-                <div class="form-group">
-                    <label>Keyword :</label>
-                    <input type="text" name="q" value="@Model.q" class="form-control" />
-                </div>
-
-                
-            </div>
-            <button type="submit" class="btn btn-default btn-submit btn-group-justified m-b50">SUBMIT</button>
-
-            @*<div class="form-lg margin-top10 clear">
-                <div class="col-sm-2 col-md-2">
-                    Size :
-                </div>
-                <div class="col-sm-1 col-md-1">
-                    Height
-                </div>
-                <div class="col-sm-3 col-md-1">
-                    @Html.EditorFor(model => model.SizeFrom, new { @class = "form-control" })
-                </div>
-                <div class="col-sm-1 col-md-1">
-                   Width
-                </div>
-                <div class="col-sm-3 col-md-1">
-                    @Html.EditorFor(model => model.SizeTo, new { @class = "form-control" })
-                </div>
-                <div class="col-sm-3 col-md-3">
-                    @Html.DropDownListFor(model => model.SelectedDimension, Model.Dimension)
-                </div>
-            </div>*@
-        </div>
-        @*<div class="col-sm-6 col-md-12">
-            <div class="form-lg margin-top10 clear">
-                <div class="col-sm-2 col-md-2">
-                    Keywords :
-                </div>
-                <div class="col-sm-6 col-md-9">
-                    <input type="text"  name="q" value="" class="js-default-val-text" />
-                </div>
-                <div class="col-sm-4 col-md-1">
-                    <input type="Submit" value="Submit" class="btn btn-default btn-info" />
-                </div>
-            </div>
-        </div>*@
-        
-    </div>
-   
-        @if (Model.Products.Count > 0)
-        {
-            @Html.Partial("_ProductList", Model.Products);
-        @*<div class="section-pannel" id="searchResult">
-            <div class="row">
-                @foreach (var prod in Model.Products)
-                {
-                    @Html.Partial("_ProductBox", prod)
+<script>
+    $(document).ready(function () {
+        var baseUrl = "/";
+        var ajaxGetJson = function (controller, method, param, param2, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method,
+                type: "GET",
+                cache: false,
+                data: { 'ids': param, 'selids': param2 },
+                traditional: true,
+                beforeSend: function () {
+                    //$('#divPreload').show();
+                    $('#divSubCats').fadeTo("fast", 0.33);
+                },
+                success: function (data) {
+                    callback(data);
+                    $('#divSubCats').fadeTo("fast", 1);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    $('#divSubCats').fadeTo("fast", 1);
+                    alert(xhr.status);
+                    alert(thrownError);
                 }
-            </div>
-         </div>*@
+            });
         }
-        @if (Model.Products.Count > 0)
-        {
-            <div class="page-wrap text-center">
-                <ul class="pagination">
-                    <li onclick="pagerClick(1)"><a href="#">&laquo;</a></li>
-                    @for (int x = 1; x <= pages; x++)
-                    {
-                        <li id="@x" onclick="pagerClick(@x)"><a href="#">@(x)</a></li>
-                    }
+   
 
-                    @*<li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>*@
-                    <li onclick="pagerClick(@(pages))"><a href="#">&raquo;</a></li>
-                </ul>
-            </div>
+
+        ajaxGetData = function (controller, method, param, callback) {
+            $.ajax({
+                url: baseUrl + controller + "/" + method,
+                type: "POST",
+                cache: false,
+                data: param,
+                beforeSend: function () {
+                    //$('#ajaxBusy').show();
+                },
+                success: function (json) {
+                    callback(json);
+                    // $('#ajaxBusy').hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //  $('#ajaxBusy').hide();
+                    if (errorCallback != undefined)
+                        errorCallback(xhr);
+                    alert(thrownError);
+                }
+            });
         }
-    @*@{
-    var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber").BooleanParameterName("adv").BooleanParameterName("isc").BooleanParameterName("sid").RenderEmptyParameters(true);
+
+
+
+
+        // paging
     }
-    @if (!pager.IsEmpty())
+    );
+    function pagerClick(pageNo) {
+        $('.fader-wrapper').show();
+       
+        $('#hdPageno').val(pageNo);
+        var data = getSearchData();//$('#frmSearchByCatLeft').serialize();
+        data.pg = pageNo
+        ajaxGetData("Catalog", "ShopByCategoryPaged ", data, function (data) {
+            $("#searchResult").html(data);
+            $(".pagination li").removeClass("active");
+            $('#' + pageNo).addClass("active");
+            $('.fader-wrapper').hide();
+            //class="active"
+        }, null);
+
+
+    }
+</script>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmSearchByCatLeft" }))
+{
+    @section left
     {
-        <div class="pager">
-            @pager
-        </div>
-    }*@
-</div>
+         @Html.Partial("_CategoryMenu",Model)
+    }
+}
+@if (Model.Products.Count > 0)
+{
+    @Html.Partial("_ProductList", Model);
+   
 }

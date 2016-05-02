@@ -54,7 +54,13 @@ namespace Nop.Services.Catalog
              IList<string> customKeys = null,
             decimal sizeFrom = 0,
             decimal sizeTo = 0,
-            decimal varience = 0
+            decimal varience = 0,
+            string circaDateFrom = "",
+            string circaDateTo = "",
+            string color = "",
+            string designBy = "",
+            decimal widthFrom = 0,
+            decimal widthTo = 0
             );
 
         int GetMaxDisplayOrder(int vendorId);
@@ -64,6 +70,23 @@ namespace Nop.Services.Catalog
         int GetMinDisplayOrder(int vendorId);
 
         void RearrangeDisplayOrder(int productId, int displayOrder);
+
+
+        decimal MaxAvalablePrice();
+
+        decimal MinAvalablePrice();
+
+        decimal MaxAvalableHeight();
+
+        decimal MinAvalableHeight();
+
+        decimal MaxAvalableWidth();
+
+        decimal MinAvalableWidth();
+
+        IList<string> GetColorList();
+
+        IList<string> GetDesignerList();
 
     }
 }

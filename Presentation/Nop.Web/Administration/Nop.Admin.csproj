@@ -403,6 +403,7 @@
     <Content Include="Content\dropzone.css" />
     <Content Include="Content\ie9.css" />
     <Content Include="Content\images\ajax_loader_small.gif" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\styles.rtl.css" />
     <Content Include="Content\images\1pix.gif" />
     <Content Include="Content\images\admin-gvw-bg.gif" />

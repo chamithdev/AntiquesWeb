@@ -161,4 +161,120 @@ $(document).keyup(function(e) {
 
  });
 
+
+
 }); // end document ready
+
+
+function ToggleCategoryList(id,textid)
+{
+    var found = false;
+    $('#'+id+' li.show').each(function () {
+        $(this).removeClass("show");
+        $(this).addClass("hide");
+        found = true;
+    });
+    
+    if(!found)
+    {
+        $('#' + id + ' li.hide').each(function () {
+            $(this).removeClass("hide");
+            $(this).addClass("show");
+            found = true;
+        });
+        $('#' + textid).html("See less")
+    }else
+    {
+        $('#' + textid).html("See more")
+    }
+}
+
+function getSearchData()
+{
+    var searchObject = new Object();
+    var selectedStyles = [];
+    var selectedMaterials = [];
+    $('#ulStyleList input:checkbox').each(function () {
+        if (this.checked)
+            selectedStyles.push($(this).val());
+        
+    });
+
+    $('#ulMaterialList input:checkbox').each(function () {
+        if (this.checked)
+            selectedMaterials.push($(this).val());
+
+    });
+
+
+
+    var priceMin = $('#txtMinPrice').val();
+    var priceMax = $('#txtMaxPrice').val();
+
+    var widthMin = $('#hdWidthMin').val();
+    var widthMax = $('#hdWidthMax').val();
+
+    var heightMin = $('#hdHeightMin').val();
+    var heightMax = $('#hdHeightMax').val();
+
+    var color = $('#ddlColor').val();
+
+    var designed = $('#ddlDesignBy').val();
+
+    var circaDateFrom = $('#txtCircaDateFrom').val();
+    var circaDateTo = $('#txtCircaDateTo').val();
+
+    searchObject.ss = selectedStyles;
+    searchObject.sms = selectedMaterials;
+    searchObject.c = color;
+    searchObject.d = designed;
+    searchObject.pm = priceMin;
+    searchObject.pmx = priceMax;
+    searchObject.hm = heightMin;
+    searchObject.hmx = heightMax;
+    searchObject.wm = widthMin;
+    searchObject.wmx = widthMax;
+    searchObject.cdf = circaDateFrom;
+    searchObject.cdt = circaDateTo;
+    searchObject.q = $('#txtq').val();
+    searchObject.cid = $('#hdCatId').val();
+    searchObject.pg = 0
+
+    var filterList = "";
+    if (circaDateFrom !='' && circaDateTo !='')
+        filterList += "Circa Date > " + circaDateFrom + "< " + circaDateTo + '<br/>'
+
+    if (parseFloat(priceMin) > 0 && parseFloat(priceMax) > parseFloat(priceMin))
+        filterList += "Price > " + priceMin + "< " + priceMax + '<br/>'
+
+    if (color !="")
+        filterList += "Color = " + color + '<br/>'
+    if (designed != "")
+        filterList += "Designed By = " + designed + '<br/>'
+
+    if (parseFloat(heightMin) > 0 && parseFloat(heightMax) > parseFloat(heightMin))
+        filterList += "Height > " + heightMin + "< " + heightMax + '<br/>'
+
+    if (parseFloat(widthMin) > 0 && parseFloat(widthMax) > parseFloat(widthMin))
+        filterList += "Width > " + widthMin + "< " + widthMax + '<br/>'
+    if (filterList == ''){
+        $('#filters').html('No Filters');
+        $('#clearLnk').hide();
+    }        
+    else
+    {
+        $('#filters').html(filterList);
+        $('#clearLnk').show();
+    }
+        
+
+    return searchObject;
+}
+
+function SearchProducts(id)
+{
+    var searchData = getSearchData();
+    searchData.cid = $('#hdCatId').val(id);
+    pagerClick(0);
+
+}
