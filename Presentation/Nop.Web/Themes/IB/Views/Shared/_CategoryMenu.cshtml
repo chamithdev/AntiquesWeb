@@ -110,11 +110,15 @@
                 </td>
             </tr>
             <tr>
+                <td class="p-t p-r"><input type="text" id="hdWidthMin" class="form-control"></td>
+                <td class="p-t p-l"> <input type="text" id="hdWidthMax" class="form-control"></td>
+            </tr>
+            @*<tr>
                 <td colspan="2">
                    <input type="hidden" id="hdWidthMin"/>
                    <input type="hidden" id="hdWidthMax" />
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <td colspan="2">
                     Height
@@ -127,10 +131,14 @@
             <tr>
                 <td colspan="2">
                     <div id="sliderHeightRange">
-                        <input type="hidden" id="hdHeightMin" />
-                        <input type="hidden" id="hdHeightMax" />
+                        @*<input type="hidden" id="hdHeightMin" />
+                        <input type="hidden" id="hdHeightMax" />*@
                     </div>
                 </td>
+            </tr>
+            <tr>
+                <td class="p-t p-r"><input type="text" id="hdHeightMin" class="form-control"></td>
+                <td class="p-t p-l"> <input type="text" id="hdHeightMax" class="form-control"></td>
             </tr>
             
         </table>
@@ -147,13 +155,13 @@
                 From
             </label>
             <div class="col-sm-4 n-p-r">
-                <input type="text" id="txtCircaDateFrom" class="form-control">
+                <input type="text" id="txtCircaDateFrom" maxlength="4" class="form-control">
             </div>
             <label class="col-md-2  control-label">
                 To
             </label>
             <div class="col-sm-4 n-p-r">
-                <input type="text" id="txtCircaDateTo" class="form-control ">
+                <input type="text" id="txtCircaDateTo" maxlength="4" class="form-control ">
             </div>
         </div>
     </div>
@@ -329,7 +337,23 @@
             }
         });
 
+        $("#txtCircaDateFrom").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                
+                return false;
+            }
+        });
 
+        $("#txtCircaDateTo").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                
+                return false;
+            }
+        });
 
 
     });

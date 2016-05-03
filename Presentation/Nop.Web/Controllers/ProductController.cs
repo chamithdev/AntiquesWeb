@@ -267,7 +267,15 @@ namespace Nop.Web.Controllers
             model.CompareProductsEnabled = _catalogSettings.CompareProductsEnabled;
 
             #endregion
-
+            #region Custom data
+            if(!string.IsNullOrWhiteSpace(product.Material))
+            {
+                var material = _customDataService.GetCustomDataByValue("Material", product.Material);
+                model.Material = material != null ? material.Value : "";
+            
+            }
+           
+            #endregion
             #region Vendor details
 
             //vendor
