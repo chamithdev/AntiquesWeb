@@ -46,7 +46,9 @@ namespace Nop.Services.Common
 
         public CustomData GetCustomDataByValue(string keyGroup, string key)
         {
-            var query = _customDataRepository.TableNoTracking.FirstOrDefault(c=> c.KeyGroup.Equals(keyGroup) && c.Key.Equals(key));
+            var query =
+                _customDataRepository.TableNoTracking.FirstOrDefault(
+                    c => c.KeyGroup.Equals(keyGroup) && c.Key.Equals(key));
             return query;
         }
 #endregion
