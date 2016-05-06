@@ -317,7 +317,7 @@ namespace Nop.Web.Framework
             }
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
-            builder.RegisterType<CustomDataService>().As<ICustomDataService>().SingleInstance();
+            builder.RegisterType<CustomDataService>().As<ICustomDataService>().InstancePerLifetimeScope();
 
         }
 

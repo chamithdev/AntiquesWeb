@@ -70,7 +70,9 @@ namespace Nop.Admin.Controllers
                     });
                 }
 
-            model.AvailableCategories = categoriesModel.Select(c=> new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
+            model.AvailableCategories = categoriesModel.OrderBy(v => v.Breadcrumb).Select(c=> new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
+
+            var x2 = 4;
 
             if (_workContext.CurrentVendor!=null)
                 model.VendorId = _workContext.CurrentVendor.Id;
