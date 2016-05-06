@@ -2222,6 +2222,7 @@
     <Content Include="Themes\IB\Views\Home\ContactUs.cshtml" />
     <Content Include="Themes\IB\Views\Home\CustomerServices.cshtml" />
     <Content Include="Themes\IB\Views\Shared\_CategoryMenu.cshtml" />
+    <Content Include="Themes\IB\Views\Shared\_HomeProductList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

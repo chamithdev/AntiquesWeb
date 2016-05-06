@@ -22,7 +22,7 @@
 
     @if (Model.Products.Count > 0)
     {
-        @Html.Partial("_ProductList", Model.Products);
+        @Html.Partial("_HomeProductList", Model);
         @*<div class="section-pannel" id="searchResult">
                <div class="row">
                    @foreach (var prod in Model.Products)

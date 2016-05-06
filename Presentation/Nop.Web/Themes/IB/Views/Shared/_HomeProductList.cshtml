@@ -15,19 +15,6 @@
                 @Html.Partial("_ProductBox", prod)
             }
         </div>
-
-        <div class="page-wrap text-center">
-            <ul class="pagination">
-                <li onclick="pagerClick(1);"><a href="#">&laquo;</a></li>
-                @for (int x = 1; x <= pages; x++)
-                {
-                    <li id="@x" onclick="pagerClick(@x)"><a href="#">@(x)</a></li>
-                }
-
-
-                <li onclick="pagerClick(@(pages))"><a href="#">&raquo;</a></li>
-            </ul>
-        </div>
     </div>
 }
 else
