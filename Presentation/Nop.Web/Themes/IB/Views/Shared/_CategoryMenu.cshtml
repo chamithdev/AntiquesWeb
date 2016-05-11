@@ -4,6 +4,12 @@
     int countCats = 0;
     int countStyle= 0;
     int countMaterial = 0;
+
+    var q = "";
+    if (Request["q"] != null)
+    {
+        q = Convert.ToString(Request["q"]);
+    }
 }
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -170,7 +176,7 @@
 <div class="row m-b">
     <div class="col-sm-12">
         <div class="input-group">
-            <input type="text" class="form-control" id="txtq" placeholder="Search within results">
+            <input type="text" class="form-control" id="txtq" name="q" value="@q" placeholder="Search within results">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="button" onclick="pagerClick(0)">Go!</button>
             </span>

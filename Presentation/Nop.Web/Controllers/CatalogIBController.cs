@@ -228,7 +228,7 @@ namespace Nop.Web.Controllers
         //}
 
         //[HttpPost]
-        public ActionResult ShopByCategory()
+        public ActionResult ShopByCategory(string q="")
         {
 
             var model = new SearchModel(); //GetCatalogSearhModel(f, command);//new SearchModel();
@@ -286,7 +286,7 @@ namespace Nop.Web.Controllers
                     varience: 0,
                     storeId: _storeContext.CurrentStore.Id,
                     visibleIndividuallyOnly: true,
-                    keywords: "",
+                    keywords: q ??"",
                     languageId: _workContext.WorkingLanguage.Id,
                     orderBy: ProductSortingEnum.Position,
                     pageIndex: 1,
