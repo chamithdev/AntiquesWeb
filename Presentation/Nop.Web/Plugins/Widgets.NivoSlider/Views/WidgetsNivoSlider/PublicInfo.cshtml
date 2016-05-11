@@ -16,21 +16,17 @@
 {
     if (!string.IsNullOrEmpty(pictureUrl))
     {
-        <li class="img-bg">
-            
-                <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
-              
-        </li>
-        @*if (!string.IsNullOrEmpty(link))
+
+        if (!string.IsNullOrEmpty(link))
         {
-            <li class="img-bg"><div class="img-align-center">
-                <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
+            <li class="img-bg">
+                <a href="@link"><img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text"/></a>
             </li>
         }
         else
         {
-            <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
-        }*@
+            <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text"/>
+        }
     }
 }
 <div class="section-pannel">
