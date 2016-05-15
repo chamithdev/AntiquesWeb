@@ -37,30 +37,27 @@
                 {
                     countCats++;
                     <li class="has-sub @(countCats>20 ? "hide" : "")">
-                  
-                    @*<li class="has-sub">*@
+
                         <a href="#" onclick="SearchProducts('@c.Id')"><span>@c.Name</span></a>
-                    @foreach (Nop.Core.Domain.Catalog.Category s in Model.ProductCategories.Where(p => p.ParentCategoryId == c.Id))
-                    {
-                        <ul>
-                            @*<li class="even">
-                                    <a href="#"><span>menu1</span></a>
-                                    <ul>
-                                        <li class="even"><a href="#"><span>menu1</span></a></li>
-                                        <li class="odd"><a href="#"><span>menu2</span></a></li>
-                                        <li class="even"><a href="#"><span>menu3</span></a></li>
-                                    </ul>
-                                </li>
-                                <li class="odd"><a href="#"><span>menu2</span></a></li>*@
-                            <li class="even"><a href="javascript:" onclick="SearchProducts('@s.Id')"><span>@s.Name</span></a>
-                            <input type="hidden" id="hdCatId"/>
-                            </li>
+
+                        @{
+                            var subCategoryCount = Model.ProductCategories.Where(p => p.ParentCategoryId == c.Id);
                             
-                        </ul>
+                            if (subCategoryCount.Any())
+                             {
+                                 <ul>
+                                     @foreach (Nop.Core.Domain.Catalog.Category s in Model.ProductCategories.Where(p => p.ParentCategoryId == c.Id))
+                                     {
 
-                    }
-                </li>
-
+                                         <li class="even">
+                                             <a href="javascript:" onclick="SearchProducts('@s.Id')"><span>@s.Name</span></a>
+                                             <input type="hidden" id="hdCatId"/>
+                                         </li>
+                                     }
+                                 </ul>
+                             }
+                        }
+                    </li>
                 }
             </ul>
         </div>
