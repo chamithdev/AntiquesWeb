@@ -9,12 +9,12 @@
 
 <script>
     function advanceSearch() {
-        $("#searchLink").attr('href', '/Catalog/ShopByCategory/?q=' + $('#q').val());
+        $("#searchLink").attr('href', '/Catalog/ShopByCategory/?q=' + $('#qw').val());
         return true;
     }
     function searchKeyPress(evt) {
         if (evt.keyCode === 13) {
-            window.location.href = '/Catalog/ShopByCategory/?q=' + $('#q').val();
+            window.location.href = '/Catalog/ShopByCategory/?q=' + $('#qw').val();
             return true;
          }
     }
@@ -80,7 +80,7 @@
                             <ul class="dropdown-menu search-bar" >
                                 <li>
                                     <div class="input-group m">
-                                        <input type="text" class="form-control input-lg" onkeypress="searchKeyPress(event);" utocomplete="off" id="q" name="q" placeholder="@T("Search.SearchBox.Tooltip")">
+                                        <input type="text" class="form-control input-lg" onkeypress="searchKeyPress(event);" utocomplete="off" id="qw" name="qw" placeholder="@T("Search.SearchBox.Tooltip")">
                                         <span class="input-group-btn">
                                             <a class="btn btn-default btn-lg" href="javascript:" id="searchLink" onclick="advanceSearch();"><span class="glyphicon glyphicon-search"></span></a>
                                         </span>
