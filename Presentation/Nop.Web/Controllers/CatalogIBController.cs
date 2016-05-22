@@ -33,6 +33,7 @@ using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
 using Nop.Web.Models.Media;
 using Nop.Core.Infrastructure;
+using Nop.Core.Domain.Directory;
 
 
 namespace Nop.Web.Controllers
@@ -40,6 +41,9 @@ namespace Nop.Web.Controllers
     public partial class CatalogController
     {
 
+        private readonly CurrencySettings _currencySettings;
+      
+        private readonly MeasureSettings _measureSettings;
 
         [ChildActionOnly]
         public ActionResult HomepageVenderProducts(int? productThumbPictureSize, CatalogPagingFilteringModel command)
@@ -273,8 +277,12 @@ namespace Nop.Web.Controllers
 
             model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
             model.q = "";
-            
-
+            //model.Currency = _workContext.WorkingCurrency.CurrencyCode;
+            model.Currency = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
+           
+            model.SystemDimention = _measureService.GetMeasureDimensionById(_measureSettings.BaseDimensionId).Name; 
+            //var primadyDimention =  _measureService.GetMeasureDimensionBySystemKeyword("centimeters");
+            //if(primadyDimention.)
 
 
             var products = _productService.SearchProductsCustom(

@@ -182,10 +182,9 @@ function ToggleCategoryList(id,textid)
             $(this).addClass("show");
             found = true;
         });
-        $('#' + textid).html("See less")
-    }else
-    {
-        $('#' + textid).html("See more")
+        $('#' + textid).html("See less");
+    }else {
+        $('#' + textid).html("See more");
     }
 }
 
@@ -194,19 +193,32 @@ function getSearchData()
     var searchObject = new Object();
     var selectedStyles = [];
     var selectedMaterials = [];
+    var selectedStylesNames = "";
+    var selectedMaterialsNames = "";
     $('#ulStyleList input:checkbox').each(function () {
-        if (this.checked)
+        if (this.checked) {
             selectedStyles.push($(this).val());
+            selectedStylesNames += "," + ($(this).data("text"));
+        }
+            
         
     });
 
     $('#ulMaterialList input:checkbox').each(function () {
-        if (this.checked)
+        if (this.checked) {
             selectedMaterials.push($(this).val());
+            selectedMaterialsNames += "," + ($(this).data("text"));
+        }
+            
 
     });
+    selectedStylesNames = selectedStylesNames.substring(1);
+    selectedMaterialsNames = selectedMaterialsNames.substring(1);
+    if (selectedStyles.length > 3)
+        selectedStylesNames = "Multiple";
 
-
+    if (selectedMaterials.length > 3)
+        selectedMaterialsNames = "Multiple";
 
     var priceMin = $('#txtMinPrice').val();
     var priceMax = $('#txtMaxPrice').val();
@@ -223,7 +235,7 @@ function getSearchData()
 
     var circaDateFrom = $('#txtCircaDateFrom').val();
     var circaDateTo = $('#txtCircaDateTo').val();
-
+    var catName = $('#hdCatName').val();
     searchObject.ss = selectedStyles;
     searchObject.sms = selectedMaterials;
     searchObject.c = color;
@@ -238,26 +250,36 @@ function getSearchData()
     searchObject.cdt = circaDateTo;
     searchObject.q = $('#txtq').val();
     searchObject.cid = $('#hdCatId').val();
-    searchObject.pg = 0
+    searchObject.pg = 0;
 
     var filterList = "";
-    if (circaDateFrom !='' && circaDateTo !='')
-        filterList += "Circa Date > " + circaDateFrom + "< " + circaDateTo + '<br/>'
+    if (catName !== "")
+        filterList += "Category = " + catName + '<br/>';
+
+    if (circaDateFrom !== '' && circaDateTo !== '')
+        filterList += 'Circa Date > ' + circaDateFrom + "< " + circaDateTo + '<br/>';
 
     if (parseFloat(priceMin) > 0 && parseFloat(priceMax) > parseFloat(priceMin))
-        filterList += "Price > " + priceMin + "< " + priceMax + '<br/>'
+        filterList += "Price > " + priceMin + "< " + priceMax + '<br/>';
 
-    if (color !="")
-        filterList += "Color = " + color + '<br/>'
-    if (designed != "")
-        filterList += "Designed By = " + designed + '<br/>'
+    if (color !== "")
+        filterList += "Color = " + color + '<br/>';
+    if (designed !== "")
+        filterList += "Designed By = " + designed + '<br/>';
 
     if (parseFloat(heightMin) > 0 && parseFloat(heightMax) > parseFloat(heightMin))
-        filterList += "Height > " + heightMin + "< " + heightMax + '<br/>'
+        filterList += "Height > " + heightMin + "< " + heightMax + '<br/>';
 
     if (parseFloat(widthMin) > 0 && parseFloat(widthMax) > parseFloat(widthMin))
-        filterList += "Width > " + widthMin + "< " + widthMax + '<br/>'
-    if (filterList == ''){
+        filterList += "Width > " + widthMin + "< " + widthMax + '<br/>';
+
+    if (selectedStylesNames !== "")
+        filterList += "Styles = " + selectedStylesNames + '<br/>';
+
+    if (selectedMaterialsNames !== "")
+        filterList += "Materials = " + selectedMaterialsNames + '<br/>';
+
+    if (filterList === ''){
         $('#filters').html('No Filters');
         $('#clearLnk').hide();
     }        
@@ -271,10 +293,11 @@ function getSearchData()
     return searchObject;
 }
 
-function SearchProducts(id)
+function SearchProducts(id,name)
 {
     var searchData = getSearchData();
     searchData.cid = $('#hdCatId').val(id);
+    $('#hdCatName').val(name);
     pagerClick(0);
 
 }

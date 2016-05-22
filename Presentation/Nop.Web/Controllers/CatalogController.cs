@@ -31,6 +31,7 @@ using Nop.Web.Framework.Security;
 using Nop.Web.Infrastructure.Cache;
 using Nop.Web.Models.Catalog;
 using Nop.Web.Models.Media;
+using Nop.Core.Domain.Directory;
 
 namespace Nop.Web.Controllers
 {
@@ -110,7 +111,9 @@ namespace Nop.Web.Controllers
             ICacheManager cacheManager,
             ICustomDataService customDataService,
             IMeasureService measureService,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            CurrencySettings currencySettings,
+            MeasureSettings measureSettings)
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -146,6 +149,8 @@ namespace Nop.Web.Controllers
             this._customDataService = customDataService;
             this._measureService = measureService;
             _customerService = customerService;
+            this._currencySettings = currencySettings;
+            this._measureSettings = measureSettings;
         }
 
         #endregion

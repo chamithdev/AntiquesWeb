@@ -38,7 +38,7 @@
                     countCats++;
                     <li class="has-sub @(countCats>20 ? "hide" : "")">
 
-                        <a href="#" onclick="SearchProducts('@c.Id')"><span>@c.Name</span></a>
+                        <a href="#" onclick="SearchProducts('@c.Id','@c.Name')"><span>@c.Name</span></a>
 
                         @{
                             var subCategoryCount = Model.ProductCategories.Where(p => p.ParentCategoryId == c.Id);
@@ -50,8 +50,9 @@
                                      {
 
                                          <li class="even">
-                                             <a href="javascript:" onclick="SearchProducts('@s.Id')"><span>@s.Name</span></a>
+                                             <a href="javascript:" onclick="SearchProducts('@s.Id','@s.Name')"><span>@s.Name</span></a>
                                              <input type="hidden" id="hdCatId"/>
+                                             <input type="hidden" id="hdCatName" />
                                          </li>
                                      }
                                  </ul>
@@ -71,7 +72,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Price Range</h3>
+        <h3 class="panel-title">Price Range (@Model.Currency)</h3>
     </div>
     <div class="panel-body ">
         <table>
@@ -94,7 +95,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Size</h3>
+        <h3 class="panel-title">Size  (@Model.SystemDimention)</h3>
     </div>
     <div class="panel-body ">
         <table width="100%">
@@ -193,7 +194,7 @@
                 countStyle++;
                 <li class="list-group-item n-p @(countStyle > 10 ? "hide" : "")">
                     <div class="checkbox p5 n-m">
-                        <label><input type="checkbox" name="Styles" value="@cd.Key">@cd.Value</label>
+                        <label><input type="checkbox" name="Styles" value="@cd.Key" text="@cd.Value" data-text="@cd.Value" />@cd.Value</label>
                     </div>
                 </li>
 
@@ -219,7 +220,7 @@
                 countMaterial++;
                 <li class="list-group-item n-p @(countMaterial > 10 ? "hide" : "")">
                     <div class="checkbox p5 n-m">
-                        <label><input type="checkbox" name="Material" value="@cd.Key">@cd.Value</label>
+                        <label><input type="checkbox" name="Material" value="@cd.Key" data-text="@cd.Value" />@cd.Value</label>
                     </div>
                 </li>
 

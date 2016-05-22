@@ -86,5 +86,9 @@ namespace Nop.Web.Models.Catalog
 
         public int pg { get; set; }
 
+        public string Currency { get; set; }
+
+        public string SystemDimention { get; set; }
+
     }
 }
