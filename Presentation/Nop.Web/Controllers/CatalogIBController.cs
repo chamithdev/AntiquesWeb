@@ -266,9 +266,9 @@ namespace Nop.Web.Controllers
             
          
 
-            model.Styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style).OrderBy(d => d.Value).ToList();
+            model.Styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style).OrderBy(d => d.Key).ToList();
 
-            model.Materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material).OrderBy(d=>d.Value).ToList();
+            model.Materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material).OrderBy(d=>d.Key).ToList();
 
             model.Colors = _productService.GetColorList().Where(d => !string.IsNullOrWhiteSpace(d)).Select(d => new SelectListItem { Text = d, Value = d }).ToList();
             model.Colors.Insert(0, new SelectListItem { Text = "-", Value = "" });
@@ -277,13 +277,8 @@ namespace Nop.Web.Controllers
 
             model.Dimension = _measureService.GetAllMeasureDimensions().Select(d => new SelectListItem { Text = d.Name, Value = d.Id.ToString() }).ToList();
             model.q = "";
-            //model.Currency = _workContext.WorkingCurrency.CurrencyCode;
             model.Currency = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
-           
             model.SystemDimention = _measureService.GetMeasureDimensionById(_measureSettings.BaseDimensionId).Name; 
-            //var primadyDimention =  _measureService.GetMeasureDimensionBySystemKeyword("centimeters");
-            //if(primadyDimention.)
-
 
             var products = _productService.SearchProductsCustom(
                     categoryIds: categoryIds,

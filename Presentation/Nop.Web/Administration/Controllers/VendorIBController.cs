@@ -16,6 +16,8 @@ using Nop.Admin.Models.Vendors;
 using Nop.Admin.Extensions;
 using Nop.Core.Infrastructure;
 using Nop.Core.Domain.Customers;
+using Nop.Services.Catalog;
+
 namespace Nop.Admin.Controllers
 {
     public partial class VendorController
@@ -592,13 +594,7 @@ namespace Nop.Admin.Controllers
             {
                 throw new UnauthorizedAccessException();
             }
-
-            var maxOrder = _productService.GetMaxDisplayOrder(product.VendorId);
-            if (maxOrder < 999999)
-                product.DisplayOrder = 999999;
-            else
-                product.DisplayOrder = maxOrder + 1;
-
+            
             product.StockQuantity = 0;
 
             _productService.UpdateProduct(product);

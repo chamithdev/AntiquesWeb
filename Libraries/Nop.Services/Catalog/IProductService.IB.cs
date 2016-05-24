@@ -71,11 +71,7 @@ namespace Nop.Services.Catalog
             decimal widthFrom = 0,
             decimal widthTo = 0
             );
-
-        int GetMaxDisplayOrder(int vendorId);
-
-        int GetMaxDisplayOrderUnsold(int vendorId);
-
+        
         int GetMinDisplayOrder(int vendorId);
 
         void RearrangeDisplayOrder(int productId, int displayOrder);

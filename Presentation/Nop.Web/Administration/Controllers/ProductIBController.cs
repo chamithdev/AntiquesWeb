@@ -40,10 +40,10 @@ namespace Nop.Admin.Controllers
             var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
-                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
-            
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).OrderBy(v => v.Value).ToList();
+
             model.Materials = (from cd in materials
-                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).OrderBy(v => v.Value).ToList();
 
             var categoriesModel = new List<CategoryModel>();
                 //all categories
@@ -350,10 +350,10 @@ namespace Nop.Admin.Controllers
             var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
-                            select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
+                            select new SelectListItem { Text = st.Value, Value = st.Key }).OrderBy(v => v.Value).ToList();
 
             model.Materials = (from cd in materials
-                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).OrderBy(v => v.Value).ToList();
 
             var extCat = _categoryService.GetProductCategoriesByProductId(product.Id, true);
             if (extCat != null && extCat.Count>0)
