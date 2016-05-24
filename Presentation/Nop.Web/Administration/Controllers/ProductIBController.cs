@@ -37,15 +37,11 @@ namespace Nop.Admin.Controllers
             PrepareAclModel(model, null, false);
             PrepareStoresMappingModel(model, null, false);
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
             var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
-
-            model.CircaDates = (from cd in circaDates
-                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
-
+            
             model.Materials = (from cd in materials
                                 select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
 
@@ -71,9 +67,7 @@ namespace Nop.Admin.Controllers
                 }
 
             model.AvailableCategories = categoriesModel.OrderBy(v => v.Breadcrumb).Select(c=> new SelectListItem { Text = c.Breadcrumb, Value = c.Id.ToString() }).ToList();
-
-            var x2 = 4;
-
+            
             if (_workContext.CurrentVendor!=null)
                 model.VendorId = _workContext.CurrentVendor.Id;
 
@@ -194,7 +188,7 @@ namespace Nop.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost,AdminAntiForgeryAttribute(true)]
+        [HttpPost, AdminAntiForgery(true)]
         public ActionResult UploadProductImages(string id)
         {
             bool isSavedSuccessfully = true;
@@ -353,12 +347,12 @@ namespace Nop.Admin.Controllers
             }
 
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+            var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
 
-            model.CircaDates = (from cd in circaDates
+            model.Materials = (from cd in materials
                                 select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
 
             var extCat = _categoryService.GetProductCategoriesByProductId(product.Id, true);
