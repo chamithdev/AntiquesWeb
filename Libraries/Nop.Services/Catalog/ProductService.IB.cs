@@ -64,7 +64,9 @@ namespace Nop.Services.Catalog
                       group p by p.VendorId into d
                       select d.Max(s => s.DisplayOrder);
 
-            return max.Any() ? Convert.ToInt32(max.First()) : 0;
+            var maxVal= max.Any() ? Convert.ToInt32(max.First()) : 0;
+            if (maxVal == 0) return 999999;
+            return maxVal;
         }
 
         public int GetMaxDisplayOrderUnsold(int vendorId)
