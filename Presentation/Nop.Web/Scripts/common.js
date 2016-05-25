@@ -259,7 +259,7 @@ function getSearchData()
     if (circaDateFrom !== '' && circaDateTo !== '')
         filterList += 'Circa Date > ' + circaDateFrom + "< " + circaDateTo + '<br/>';
 
-    if (parseFloat(priceMin) > 0 && parseFloat(priceMax) > parseFloat(priceMin))
+    if (parseFloat(priceMin) > 0 || parseFloat(priceMax) > parseFloat(priceMin))
         filterList += "Price > " + priceMin + "< " + priceMax + '<br/>';
 
     if (color !== "")
@@ -267,10 +267,10 @@ function getSearchData()
     if (designed !== "")
         filterList += "Designed By = " + designed + '<br/>';
 
-    if (parseFloat(heightMin) > 0 && parseFloat(heightMax) > parseFloat(heightMin))
+    if (parseFloat(heightMin) > 0 || parseFloat(heightMax) > parseFloat(heightMin))
         filterList += "Height > " + heightMin + "< " + heightMax + '<br/>';
 
-    if (parseFloat(widthMin) > 0 && parseFloat(widthMax) > parseFloat(widthMin))
+    if (parseFloat(widthMin) > 0 || parseFloat(widthMax) > parseFloat(widthMin))
         filterList += "Width > " + widthMin + "< " + widthMax + '<br/>';
 
     if (selectedStylesNames !== "")
