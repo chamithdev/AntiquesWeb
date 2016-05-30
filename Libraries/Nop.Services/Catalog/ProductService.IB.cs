@@ -11,6 +11,7 @@ namespace Nop.Services.Catalog
 {
     public partial class ProductService
     {
+        public static int StartingDisplayOrder = 999999;
 
         /// <summary>
         /// Gets all products displayed on the home page
@@ -56,39 +57,15 @@ namespace Nop.Services.Catalog
             return query.ToList();
         }
 
-        public int GetMaxDisplayOrder(int vendorId)
-        {
-            var query = _productRepository.TableNoTracking;
-            var max = from p in query
-                      where (p.VendorId == vendorId || vendorId == 0)
-                      group p by p.VendorId into d
-                      select d.Max(s => s.DisplayOrder);
-
-            var maxVal= max.Any() ? Convert.ToInt32(max.First()) : 0;
-            if (maxVal == 0) return 999999;
-            return maxVal;
-        }
-
-        public int GetMaxDisplayOrderUnsold(int vendorId)
-        {
-            var query = _productRepository.TableNoTracking;
-            var max = from p in query
-                      where ((p.VendorId == vendorId || vendorId == 0) && p.StockQuantity>0)
-                      group p by p.VendorId into d
-                      select d.Max(s => s.DisplayOrder);
-
-            return max.Any() ? Convert.ToInt32(max.First()) : 0;
-        }
-
         public int GetMinDisplayOrder(int vendorId)
         {
             var query = _productRepository.TableNoTracking;
-            var max = from p in query
+            var min = from p in query
                       where (p.VendorId == vendorId)
                       group p by p.VendorId into d
                       select d.Min(s => s.DisplayOrder);
 
-            return max.Any() ? Convert.ToInt32(max.First()) : 0;
+            return min.Any() ? Convert.ToInt32(min.First()) : StartingDisplayOrder;
         }
         
 

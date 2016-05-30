@@ -929,12 +929,12 @@ namespace Nop.Admin.Controllers
             PrepareAclModel(model, null, false);
             PrepareStoresMappingModel(model, null, false);
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+            var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
 
-            model.CircaDates = (from cd in circaDates
+            model.Materials = (from cd in materials
                                 select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }
@@ -998,13 +998,13 @@ namespace Nop.Admin.Controllers
             PrepareAclModel(model, null, true);
             PrepareStoresMappingModel(model, null, true);
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+            var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
 
-            model.CircaDates = (from cd in circaDates
-                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+            model.Materials = (from cd in materials
+                               select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
 
             return View(model);
         }
@@ -1040,13 +1040,13 @@ namespace Nop.Admin.Controllers
             PrepareAclModel(model, product, false);
             PrepareStoresMappingModel(model, product, false);
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+            var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
 
-            model.CircaDates = (from cd in circaDates
-                                select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
+            model.Materials = (from cd in materials
+                               select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }
 
@@ -1149,12 +1149,12 @@ namespace Nop.Admin.Controllers
             PrepareAclModel(model, product, true);
             PrepareStoresMappingModel(model, product, true);
             var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-            var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
+            var materials = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Material);
 
             model.Styles = (from st in styles
                             select new SelectListItem { Text = st.Value, Value = st.Key }).ToList();
 
-            model.CircaDates = (from cd in circaDates
+            model.Materials = (from cd in materials
                                 select new SelectListItem { Text = cd.Value, Value = cd.Key }).ToList();
             return View(model);
         }

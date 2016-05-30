@@ -48,6 +48,7 @@ namespace Nop.Admin.Models.Catalog
         }
 
         private IList<SelectListItem> _circaDates;
+        private IList<SelectListItem> _materials;
 
         public IList<SelectListItem> CircaDates
         {
@@ -57,15 +58,12 @@ namespace Nop.Admin.Models.Catalog
 
         public IList<SelectListItem> Materials
         {
-            get { return _circaDates ?? new List<SelectListItem>(); ; }
-            set { _circaDates = value; }
+            get { return _materials ?? new List<SelectListItem>(); ; }
+            set { _materials = value; }
         }
 
         public List<CategoryModel> Categories { get; set; }
-
-        //    var styles = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.Style);
-        //var circaDates = _customDataService.GetCustomDataByKeyGroup(CustomDataKeyGroupNames.CircaDate);
-
+        
         public string City { get; set; }
 
         [NopResourceDisplayName("Admin.Catalog.Products.List.Category")]
