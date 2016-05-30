@@ -1,6 +1,3 @@
 DataProvider: sqlserver
-<<<<<<< HEAD
 DataConnectionString: Data Source=chamith;Initial Catalog=ibnop2;User ID=sa;Password=abc123;Persist Security Info=False;
-=======
-DataConnectionString: Data Source=.;Initial Catalog=ibnop_db_latest;User ID=avmin;Password=Av31n123;Persist Security Info=False;
->>>>>>> fa6e88941e346c919b586463beb01bcb834726f1
+
